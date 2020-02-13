@@ -3,23 +3,23 @@
 #include "../src/tuples.h"
 
 void test_tuple_is_point() {
-    Tuple t = { .x = 4.3, .y = -3.0, .z = 0.6, .w = 1 };
-    assert(t.w == 1);
+    double t[4] = { 4.3, -3.0, 2.0, 1.0 };
+    assert(t[3] == 1);
 }
 
 void test_tuple_is_vector() {
-    Tuple t = { .x = 4.3, .y = -3.0, .z = 0.6, .w = 0 };
-    assert(t.w == 0);
+    double t[4] = { 4.3, -3.0, 0.6, 0.0 };
+    assert(t[3] == 0);
 }
 
 void test_make_point() {
-    Tuple *t = point(3.0, -4.0, 5.0);
-    assert(t->w == 1);
+    Tuple t = point(3.0, -4.0, 5.0);
+    assert(t[3] == 1);
 }
 
 void test_make_vector() {
-    Tuple *t = vector(3.0, -4.0, 5.0);
-    assert(t->w == 0);
+    Tuple t = vector(3.0, -4.0, 5.0);
+    assert(t[3] == 0);
 }
 
 int main() {
