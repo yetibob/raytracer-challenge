@@ -4,6 +4,7 @@ build:
 
 build-tests:
 	gcc src/tuples.c tests/tuples.c -o tests/tuples
+	gcc src/utils.c tests/utils.c -o tests/utils
 
 clean:
 	rm -rf ./bin

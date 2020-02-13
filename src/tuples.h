@@ -2,7 +2,7 @@ typedef struct {
     double x;
     double y;
     double z;
-    unsigned int w : 1;
+    unsigned int w;
 } Tuple;
 
 Tuple *point(double x, double y, double z);
