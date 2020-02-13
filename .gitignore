@@ -1,0 +1,8 @@
+bin/
+
+# Ignore all built tests
+tests/*
+
+# Unignore all test source files
+!*tests/*.*
+
