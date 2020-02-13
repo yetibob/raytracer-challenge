@@ -1,5 +1,4 @@
 #include <assert.h>
-
 #include "../src/tuples.h"
 
 void test_tuple_is_point() {
