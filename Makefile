@@ -2,7 +2,7 @@ build:
 	mkdir -p bin
 
 build-tests:
-	gcc src/tuples.c src/utils.c tests/tuples.c -o tests/tuples
+	gcc -lm src/tuples.c src/utils.c tests/tuples.c -o tests/tuples
 	gcc src/utils.c tests/utils.c -o tests/utils
 
 clean:

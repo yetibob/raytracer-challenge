@@ -1,6 +1,8 @@
 #include <assert.h>
+#include <math.h>
 #include <stdio.h>
 #include "../src/tuples.h"
+#include "../src/utils.h"
 
 void test_tuple_is_point() {
     double t[4] = { 4.3, -3.0, 2.0, 1.0 };
@@ -88,6 +90,23 @@ void test_dscale_tuple() {
     assert(is_equal(scaled, EXPECTED) == 0);
 }
 
+void test_compute_vector_magnitude() {
+    double EXPECTED = 1;
+    Tuple t1 = vector(1, 0, 0);
+    assert(equals(magnitude(t1), EXPECTED) == 0);
+    Tuple t2 = vector(0, 1, 0);
+    assert(equals(magnitude(t2), EXPECTED) == 0);
+    Tuple t3 = vector(0, 0, 1);
+    assert(equals(magnitude(t3), EXPECTED) == 0);
+
+    EXPECTED = sqrt(14);
+    Tuple t4 = vector(1, 2, 3);
+    assert(equals(magnitude(t4), EXPECTED) == 0);
+    Tuple t5 = vector(-1, -2, -3);
+    assert(equals(magnitude(t5), EXPECTED) == 0);
+}
+
+
 int main() {
     test_tuple_is_point();
     test_tuple_is_vector();
@@ -101,4 +120,5 @@ int main() {
     test_negate_tuple();
     test_mscale_tuple();
     test_dscale_tuple();
+    test_compute_vector_magnitude();
 }

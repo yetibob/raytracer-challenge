@@ -1,3 +1,4 @@
+#include <math.h>
 #include <stdlib.h>
 #include <stddef.h>
 #include "tuples.h"
@@ -88,4 +89,9 @@ Tuple dscale(Tuple t, double scalar) {
     zt[2] = t[2] / scalar;
     zt[3] = t[3];
     return zt;
+}
+
+double magnitude(Tuple t) {
+    double m = pow(t[0], 2) + pow(t[1], 2) + pow(t[2], 2);
+    return sqrt(m);
 }

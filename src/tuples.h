@@ -17,3 +17,4 @@ Tuple subtract_tuples(Tuple t1, Tuple t2);
 Tuple negate(Tuple t);
 Tuple mscale(Tuple t, double scalar);
 Tuple dscale(Tuple t, double scalar);
+double magnitude(Tuple t);
