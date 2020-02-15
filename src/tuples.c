@@ -3,7 +3,7 @@
 #include "tuples.h"
 #include "utils.h"
 
-Tuple tuple() {
+Tuple ztuple() {
     Tuple t = malloc(sizeof(double) * 4);
     t[0] = 0;
     t[1] = 0;
@@ -13,10 +13,7 @@ Tuple tuple() {
 }
 
 Tuple point(double x, double y, double z) {
-    Tuple t = malloc(sizeof(double) * 4);
-    if (!t) {
-        return NULL;
-    }
+    Tuple t = ztuple();
     t[0] = x;
     t[1] = y;
     t[2] = z;
@@ -32,11 +29,10 @@ int is_point(Tuple t) {
 }
 
 Tuple vector(double x, double y, double z) {
-    Tuple t = malloc(sizeof(double) * 4);
+    Tuple t = ztuple();
     t[0] = x;
     t[1] = y;
     t[2] = z;
-    t[3] = 0;
     return t;
 }
 
@@ -57,7 +53,7 @@ int is_equal(Tuple t1, Tuple t2) {
 }
 
 Tuple add_tuples(Tuple t1, Tuple t2) {
-    Tuple t = tuple();
+    Tuple t = ztuple();
     for(int i = 0; i < 4; i++) {
         t[i] = t1[i] + t2[i];
     }
@@ -65,9 +61,31 @@ Tuple add_tuples(Tuple t1, Tuple t2) {
 }
 
 Tuple subtract_tuples(Tuple t1, Tuple t2) {
-    Tuple t = tuple();
+    Tuple t = ztuple();
     for (int i = 0; i < 4; i++) {
         t[i] = t1[i] - t2[i];
     }
     return t;
+}
+
+Tuple negate(Tuple t) {
+    return subtract_tuples(ztuple(), t);
+}
+
+Tuple mscale(Tuple t, double scalar) {
+    Tuple zt = ztuple();
+    zt[0] = t[0] * scalar;
+    zt[1] = t[1] * scalar;
+    zt[2] = t[2] * scalar;
+    zt[3] = t[3];
+    return zt;
+}
+
+Tuple dscale(Tuple t, double scalar) {
+    Tuple zt = ztuple();
+    zt[0] = t[0] / scalar;
+    zt[1] = t[1] / scalar;
+    zt[2] = t[2] / scalar;
+    zt[3] = t[3];
+    return zt;
 }

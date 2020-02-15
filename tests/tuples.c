@@ -64,6 +64,30 @@ void test_subtract_two_vectors() {
     assert(is_equal(t3, EXPECTED) == 0);
 }
 
+void test_negate_tuple() {
+    Tuple t1 = vector(1, -2, 3);
+    Tuple t2 = negate(t1);
+    Tuple EXPECTED = vector(-1, 2, -3);
+    assert(is_equal(t2, EXPECTED) == 0);
+}
+
+void test_mscale_tuple() {
+    Tuple t1 = point(1, 2, 3);
+    Tuple scaled = mscale(t1, 3.5);
+    Tuple EXPECTED = point(3.5, 7, 10.5);
+    assert(is_equal(scaled, EXPECTED) == 0);
+    scaled = mscale(t1, 0.5);
+    EXPECTED = point(0.5, 1, 1.5);
+    assert(is_equal(scaled, EXPECTED) == 0);
+}
+
+void test_dscale_tuple() {
+    Tuple t1 = point(1, 2, 3);
+    Tuple scaled = dscale(t1, 2);
+    Tuple EXPECTED = point(0.5, 1, 1.5);
+    assert(is_equal(scaled, EXPECTED) == 0);
+}
+
 int main() {
     test_tuple_is_point();
     test_tuple_is_vector();
@@ -74,4 +98,7 @@ int main() {
     test_subtract_two_points();
     test_subtract_vector_from_point();
     test_subtract_two_vectors();
+    test_negate_tuple();
+    test_mscale_tuple();
+    test_dscale_tuple();
 }
