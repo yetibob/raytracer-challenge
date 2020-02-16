@@ -12,3 +12,4 @@ build-tests:
 clean:
 	rm -rf ./bin
 	find ./tests -type f ! -iname "*.c" -delete
+	find ./excercises -type f ! -iname "*.c" -delete
