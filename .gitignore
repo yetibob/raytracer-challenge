@@ -5,5 +5,7 @@ bin/
 tests/*
 
 # Unignore all test source files
-!*tests/*.*
+!tests/*.*
 
+excercices/*
+!excercices/*.*

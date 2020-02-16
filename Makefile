@@ -7,6 +7,7 @@ build-excercises:
 build-tests:
 	gcc -lm src/tuples.c src/utils.c tests/tuples.c -o tests/tuples
 	gcc src/utils.c tests/utils.c -o tests/utils
+	gcc -lm src/colors.c src/tuples.c src/utils.c tests/colors.c -o tests/colors
 
 clean:
 	rm -rf ./bin

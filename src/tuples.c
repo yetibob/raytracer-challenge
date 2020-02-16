@@ -4,6 +4,22 @@
 #include "tuples.h"
 #include "utils.h"
 
+double x(Tuple t) {
+    return t[0];
+}
+
+double y(Tuple t) {
+    return t[1];
+}
+
+double z(Tuple t) {
+    return t[2];
+}
+
+double w(Tuple t) {
+    return t[3];
+}
+
 Tuple ztuple() {
     Tuple t = malloc(sizeof(double) * 4);
     t[0] = 0;
@@ -23,7 +39,7 @@ Tuple point(double x, double y, double z) {
 }
 
 int is_point(Tuple t) {
-    if (t[3] == 1) {
+    if (w(t) == 1) {
         return 0;
     }
     return 1;
@@ -38,7 +54,7 @@ Tuple vector(double x, double y, double z) {
 }
 
 int is_vector(Tuple t) {
-    if (t[3] == 1.0) {
+    if (w(t) == 1) {
         return 0;
     }
     return 1;
@@ -108,17 +124,17 @@ Tuple normalize(Tuple t) {
 
 double dot(Tuple v1, Tuple v2) {
     double sum = 0;
-    sum += v1[0] * v2[0];
-    sum += v1[1] * v2[1];
-    sum += v1[2] * v2[2];
-    sum += v1[3] + v2[3];
+    sum += x(v1) * x(v2);
+    sum += y(v1) * y(v2);
+    sum += z(v1) * z(v2);
+    sum += w(v1) + w(v2);
     return sum;
 }
 
 Tuple cross(Tuple v1, Tuple v2) {
     Tuple rv = ztuple();
-    rv[0] = (v1[1] * v2[2]) - (v1[2] * v2[1]);
-    rv[1] = (v1[2] * v2[0]) - (v1[0] * v2[2]);
-    rv[2] = (v1[0] * v2[1]) - (v1[1] * v2[0]);
+    rv[0] = (y(v1) * z(v2)) - (z(v1) * y(v2));
+    rv[1] = (z(v1) * x(v2)) - (x(v1) * z(v2));
+    rv[2] = (x(v1) * y(v2)) - (y(v1) * x(v2));
     return rv;
 }

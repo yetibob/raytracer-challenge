@@ -106,7 +106,7 @@ void test_compute_vector_magnitude() {
     assert(equals(magnitude(t5), EXPECTED) == 0);
 }
 
-void test_normaliize_vector() {
+void test_normalize_vector() {
     Tuple v = vector(4, 0, 0);
     Tuple e = vector(1, 0, 0);
     assert(is_equal(normalize(v), e) == 0);
@@ -149,7 +149,7 @@ int main() {
     test_mscale_tuple();
     test_dscale_tuple();
     test_compute_vector_magnitude();
-    test_normaliize_vector();
+    test_normalize_vector();
     test_dot_product();
     test_cross_product();
 }
