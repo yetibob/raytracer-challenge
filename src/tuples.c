@@ -53,7 +53,7 @@ int is_equal(Tuple t1, Tuple t2) {
     return 0;
 }
 
-Tuple add_tuples(Tuple t1, Tuple t2) {
+Tuple add(Tuple t1, Tuple t2) {
     Tuple t = ztuple();
     for(int i = 0; i < 4; i++) {
         t[i] = t1[i] + t2[i];
@@ -61,7 +61,7 @@ Tuple add_tuples(Tuple t1, Tuple t2) {
     return t;
 }
 
-Tuple subtract_tuples(Tuple t1, Tuple t2) {
+Tuple subtract(Tuple t1, Tuple t2) {
     Tuple t = ztuple();
     for (int i = 0; i < 4; i++) {
         t[i] = t1[i] - t2[i];
@@ -70,7 +70,7 @@ Tuple subtract_tuples(Tuple t1, Tuple t2) {
 }
 
 Tuple negate(Tuple t) {
-    return subtract_tuples(ztuple(), t);
+    return subtract(ztuple(), t);
 }
 
 Tuple mscale(Tuple t, double scalar) {
@@ -92,6 +92,33 @@ Tuple dscale(Tuple t, double scalar) {
 }
 
 double magnitude(Tuple t) {
-    double m = pow(t[0], 2) + pow(t[1], 2) + pow(t[2], 2);
+    double m = pow(t[0], 2) + pow(t[1], 2) + pow(t[2], 2) + pow(t[3], 2);
     return sqrt(m);
+}
+
+Tuple normalize(Tuple t) {
+    double m = magnitude(t);
+    Tuple normalized = ztuple();
+    normalized[0] = t[0] / m;
+    normalized[1] = t[1] / m;
+    normalized[2] = t[2] / m;
+    normalized[3] = t[3];
+    return normalized;
+}
+
+double dot(Tuple v1, Tuple v2) {
+    double sum = 0;
+    sum += v1[0] * v2[0];
+    sum += v1[1] * v2[1];
+    sum += v1[2] * v2[2];
+    sum += v1[3] + v2[3];
+    return sum;
+}
+
+Tuple cross(Tuple v1, Tuple v2) {
+    Tuple rv = ztuple();
+    rv[0] = (v1[1] * v2[2]) - (v1[2] * v2[1]);
+    rv[1] = (v1[2] * v2[0]) - (v1[0] * v2[2]);
+    rv[2] = (v1[0] * v2[1]) - (v1[1] * v2[0]);
+    return rv;
 }
