@@ -1,3 +1,5 @@
+GCCTEST=gcc -lm src/utils.c
+
 build:
 	mkdir -p bin
 
@@ -5,9 +7,10 @@ build-excercises:
 	gcc -lm excercises/projectile.c src/tuples.c src/utils.c -o excercises/projectile
 
 build-tests:
-	gcc -lm src/tuples.c src/utils.c tests/tuples.c -o tests/tuples
-	gcc src/utils.c tests/utils.c -o tests/utils
-	gcc -lm src/colors.c src/tuples.c src/utils.c tests/colors.c -o tests/colors
+	$(GCCTEST) src/tuples.c tests/tuples.c -o tests/tuples
+	$(GCCTEST) tests/utils.c -o tests/utils
+	$(GCCTEST) src/colors.c src/tuples.c tests/colors.c -o tests/colors
+	$(GCCTEST) src/canvas.c src/colors.c src/tuples.c tests/canvas.c -o tests/canvas
 
 clean:
 	rm -rf ./bin
