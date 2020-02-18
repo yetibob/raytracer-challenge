@@ -7,3 +7,5 @@ typedef struct {
 } Canvas;
 
 Canvas* canvas(int width, int height);
+void write_pixel(Canvas *c, int x, int y, Tuple color);
+Tuple pixel_at(const Canvas c, int x, int y);
