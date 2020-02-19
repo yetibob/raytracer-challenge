@@ -8,7 +8,7 @@ Canvas* canvas(int width, int height) {
     Canvas *c = malloc(sizeof(Canvas));
     c->width = width;
     c->height = height;
-    c->pixels = malloc(sizeof(Tuple)* * height);
+    c->pixels = malloc(sizeof(Tuple) * height);
     for (int y = 0; y < height; y++) {
         c->pixels[y] = malloc(sizeof(Tuple) * width);
         for (int x = 0; x < width; x++) {
