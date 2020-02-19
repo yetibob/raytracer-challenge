@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <stdio.h>
 #include "../src/canvas.h"
 #include "../src/utils.h"
 #include "../src/colors.h"
@@ -8,16 +9,15 @@ void test_create_canvas() {
     assert(equals(c->width, 10) == 0);
     assert(equals(c->height, 20) == 0);
     Tuple black = color(0, 0, 0);
-    for(int y = 0; y < c->height; y++) {
-        for(int x = 0; x < c->width; x++) {
-            assert(is_equal(c->pixels[y][x], black) == 0);
-        }
+    // for(int y = 0; y < c->height; y++) {
+    //     for(int x = 0; x < c->width; x++) {
+    //         assert(is_equal(c->pixels[y][x], black) == 0);
+    //     }
+    // }
+
+    for(int i = 0; i < c->width * c->height * 4; i += 4) {
+        assert(is_equal(c->pixels+i, black) == 0);
     }
-    /*
-     * for(int i = 0; i < c->width * c->height * 4; i += 4) {
-     *     assert(is_equal(c->pixels+i, black);
-     * }
-     */
 }
 
 void test_write_pixel() {
