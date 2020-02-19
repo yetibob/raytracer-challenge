@@ -8,16 +8,18 @@ void test_create_canvas() {
     assert(equals(c->width, 10) == 0);
     assert(equals(c->height, 20) == 0);
     Tuple black = color(0, 0, 0);
-    for(int i = 0; i < c->width*c->height; i++) {
-        assert(is_equal(c->pixels[i], black) == 0);
+    for(int y = 0; y < c->height; y++) {
+        for(int x = 0; x < c->width; x++) {
+            assert(is_equal(c->pixels[y][x], black) == 0);
+        }
     }
 }
 
 void test_write_pixel() {
     Canvas *c = canvas(10, 20);
-    Tuple red = color(1, 0, 0);
-    write_pixel(c, 2, 3, red);
-    assert(is_equal(pixel_at(*c, 2, 3), red) == 0);
+    Tuple c1 = color(0, 0, 1);
+    write_pixel(c, 2, 3, c1);
+    assert(is_equal(pixel_at(*c, 2, 3), c1) == 0);
 }
 
 void test_canvas_to_ppm_header() {

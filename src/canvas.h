@@ -3,7 +3,7 @@
 typedef struct {
     int height;
     int width;
-    Tuple *pixels;
+    Tuple **pixels;
 } Canvas;
 
 Canvas* canvas(int width, int height);
