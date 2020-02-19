@@ -10,10 +10,12 @@ Canvas* canvas(int width, int height) {
     c->height = height;
     int numPixels = width * height;
     c->pixels = malloc(sizeof(Tuple *) * numPixels);
-    Tuple black = color(0, 0, 0);
     for (int i = 0; i < numPixels; i++) {
         c->pixels[i] = malloc(sizeof(double) * 4);
-        *c->pixels[i] = *black;
+        c->pixels[i][0] = 0;
+        c->pixels[i][1] = 0;
+        c->pixels[i][2] = 0;
+        c->pixels[i][3] = 0;
     }
     return c;
 }
@@ -26,8 +28,7 @@ void write_pixel(Canvas *c, int x, int y, Tuple color) {
 }
 
 Tuple pixel_at(Canvas c, int x, int y) {
-    int pos = x*y;
-    return c.pixels[pos];
+    return c.pixels[x*y];
 }
 
 static int write_header(Canvas c, char *s) {
@@ -63,8 +64,20 @@ static int write_header(Canvas c, char *s) {
     return i;
 }
 
+static int write_body(Canvas c, char *s) {
+    // get color
+
+    // convert color values from 0-1 floating to 0-255 int
+
+    // convert to string of format "val val val"
+
+    // write tuple to file
+}
+
 char *canvas_to_ppm(Canvas c) {
-    char *ppm = malloc(sizeof(char) * (c.height * c.width + 20));
+    int size = c.height * c.width * 5;
+    char *ppm = malloc(sizeof(char) * size);
     int pos = write_header(c, ppm);
+    write_body(c, ppm+pos);
     return ppm;
 }

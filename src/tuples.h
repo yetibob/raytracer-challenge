@@ -1,5 +1,5 @@
 /*
-A tuple is an array of doubles of length 4. it is represented
+A tuple is an array of doubles of length 4
 it is being represented as a double * to allow returning tuples
 from functions
 */

@@ -23,14 +23,45 @@ void test_write_pixel() {
 void test_canvas_to_ppm_header() {
     Canvas *c = canvas(5, 3);
     char *ppm = canvas_to_ppm(*c);
-    char expected[] = {'P', '3', '\n', '5', ' ', '3', '\n', '2', '5', '5', '\n', '\0'};
+    char expected[] = "P3\n5 3\n255\n";
     for (int i = 0; expected[i] != '\0'; i++) {
         assert(ppm[i] == expected[i]);
     }
+}
+
+void test_canvas_to_ppm_pixel_data() {
+    Canvas *c = canvas(5, 3);
+    Tuple c1 = color(1.5, 0, 0);
+    Tuple c2 = color(0, 0.5, 0);
+    Tuple c3 = color(-0.5, 0, 1);
+    char expected[] = "255 0 0 0 0 0 0 0 0 0 0 0 0 0 0\n \
+                       0 0 0 0 0 0 128 0 0 0 0 0 0 0 0\n \
+                       0 0 0 0 0 0 0 0 0 0 0 0 0 0 255\n";
+
+    write_pixel(c, 0, 0, c1);
+    write_pixel(c, 2, 1, c2);
+    write_pixel(c, 4, 2, c3);
+    char *ppm = canvas_to_ppm(*c);
+    int i = 0;
+    int line = 0;
+
+    // walk i up to correct start of line 4
+    for (i; line < 4; i++) {
+        if (ppm[i] == '\n') {
+            line++;
+        }
+    }
+
+    // start comparing strings at i
+    for (i; expected[i] != '\0'; i++) {
+        assert(ppm[i] == expected[i]);
+    }
+
 }
 
 int main() {
     test_create_canvas();
     test_write_pixel();
     test_canvas_to_ppm_header();
+    // test_canvas_to_ppm_pixel_data();
 }
