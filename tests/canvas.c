@@ -23,13 +23,14 @@ void test_write_pixel() {
 void test_canvas_to_ppm_header() {
     Canvas *c = canvas(5, 3);
     char *ppm = canvas_to_ppm(*c);
-    char line[10];
-    for (int i = 0; i < 3; i++) {
-        get_ppm_header(line, ppm+i);
+    char expected[] = {'P', '3', '\n', '5', ' ', '3', '\n', '2', '5', '5', '\n', '\0'};
+    for (int i = 0; expected[i] != '\0'; i++) {
+        assert(ppm[i] == expected[i]);
     }
 }
 
 int main() {
     test_create_canvas();
     test_write_pixel();
+    test_canvas_to_ppm_header();
 }

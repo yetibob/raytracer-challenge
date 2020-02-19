@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include "canvas.h"
 #include "colors.h"
@@ -27,4 +28,43 @@ void write_pixel(Canvas *c, int x, int y, Tuple color) {
 Tuple pixel_at(Canvas c, int x, int y) {
     int pos = x*y;
     return c.pixels[pos];
+}
+
+static int write_header(Canvas c, char *s) {
+    char buf[10];
+    int i = 0;
+
+    //set ppm flavor to P3
+    s[i++] = 'P';
+    s[i++] = '3';
+    s[i++] = '\n';
+
+    sprintf(buf, "%d", c.width);
+    for (char *c = buf; *c != '\0'; c++) {
+        s[i] = *c;
+        i++;
+    }
+
+    s[i++] = ' ';
+
+    sprintf(buf, "%d", c.height);
+    for (char *c = buf; *c != '\0'; c++) {
+        s[i] = *c;
+        i++;
+    }
+
+    s[i++] = '\n';
+
+    // set color range to 255
+    s[i++] = '2';
+    s[i++] = '5';
+    s[i++] = '5';
+    s[i++] = '\n';
+    return i;
+}
+
+char *canvas_to_ppm(Canvas c) {
+    char *ppm = malloc(sizeof(char) * (c.height * c.width + 20));
+    int pos = write_header(c, ppm);
+    return ppm;
 }
