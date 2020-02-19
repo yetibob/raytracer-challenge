@@ -13,6 +13,11 @@ void test_create_canvas() {
             assert(is_equal(c->pixels[y][x], black) == 0);
         }
     }
+    /*
+     * for(int i = 0; i < c->width * c->height * 4; i += 4) {
+     *     assert(is_equal(c->pixels+i, black);
+     * }
+     */
 }
 
 void test_write_pixel() {

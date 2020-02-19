@@ -8,13 +8,25 @@ Canvas* canvas(int width, int height) {
     Canvas *c = malloc(sizeof(Canvas));
     c->width = width;
     c->height = height;
-    c->pixels = malloc(sizeof(Tuple *) * height);
+    c->pixels = malloc(sizeof(Tuple)* * height);
     for (int y = 0; y < height; y++) {
-        c->pixels[y] = malloc(sizeof(Tuple *) * width);
+        c->pixels[y] = malloc(sizeof(Tuple) * width);
         for (int x = 0; x < width; x++) {
             c->pixels[y][x] = color(0, 0, 0);
         }
     }
+    /*
+     * int numPixels = c->width * c->height
+     * c->pixels = malloc(sizeof(double) * numPixels * 4
+     * for (int i = 0; i < numPixels * 4; i += 4) {
+     *     c->pixels[i]   = 0;
+     *     c->pixels[i+1] = 0;
+     *     c->pixels[i+2] = 0;
+     *     c->pixels[i+3] = 0;
+     * }
+     *
+     * return c
+     */
     return c;
 }
 
@@ -22,10 +34,23 @@ void write_pixel(Canvas *c, int x, int y, Tuple color) {
     c->pixels[y][x][0] = color[0];
     c->pixels[y][x][1] = color[1];
     c->pixels[y][x][2] = color[2];
+
+    /*
+     * int pos = y * c->width + x;
+     *
+     * c->pixels[pos]   = color[0];
+     * c->pixels[pos+1] = color[1];
+     * c->pixels[pos+2] = color[2]
+     */
 }
 
 Tuple pixel_at(Canvas c, int x, int y) {
     return c.pixels[y][x];
+
+    /*
+     * int pos = y * c.width + x;
+     * return &c.pixels[pos];
+     */
 }
 
 static int write_header(Canvas c, char *s) {

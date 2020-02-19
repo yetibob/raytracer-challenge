@@ -4,6 +4,13 @@ typedef struct {
     int height;
     int width;
     Tuple **pixels;
+
+ /* Giant list of contiguous tuples
+  * malloc(width*height*4)
+  * 4 because that is length of tuple
+  *
+  * double *pixels;
+  */
 } Canvas;
 
 Canvas* canvas(int width, int height);
