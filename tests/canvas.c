@@ -1,4 +1,6 @@
 #include <assert.h>
+#include <stdio.h>
+#include <string.h>
 #include "../src/canvas.h"
 #include "../src/utils.h"
 #include "../src/colors.h"
@@ -31,31 +33,24 @@ void test_canvas_to_ppm_header() {
 }
 
 void test_canvas_to_ppm_pixel_data() {
-    Canvas *c = canvas(5, 3);
-    Tuple c1 = color(1.5, 0, 0);
-    Tuple c2 = color(0, 0.5, 0);
-    Tuple c3 = color(-0.5, 0, 1);
-    char expected[] = "255 0 0 0 0 0 0 0 0 0 0 0 0 0 0\n \
-                       0 0 0 0 0 0 128 0 0 0 0 0 0 0 0\n \
-                       0 0 0 0 0 0 0 0 0 0 0 0 0 0 255\n";
+    Canvas *c = canvas(10, 2);
+    Tuple c1 = color(1, 0.8, 0.6);
+    for (int x = 0; x < 10; x++) {
+        for (int y = 0; y < 2; y++) {
+            write_pixel(c, x, y, c1);
+        }
+    }
+    char expected[] = "255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204\n153 255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255\n204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204 153\n255 204 153 255 204 153 255 204 153\n";
 
-    write_pixel(c, 0, 0, c1);
-    write_pixel(c, 2, 1, c2);
-    write_pixel(c, 4, 2, c3);
     char *ppm = canvas_to_ppm(c);
     int i = 0;
     int line = 0;
-
-    // walk i up to correct start of line 4
-    for (i; line < 4; i++) {
+    for (i; line < 3; i++) {
         if (ppm[i] == '\n') {
             line++;
         }
     }
-
-    for (i; expected[i] != '\0'; i++) {
-        assert(ppm[i] == expected[i]);
-    }
+    assert(strcmp(ppm+i, expected) == 0);
 
 }
 
@@ -79,9 +74,25 @@ void test_inefficient_write_pixel() {
     assert(is_equal(inefficient_pixel_at(c, 2, 3), c1) == 0);
 }
 
+void test_write_to_file() {
+    Canvas *c = canvas(6, 5);
+    Tuple c1 = color(1, 0.8, 0.6);
+    for (int x = 0; x < 6; x++) {
+        for (int y = 0; y < 5; y++) {
+            write_pixel(c, x, y, c1);
+        }
+    }
+    char *ppm = canvas_to_ppm(c);
+    int len = strlen(ppm);
+    FILE *fp = fopen("img.ppm", "w");
+    fwrite(ppm, sizeof(char), len, fp);
+    fclose(fp);
+}
+
 int main() {
     test_create_canvas();
     test_write_pixel();
     test_canvas_to_ppm_header();
-    // test_canvas_to_ppm_pixel_data();
+    test_canvas_to_ppm_pixel_data();
+    test_write_to_file();
 }

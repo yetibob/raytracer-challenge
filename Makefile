@@ -12,7 +12,7 @@ build-tests:
 	$(GCCTEST) src/colors.c src/tuples.c tests/colors.c -o tests/colors
 	$(GCCTEST) src/canvas.c src/colors.c src/tuples.c tests/canvas.c -o tests/canvas
 
-test:
+test: build-tests
 	./tests/tuples
 	./tests/utils
 	./tests/colors

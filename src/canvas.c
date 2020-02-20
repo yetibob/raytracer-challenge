@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "canvas.h"
 #include "colors.h"
 #include "tuples.h"
@@ -32,54 +33,83 @@ Tuple pixel_at(const Canvas *c, int x, int y) {
     return &c->pixels[pos];
 }
 
-static int write_header(Canvas *c, char *s) {
+static int write_header(Canvas *c, char *ppm) {
     char buf[10];
     int i = 0;
 
     //set ppm flavor to P3
-    s[i++] = 'P';
-    s[i++] = '3';
-    s[i++] = '\n';
+    ppm[i++] = 'P';
+    ppm[i++] = '3';
+    ppm[i++] = '\n';
 
     sprintf(buf, "%d", c->width);
     for (char *c = buf; *c != '\0'; c++) {
-        s[i] = *c;
-        i++;
+        ppm[i++] = *c;
     }
 
-    s[i++] = ' ';
+    ppm[i++] = ' ';
 
     sprintf(buf, "%d", c->height);
     for (char *c = buf; *c != '\0'; c++) {
-        s[i] = *c;
-        i++;
+        ppm[i++] = *c;
     }
 
-    s[i++] = '\n';
+    ppm[i++] = '\n';
 
     // set color range to 255
-    s[i++] = '2';
-    s[i++] = '5';
-    s[i++] = '5';
-    s[i++] = '\n';
+    ppm[i++] = '2';
+    ppm[i++] = '5';
+    ppm[i++] = '5';
+    ppm[i++] = '\n';
     return i;
 }
 
-static int write_body(Canvas *c, char *s) {
-    // get color
+static int write_color(char *ppm, int pos, int color) {
+    char buf[5];
+    if (color > 255) {
+        color = 255;
+    } else if (color < 0) {
+        color = 0;
+    }
+    sprintf(buf, "%d ", color);
 
-    // convert color values from 0-1 floating to 0-255 int
+    // int line = pos / 69;
+    int offset = pos % 69;
+    int end_pos = offset + strlen(buf);
+    printf("%s\t:\t%d\t:\t%d\n", buf, offset, pos);
+    if (end_pos >= 69) {
+        ppm[pos-1] = '\n';
+    }
 
-    // convert to string of format "val val val"
+    for(char *c = buf; *c != '\0'; c++) {
+        ppm[pos++] = *c;
+    }
+    return pos;
+}
 
-    // write tuple to file
+static int write_body(Canvas *c, char *ppm) {
+    int pos = 0;
+
+    int canvas_size = c->width * c->height  * 4;
+    for (int i = 0; i < canvas_size; i+=4) {
+        int c1 = c->pixels[i] * 255;
+        int c2 = c->pixels[i+1] * 255;
+        int c3 = c->pixels[i+2] * 255;
+
+        pos = write_color(ppm, pos, c1);
+        pos = write_color(ppm, pos, c2);
+        pos = write_color(ppm, pos, c3);
+    }
+    ppm[pos-1] = '\n';
+    ppm[pos] = '\0';
+    return pos;
 }
 
 char *canvas_to_ppm(Canvas *c) {
-    int size = c->height * c->width * 5;
+    int size = c->height * c->width * 15;
     char *ppm = malloc(sizeof(char) * size);
     int pos = write_header(c, ppm);
-    write_body(c, ppm+pos);
+    pos += write_body(c, ppm+pos);
     return ppm;
 }
 
