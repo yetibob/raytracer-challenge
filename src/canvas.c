@@ -64,52 +64,63 @@ static int write_header(Canvas *c, char *ppm) {
     return i;
 }
 
-static int write_color(char *ppm, int pos, int color) {
+int write_body(Canvas *c, char *ppm) {
+    int convPix;
+    int skipPix = 0;
     char buf[5];
-    if (color > 255) {
-        color = 255;
-    } else if (color < 0) {
-        color = 0;
-    }
-    sprintf(buf, "%d ", color);
 
-    // int line = pos / 69;
-    int offset = pos % 69;
-    int end_pos = offset + strlen(buf);
-    printf("%s\t:\t%d\t:\t%d\n", buf, offset, pos);
-    if (end_pos >= 69) {
-        ppm[pos-1] = '\n';
-    }
+    int pos = 0;
+    int cpos = 0;
+    int csize = c->height * c->width * 4;
 
-    for(char *c = buf; *c != '\0'; c++) {
-        ppm[pos++] = *c;
+    double *pixel = c->pixels;
+
+
+    while (cpos < csize) {
+        if (skipPix == 3) {
+            cpos++;
+            pixel++;
+            skipPix = 0;
+            continue;
+        }
+
+        convPix = *pixel * 255;
+        sprintf(buf, "%d ", convPix);
+
+        for (char *c = buf; *c != '\0'; c++) {
+            ppm[pos++] = *c;
+        }
+
+        pixel++;
+        cpos++;
+        skipPix++;
     }
-    return pos;
+    ppm[pos] = '\0';
+    return pos-1;
 }
 
-static int write_body(Canvas *c, char *ppm) {
+void split_file(char *ppm, int len) {
     int pos = 0;
-
-    int canvas_size = c->width * c->height  * 4;
-    for (int i = 0; i < canvas_size; i+=4) {
-        int c1 = c->pixels[i] * 255;
-        int c2 = c->pixels[i+1] * 255;
-        int c3 = c->pixels[i+2] * 255;
-
-        pos = write_color(ppm, pos, c1);
-        pos = write_color(ppm, pos, c2);
-        pos = write_color(ppm, pos, c3);
+    for (int i = 0; i < len; i++) {
+        if (pos == 69) {
+            if (ppm[i] != ' ') {
+                for (; ppm[i] != ' '; i--)
+                    ;
+            }
+            ppm[i] = '\n';
+            pos = 0;
+        }
+        pos++;
     }
-    ppm[pos-1] = '\n';
-    ppm[pos] = '\0';
-    return pos;
 }
 
 char *canvas_to_ppm(Canvas *c) {
     int size = c->height * c->width * 15;
     char *ppm = malloc(sizeof(char) * size);
-    int pos = write_header(c, ppm);
-    pos += write_body(c, ppm+pos);
+    int header_pos = write_header(c, ppm);
+    int pos = write_body(c, ppm+header_pos);
+    split_file(ppm+header_pos, pos);
+    ppm[header_pos+pos] = '\n';
     return ppm;
 }
 
