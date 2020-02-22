@@ -22,14 +22,25 @@ Canvas* canvas(int width, int height) {
 }
 
 void write_pixel(Canvas *c, int x, int y, Tuple color) {
-    int pos = (x * c->height + y) * 4;
+	if (x >= c->width || x < 0 || y >= c->height || y < 0) { return; }
+    int pos = (y * c->width + x) * 4;
+	if (pos+2 >= c->height * c->width * 4) { return; }
+
     c->pixels[pos]   = color[0];
     c->pixels[pos+1] = color[1];
     c->pixels[pos+2] = color[2];
 }
 
 Tuple pixel_at(const Canvas *c, int x, int y) {
-    int pos = (x * c->height + y) * 4;
+	if (x >= c->width || x < 0 || y >= c->height || y < 0) {
+			return color(0, 0, 0);
+	}
+
+    int pos = (y * c->width + x) * 4;
+	if (pos+2 >= c->height * c->width * 4) {
+			return point(-1, -1, -1);
+	}
+
     return &c->pixels[pos];
 }
 

@@ -6,6 +6,10 @@ from functions
 typedef double* Tuple;
 
 Tuple ztuple();
+double x(Tuple t);
+double y(Tuple t);
+double z(Tuple t);
+double w(Tuple t);
 Tuple point(double x, double y, double z);
 Tuple vector(double x, double y, double z);
 int is_point(Tuple t);

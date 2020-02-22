@@ -1,12 +1,11 @@
 .vscode/
 bin/
 
-# Ignore all built tests
 tests/*
-
-# Unignore all test source files
 !tests/*.*
 
-excercices/*
-!excercices/*.*
-img.ppm
+excercises/*
+!excercises/*.*
+
+*.ppm
+*.swp

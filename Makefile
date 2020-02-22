@@ -4,7 +4,7 @@ build:
 	mkdir -p bin
 
 build-excercises:
-	gcc -lm excercises/projectile.c src/tuples.c src/utils.c -o excercises/projectile
+	gcc -lm excercises/projectile.c src/tuples.c src/utils.c src/canvas.c src/colors.c -o excercises/projectile
 
 build-tests:
 	$(GCCTEST) src/tuples.c tests/tuples.c -o tests/tuples

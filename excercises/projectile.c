@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include "../src/tuples.h"
+#include "../src/canvas.h"
+#include "../src/colors.h"
+#include "../src/utils.h"
 
 struct Projectile {
     Tuple position;
@@ -17,14 +20,18 @@ void tick(struct Environment env, struct Projectile *proj) {
 }
 
 int main() {
-    struct Projectile p = { point(0, 1 ,0), normalize(vector(1, 1, 0)) };
+    struct Projectile p = { point(0, 200 ,0), mscale(normalize(vector(1, 1, 0)), 11.5) };
     struct Environment e = { vector(0, -0.1, 0), vector(-0.01, 0, 0) };
     int ticks = 0;
-
-    while(p.position[1] > 0) {
+	Canvas *c = canvas(1100, 900);
+	char *ppm;
+	Tuple pixel_color = color(0, 1, 0);
+	
+    while(y(p.position) > 0) {
         ticks++;
         tick(e, &p);
-        printf("X: %f\tY: %f\tZ: %f\n", p.position[0], p.position[1], p.position[2]);
+        write_pixel(c, x(p.position), c->height - y(p.position), pixel_color);
     }
-    printf("Ticks to hit ground: %d\n", ticks);
+	ppm = canvas_to_ppm(c);
+	write_to_file("projectile.ppm", ppm);
 }
