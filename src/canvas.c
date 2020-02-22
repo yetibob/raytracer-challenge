@@ -64,12 +64,16 @@ static int write_header(Canvas *c, char *ppm) {
     return i;
 }
 
-int write_body(Canvas *c, char *ppm) {
+int write_body(Canvas *c, char *ppm, int line_length) {
     int convPix;
     int skipPix = 0;
     char buf[5];
 
     int pos = 0;
+    int lpos = 0;
+
+    // make line length 0 based
+    line_length--;
     int cpos = 0;
     int csize = c->height * c->width * 4;
 
@@ -80,21 +84,32 @@ int write_body(Canvas *c, char *ppm) {
         if (skipPix == 3) {
             cpos++;
             pixel++;
+
             skipPix = 0;
             continue;
         }
 
         convPix = *pixel * 255;
         sprintf(buf, "%d ", convPix);
+        int len = strlen(buf);
+
+        if (lpos + len > line_length) {
+            lpos = 0;
+            ppm[pos-1] = '\n';
+        } else if (lpos + len == line_length) {
+            buf[len-1] = '\n';
+        }
 
         for (char *c = buf; *c != '\0'; c++) {
             ppm[pos++] = *c;
+            lpos++;
         }
 
         pixel++;
         cpos++;
         skipPix++;
     }
+    ppm[pos-1] = '\n';
     ppm[pos] = '\0';
     return pos-1;
 }
@@ -118,9 +133,9 @@ char *canvas_to_ppm(Canvas *c) {
     int size = c->height * c->width * 15;
     char *ppm = malloc(sizeof(char) * size);
     int header_pos = write_header(c, ppm);
-    int pos = write_body(c, ppm+header_pos);
-    split_file(ppm+header_pos, pos);
-    ppm[header_pos+pos] = '\n';
+    int pos = write_body(c, ppm+header_pos, 70);
+    // split_file(ppm+header_pos, pos);
+    // ppm[header_pos+pos] = '\n';
     return ppm;
 }
 
