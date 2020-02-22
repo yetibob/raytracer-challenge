@@ -4,6 +4,8 @@
 #include "tuples.h"
 #include "utils.h"
 
+// TODO: Consider making x/y/z/w functions return a double pointer
+//       this would allow them to be used for easily setting tuple values as well
 double x(Tuple t) {
     return t[0];
 }
