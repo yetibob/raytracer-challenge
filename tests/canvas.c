@@ -75,10 +75,11 @@ void test_inefficient_write_pixel() {
 }
 
 void test_write_to_file() {
-    Canvas *c = canvas(16, 16);
+    const int width = 5, height = 3;
+    Canvas *c = canvas(width, height);
     Tuple c1 = color(1, 0.8, 0.6);
-    for (int x = 0; x < 16; x++) {
-        for (int y = 0; y < 16; y++) {
+    for (int x = 0; x < width; x++) {
+        for (int y = 0; y < height; y++) {
             write_pixel(c, x, y, c1);
         }
     }
