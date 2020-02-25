@@ -23,12 +23,7 @@ double w(Tuple t) {
 }
 
 Tuple ztuple() {
-    Tuple t = malloc(sizeof(double) * 4);
-    t[0] = 0;
-    t[1] = 0;
-    t[2] = 0;
-    t[3] = 0;
-    return t;
+    return calloc(4, sizeof(double));
 }
 
 Tuple point(double x, double y, double z) {

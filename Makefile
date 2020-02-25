@@ -11,12 +11,14 @@ build-tests:
 	$(GCCTEST) tests/utils.c -o tests/utils
 	$(GCCTEST) src/colors.c src/tuples.c tests/colors.c -o tests/colors
 	$(GCCTEST) src/canvas.c src/colors.c src/tuples.c tests/canvas.c -o tests/canvas
+	$(GCCTEST) src/matrix.c tests/matrix.c -o tests/matrix
 
 test: build-tests
 	./tests/tuples
 	./tests/utils
 	./tests/colors
 	./tests/canvas
+	./tests/matrix
 
 clean:
 	rm -rf ./bin
