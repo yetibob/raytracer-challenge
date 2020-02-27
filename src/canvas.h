@@ -1,3 +1,6 @@
+#ifndef CANVAS_H
+#define CANVAS_H
+
 #include "tuples.h"
 
 typedef struct {
@@ -21,3 +24,5 @@ InefficientCanvas* inefficient_canvas(int width, int height);
 void inefficient_write_pixel(InefficientCanvas *c, int x, int y, Tuple color);
 Tuple inefficient_pixel_at(const InefficientCanvas *c, int x, int y);
 // char * inefficient_canvas_to_ppm(InefficientCanvas *c);
+
+#endif

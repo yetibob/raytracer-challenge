@@ -1,8 +1,6 @@
-/*
-A tuple is an array of doubles of length 4
-it is being represented as a double * to allow returning tuples
-from functions
-*/
+#ifndef TUPLES_H
+#define TUPLES_H
+
 typedef double* Tuple;
 
 Tuple ztuple();
@@ -24,3 +22,5 @@ Tuple normalize(Tuple t);
 double magnitude(Tuple t);
 double dot(Tuple v1, Tuple v2);
 Tuple cross(Tuple v1, Tuple v2);
+
+#endif
