@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "utils.h"
 
-inline int equals(double x, double y) {
+int equals(double x, double y) {
     if (fabs(x - y) < EPSILON) {
         return 0;
     }

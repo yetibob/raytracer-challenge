@@ -1,7 +1,7 @@
 #include <assert.h>
 #include "../src/matrix.h"
 #include "../src/utils.h"
-#include "tutils.h"
+#include "../src/tuples.h"
 
 void test_create_matrix() {
     Matrix *m = matrix(2);
@@ -38,11 +38,40 @@ void test_multiply_matrices() {
    Matrix *expected = gen_matrix_from_arr(a3, 4);
 
    Matrix *p = multiply_matrices(m1, m2);
-   assert(mcompare(p, expected) == 0);
+   assert(mcompare(expected, p) == 0);
+}
+
+void test_multiply_matrix_by_tuple() {
+    double a[16] = { 1, 2, 3, 4, 2, 4, 4, 2, 8, 6, 4, 1, 0, 0, 0, 1 };
+    Matrix *m = gen_matrix_from_arr(a, 4);
+    Tuple t1 = point(1, 2, 3);
+    Tuple result = multiply_matrix_with_tuple(m ,t1);
+    Tuple e = point(18, 24, 33);
+    assert(is_equal(e, result) == 0);
+}
+
+void test_multiply_matrix_by_identity_matrix() {
+    double a1[] = { 0, 1, 2, 4, 1, 2, 4, 8, 2, 4, 8, 16, 4, 8, 16, 32 };
+    Matrix *m = gen_matrix_from_arr(a1, 4);
+    Matrix id = IdentityMatrix();
+
+    Matrix *result = multiply_matrices(m, &id);
+    assert(mcompare(m, result) == 0);
+}
+
+void test_multiply_tuple_by_identity_matrix() {
+    Matrix id = IdentityMatrix();
+    Tuple t = point(1, 2, 3);
+    t[3] = 4;
+    Tuple result = multiply_matrix_with_tuple(&id, t);
+    assert(is_equal(t, result) == 0);
 }
 
 int main() {
     test_create_matrix();
     test_compare_matrices();
     test_multiply_matrices();
+    test_multiply_matrix_by_tuple();
+    test_multiply_matrix_by_identity_matrix();
+    test_multiply_tuple_by_identity_matrix();
 }

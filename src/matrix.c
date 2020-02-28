@@ -1,6 +1,9 @@
 #include <stdlib.h>
 #include "matrix.h"
+#include "tuples.h"
 #include "utils.h"
+
+static Matrix idm = { .dim = 4, .data = NULL };
 
 Matrix *matrix(int dim) {
     Matrix *m = malloc(sizeof(Matrix));
@@ -9,6 +12,31 @@ Matrix *matrix(int dim) {
     for (int i = 0; i < dim; i++) {
         m->data[i] = calloc(dim, sizeof(double));
     }
+    return m;
+}
+
+Matrix IdentityMatrix() {
+    if (idm.data == NULL) {
+        idm.data = malloc(sizeof(double *) * idm.dim);
+        for (int i = 0; i < idm.dim; i++) {
+            idm.data[i] = calloc(idm.dim, sizeof(double));
+        }
+        idm.data[0][0] = 1;
+        idm.data[1][1] = 1;
+        idm.data[2][2] = 1;
+        idm.data[3][3] = 1;
+    }
+
+    return idm; 
+}
+
+Matrix *gen_matrix_from_arr(double *a, int dim) {
+    Matrix *m = matrix(dim);
+    for (int i = 0; i < dim; i++) {
+        for (int j = 0; j < dim; j++) {
+            m->data[i][j] = *a++;
+        }
+    } 
     return m;
 }
 
@@ -39,4 +67,16 @@ Matrix *multiply_matrices(const Matrix *m1, const Matrix *m2) {
         }
     }
     return p;
+}
+
+Tuple multiply_matrix_with_tuple(const Matrix *m, const Tuple t) {
+    Tuple res = ztuple();
+    for (int i = 0; i < 4; i++) {
+        double result = 0;
+        for (int j = 0; j < 4; j++) {
+           result += m->data[i][j] * t[j];
+        }
+        res[i] = result;
+    }
+    return res;
 }
