@@ -1,7 +1,17 @@
 #include <assert.h>
+#include <stdio.h>
 #include "../src/matrix.h"
 #include "../src/utils.h"
 #include "../src/tuples.h"
+
+void display_matrix(Matrix m) {
+    for (int i = 0; i < m.dim; i++) {
+        for (int j = 0; j < m.dim; j++) {
+            printf("%f ", m.data[i][j]);
+        }
+        printf("\n");
+    }
+}
 
 void test_create_matrix() {
     Matrix *m = matrix(2);
@@ -78,6 +88,38 @@ void test_transpose_matrix() {
     assert(mcompare(e, transposed) == 0);
 }
 
+void test_transpose_identity_matrix() {
+    Matrix m = IdentityMatrix();
+    assert(mcompare(&m, transpose(&m)) == 0);
+}
+
+void test_find_determinant_2_dim_matrix() {
+    double arr[] = { 1 , 5, -3, 2 };
+    Matrix *m = gen_matrix_from_arr(arr, 2);
+
+    double e = 17;
+    double res = two_dim_determinant(m);
+    assert(equals(e, res) == 0);
+}
+
+void test_get_submatrix() {
+    double a1[] = { 1, 5, 0, -3, 2, 7, 0, 6, -3 };
+    Matrix *m1 = gen_matrix_from_arr(a1, 3);
+    Matrix *sub1 = submatrix(m1, 0, 2);
+
+    double e1a[] = { -3, 2, 0, 6};
+    Matrix *e1 = gen_matrix_from_arr(e1a, 2); 
+    assert(mcompare(e1, sub1) == 0);
+
+    double a2[] = { -6, 1, 1, 6, -8, 5, 8, 6, -1, 0, 8, 2, -7, 1, -1, 1};
+    Matrix *m2 = gen_matrix_from_arr(a2, 4);
+    Matrix *sub2 = submatrix(m2, 2, 1);
+
+    double e2a[] = { -6, 1, 6, -8, 8, 6, -7, -1, 1};
+    Matrix *e2 = gen_matrix_from_arr(e2a, 3);
+    assert(mcompare(e2, sub2) == 0);
+}
+
 int main() {
     test_create_matrix();
     test_compare_matrices();
@@ -86,4 +128,7 @@ int main() {
     test_multiply_matrix_by_identity_matrix();
     test_multiply_tuple_by_identity_matrix();
     test_transpose_matrix();
+    test_transpose_identity_matrix();
+    test_find_determinant_2_dim_matrix();
+    test_get_submatrix();
 }

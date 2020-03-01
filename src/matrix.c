@@ -90,3 +90,28 @@ Matrix *transpose(const Matrix *m) {
     }
     return t;
 }
+
+double two_dim_determinant(const Matrix *m) {
+    return m->data[0][0] * m->data[1][1] - m->data[0][1] * m->data[1][0];
+}
+
+Matrix *submatrix(const Matrix *m, int row, int col) {
+    Matrix *res = matrix(m->dim - 1);
+    int curRow = 0;
+    int curCol = 0;
+    for (int i = 0; i < res->dim; i++) {
+        if (i == row) {
+            curRow++;
+        }
+        for (int j = 0; j < res->dim; j++) { 
+            if (j == col) {
+                curCol++;
+            }
+            res->data[i][j] = m->data[curRow][curCol];
+            curCol++;
+        }
+        curCol = 0;
+        curRow++;
+    }
+    return res;
+}
