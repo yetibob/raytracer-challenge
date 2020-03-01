@@ -80,3 +80,13 @@ Tuple multiply_matrix_with_tuple(const Matrix *m, const Tuple t) {
     }
     return res;
 }
+
+Matrix *transpose(const Matrix *m) {
+    Matrix *t = matrix(4);
+    for (int i = 0; i < t->dim; i++) {
+        for (int j = 0; j < t->dim; j++) {
+            t->data[j][i] = m->data[i][j];
+        }
+    }
+    return t;
+}

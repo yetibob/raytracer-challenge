@@ -67,6 +67,17 @@ void test_multiply_tuple_by_identity_matrix() {
     assert(is_equal(t, result) == 0);
 }
 
+void test_transpose_matrix() {
+    double arr[] = { 0, 9, 3, 0, 9, 8, 0, 8, 1, 8, 5, 3, 0, 0, 5, 8 };
+    Matrix *m = gen_matrix_from_arr(arr, 4);
+
+    double earr[] = { 0, 9, 1, 0, 9, 8, 8, 0, 3, 0, 5, 5, 0, 8, 3, 8 };
+    Matrix *e = gen_matrix_from_arr(earr, 4);
+
+    Matrix *transposed = transpose(m);
+    assert(mcompare(e, transposed) == 0);
+}
+
 int main() {
     test_create_matrix();
     test_compare_matrices();
@@ -74,4 +85,5 @@ int main() {
     test_multiply_matrix_by_tuple();
     test_multiply_matrix_by_identity_matrix();
     test_multiply_tuple_by_identity_matrix();
+    test_transpose_matrix();
 }
