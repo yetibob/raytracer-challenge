@@ -91,7 +91,7 @@ Matrix *transpose(const Matrix *m) {
     return t;
 }
 
-double two_dim_determinant(const Matrix *m) {
+double determinant(const Matrix *m) {
     return m->data[0][0] * m->data[1][1] - m->data[0][1] * m->data[1][0];
 }
 
@@ -114,4 +114,17 @@ Matrix *submatrix(const Matrix *m, int row, int col) {
         curRow++;
     }
     return res;
+}
+
+double minor(const Matrix *m, int row, int col) {
+    Matrix *sub = submatrix(m, row, col);
+    return determinant(sub);
+}
+
+double cofactor(const Matrix *m, int row, int col) {
+    double d = minor(m, row, col);
+    if ((row + col) % 2 == 1) {
+        d = -d;
+    }
+    return d;
 }

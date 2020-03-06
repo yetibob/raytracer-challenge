@@ -98,7 +98,7 @@ void test_find_determinant_2_dim_matrix() {
     Matrix *m = gen_matrix_from_arr(arr, 2);
 
     double e = 17;
-    double res = two_dim_determinant(m);
+    double res = determinant(m);
     assert(equals(e, res) == 0);
 }
 
@@ -120,6 +120,30 @@ void test_get_submatrix() {
     assert(mcompare(e2, sub2) == 0);
 }
 
+void test_get_minor() {
+    double a1[] = { 3, 5, 0, 2, -1, -7, 6, -1, 5 };
+    Matrix *m = gen_matrix_from_arr(a1, 3);
+    Matrix *b = submatrix(m, 1, 0);
+    double d1 = determinant(b);
+    assert(equals(d1, 25) == 0);
+    double d2 = minor(m, 1, 0);
+    assert(equals(d1, d2) == 0);
+}
+
+void test_get_cofactor() {
+    double a[] = { 3, 5, 0, 2, -1, -7, 6, -1, 5 };
+    Matrix *m = gen_matrix_from_arr(a, 3);
+    double minor1 = minor(m, 0, 0);
+    assert(equals(-12, minor1) == 0);
+    double cofactor1 = cofactor(m, 0, 0);
+    assert(equals(-12, cofactor1) == 0);
+
+    double minor2 = minor(m, 1, 0);
+    assert(equals(25, minor2) == 0);
+    double cofactor2 = cofactor(m, 1, 0);
+    assert(equals(-25, cofactor2) == 0);
+}
+
 int main() {
     test_create_matrix();
     test_compare_matrices();
@@ -131,4 +155,6 @@ int main() {
     test_transpose_identity_matrix();
     test_find_determinant_2_dim_matrix();
     test_get_submatrix();
+    test_get_minor();
+    test_get_cofactor();
 }
