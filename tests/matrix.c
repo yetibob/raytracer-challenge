@@ -144,6 +144,25 @@ void test_get_cofactor() {
     assert(equals(-25, cofactor2) == 0);
 }
 
+void test_find_determinant_3_4_dim_matrix() {
+    double arr1[] = { 1, 2, 6, -5, 8, -4, 2, 6, 4 };
+    Matrix *m3 = gen_matrix_from_arr(arr1, 3);
+
+    assert(equals(56,   cofactor(m3, 0, 0)) == 0);
+    assert(equals(12,   cofactor(m3, 0, 1)) == 0);
+    assert(equals(-46,  cofactor(m3, 0, 2)) == 0);
+    assert(equals(-196, determinant(m3))    == 0);
+
+    double arr2[] = { -2, -8, 3, 5, -3, 1, 7, 3, 1, 2, -9, 6, -6, 7, 7, -9 };
+    Matrix *m4 = gen_matrix_from_arr(arr2, 4);
+
+    assert(equals(690,   cofactor(m4, 0, 0)) == 0);
+    assert(equals(447,   cofactor(m4, 0, 1)) == 0);
+    assert(equals(210,   cofactor(m4, 0, 2)) == 0);
+    assert(equals(51,    cofactor(m4, 0, 3)) == 0);
+    assert(equals(-4071, determinant(m4))    == 0);
+}
+
 int main() {
     test_create_matrix();
     test_compare_matrices();
@@ -157,4 +176,5 @@ int main() {
     test_get_submatrix();
     test_get_minor();
     test_get_cofactor();
+    test_find_determinant_3_4_dim_matrix();
 }

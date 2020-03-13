@@ -92,7 +92,16 @@ Matrix *transpose(const Matrix *m) {
 }
 
 double determinant(const Matrix *m) {
-    return m->data[0][0] * m->data[1][1] - m->data[0][1] * m->data[1][0];
+    double det = 0;
+    if (m->dim == 2) {
+        det = m->data[0][0] * m->data[1][1] - m->data[0][1] * m->data[1][0];
+    }
+    else {
+        for (int col = 0; col < m->dim; col++) {
+            det = det + m->data[0][col] * cofactor(m, 0, col); 
+        }
+    }
+    return det;
 }
 
 Matrix *submatrix(const Matrix *m, int row, int col) {
