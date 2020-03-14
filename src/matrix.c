@@ -128,9 +128,7 @@ Matrix *submatrix(const Matrix *m, int row, int col) {
 double minor(const Matrix *m, int row, int col) {
     Matrix *sub = submatrix(m, row, col);
     return determinant(sub);
-}
-
-double cofactor(const Matrix *m, int row, int col) {
+} double cofactor(const Matrix *m, int row, int col) {
     double d = minor(m, row, col);
     if ((row + col) % 2 == 1) {
         d = -d;
@@ -147,6 +145,10 @@ Matrix *inverse(const Matrix *m) {
     for (int row = 0; row < m->dim; row++) {
         for (int col = 0; col < m->dim; col++) {
             double c = cofactor(m, row, col);
+            // this is worth calling out as a performance optimization
+            // instead of doing something like i = transpose(i)
+            // then looping through here and doing the division
+            // we combine the operations as below
             i->data[col][row] = c / determinant(m);
         }
     }
