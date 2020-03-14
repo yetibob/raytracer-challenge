@@ -179,6 +179,35 @@ void test_invert_matrix() {
     assert(mcompare(e, m2) == 0);
 }
 
+void test_more_matrix_inversions() {
+    double a1[] = { 8, -5, 9, 2, 7, 5, 6, 1, -6, 0, 9, 6, -3, 0, -9, -4 };
+    double a2[] = { 9, 3, 0, 9, -5, -2, -6, -3, -4, 9, 6, 4, -7, 6, 6, 2 };
+    Matrix *m1 = gen_matrix_from_arr(a1, 4);
+    Matrix *m2 = gen_matrix_from_arr(a2, 4);
+
+    Matrix *i1 = inverse(m1);
+    Matrix *i2 = inverse(m2);
+
+    double ea1[] = { -0.15385, -0.15385, -0.28205, -0.53846, -0.07692, 0.12308, 0.02564, 0.03077, 0.35897, 0.35897, 0.43590, 0.92308, -0.69231, -0.69231, -0.76923, -1.92308 };
+    double ea2[] = { -0.04074, -0.07778, 0.14444, -0.22222, -0.07778, 0.03333, 0.36667, -0.33333, -0.02901, -0.14630, -0.10926, 0.12963, 0.17778, 0.06667, -0.26667, 0.33333 };
+    Matrix *e1 = gen_matrix_from_arr(ea1, 4);
+    Matrix *e2 = gen_matrix_from_arr(ea2, 4);
+
+    assert(mcompare(e1, i1) == 0);
+    assert(mcompare(e2, i2) == 0);
+}
+
+void test_multiple_product_by_its_inverse() {
+    double a1[] = { 3, -9, 7, 3, 3, -8, 2, -9, -4, 4, 4, 1, -6, 5, -1, 1 };
+    double a2[] = { 8, 2, 2, 2, 3, -1, 7, 0, 7, 0, 5, 4, 6, -2, 0, 5 };
+
+    Matrix *m1 = gen_matrix_from_arr(a1, 4);
+    Matrix *m2 = gen_matrix_from_arr(a2, 4);
+
+    Matrix *m3 = multiply_matrices(m1, m2);
+    assert(mcompare(multiply_matrices(m3, inverse(m2)), m1) == 0);
+}
+
 int main() {
     test_create_matrix();
     test_compare_matrices();
@@ -194,4 +223,6 @@ int main() {
     test_get_cofactor();
     test_find_determinant_3_4_dim_matrix();
     test_invert_matrix();
+    test_more_matrix_inversions();
+    test_multiple_product_by_its_inverse();
 }
