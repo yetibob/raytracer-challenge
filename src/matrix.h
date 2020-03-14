@@ -19,5 +19,6 @@ double determinant(const Matrix *m);
 Matrix *submatrix(const Matrix *m, int row, int col);
 double minor(const Matrix *m, int row, int col);
 double cofactor(const Matrix *m, int row, int col);
+Matrix *inverse(const Matrix *m);
 
 #endif

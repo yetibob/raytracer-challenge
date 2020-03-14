@@ -163,6 +163,22 @@ void test_find_determinant_3_4_dim_matrix() {
     assert(equals(-4071, determinant(m4))    == 0);
 }
 
+void test_invert_matrix() {
+    double a1[] = { -5, 2, 6, -8, 1, -5, 1, 8, 7, 7, -6, -7, 1, -3, 7, 4 };
+    Matrix *m1 = gen_matrix_from_arr(a1, 4);
+
+    Matrix *m2 = inverse(m1);
+    assert(equals(determinant(m1), 532) == 0);
+    assert(equals(cofactor(m1, 2, 3), -160) == 0);
+    assert(equals(m2->data[3][2], -160.0/532.0) == 0);
+    assert(equals(cofactor(m1, 3, 2), 105) == 0);
+    assert(equals(m2->data[2][3], 105.0/532.0) == 0);
+
+    double a2[] = { 0.21805, 0.45113, 0.24060, -0.04511, -0.80827, -1.45677, -0.44361, 0.52068, -0.07895, -0.22368, -0.05263, 0.19737, -0.52256, -0.81391, -0.30075, 0.30639 };
+    Matrix *e = gen_matrix_from_arr(a2, 4);
+    assert(mcompare(e, m2) == 0);
+}
+
 int main() {
     test_create_matrix();
     test_compare_matrices();
@@ -177,4 +193,5 @@ int main() {
     test_get_minor();
     test_get_cofactor();
     test_find_determinant_3_4_dim_matrix();
+    test_invert_matrix();
 }

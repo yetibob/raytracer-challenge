@@ -137,3 +137,19 @@ double cofactor(const Matrix *m, int row, int col) {
     }
     return d;
 }
+
+Matrix *inverse(const Matrix *m) {
+    if (equals(determinant(m), 0) == 0) {
+        return NULL;
+    }
+
+    Matrix *i = matrix(m->dim);
+    for (int row = 0; row < m->dim; row++) {
+        for (int col = 0; col < m->dim; col++) {
+            double c = cofactor(m, row, col);
+            i->data[col][row] = c / determinant(m);
+        }
+    }
+
+    return i;
+}
