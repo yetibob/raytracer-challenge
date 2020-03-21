@@ -8,6 +8,6 @@ void test_compare_doubles() {
     assert(is_equal == 0);
 }
 
-void main() {
+int main() {
     test_compare_doubles();
 }

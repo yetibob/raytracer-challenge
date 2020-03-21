@@ -12,7 +12,7 @@ Tuple point(double x, double y, double z);
 Tuple vector(double x, double y, double z);
 int is_point(Tuple t);
 int is_vector(Tuple t);
-int is_equal(Tuple t1, Tuple t2);
+int tcompare(Tuple t1, Tuple t2);
 Tuple add(Tuple t1, Tuple t2);
 Tuple subtract(Tuple t1, Tuple t2);
 Tuple negate(Tuple t);

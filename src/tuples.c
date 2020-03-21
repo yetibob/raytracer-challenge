@@ -57,7 +57,7 @@ int is_vector(Tuple t) {
     return 1;
 }
 
-int is_equal(Tuple t1, Tuple t2) {
+int tcompare(Tuple t1, Tuple t2) {
     for (int i = 0; i < 4; i++) {
         if (equals(t1[i], t2[i]) == 1) {
             return 1;
