@@ -57,7 +57,7 @@ void test_multiply_matrix_by_tuple() {
     Tuple t1 = point(1, 2, 3);
     Tuple result = multiply_matrix_with_tuple(m ,t1);
     Tuple e = point(18, 24, 33);
-    assert(is_equal(e, result) == 0);
+    assert(tcompare(e, result) == 0);
 }
 
 void test_multiply_matrix_by_identity_matrix() {
@@ -74,7 +74,7 @@ void test_multiply_tuple_by_identity_matrix() {
     Tuple t = point(1, 2, 3);
     t[3] = 4;
     Tuple result = multiply_matrix_with_tuple(&id, t);
-    assert(is_equal(t, result) == 0);
+    assert(tcompare(t, result) == 0);
 }
 
 void test_transpose_matrix() {
