@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <math.h>
 #include <stdio.h>
 #include "../src/matrix.h"
 #include "../src/utils.h"
@@ -63,17 +64,15 @@ void test_multiply_matrix_by_tuple() {
 void test_multiply_matrix_by_identity_matrix() {
     double a1[] = { 0, 1, 2, 4, 1, 2, 4, 8, 2, 4, 8, 16, 4, 8, 16, 32 };
     Matrix *m = gen_matrix_from_arr(a1, 4);
-    Matrix id = IdentityMatrix();
 
-    Matrix *result = multiply_matrices(m, &id);
+    Matrix *result = multiply_matrices(m, IdentityMatrix());
     assert(mcompare(m, result) == 0);
 }
 
 void test_multiply_tuple_by_identity_matrix() {
-    Matrix id = IdentityMatrix();
     Tuple t = point(1, 2, 3);
     t[3] = 4;
-    Tuple result = multiply_matrix_with_tuple(&id, t);
+    Tuple result = multiply_matrix_with_tuple(IdentityMatrix(), t);
     assert(tcompare(t, result) == 0);
 }
 
@@ -89,8 +88,8 @@ void test_transpose_matrix() {
 }
 
 void test_transpose_identity_matrix() {
-    Matrix m = IdentityMatrix();
-    assert(mcompare(&m, transpose(&m)) == 0);
+    Matrix *id = IdentityMatrix();
+    assert(mcompare(id, transpose(id)) == 0);
 }
 
 void test_find_determinant_2_dim_matrix() {
@@ -197,7 +196,7 @@ void test_more_matrix_inversions() {
     assert(mcompare(e2, i2) == 0);
 }
 
-void test_multiple_product_by_its_inverse() {
+void test_multiply_product_by_its_inverse() {
     double a1[] = { 3, -9, 7, 3, 3, -8, 2, -9, -4, 4, 4, 1, -6, 5, -1, 1 };
     double a2[] = { 8, 2, 2, 2, 3, -1, 7, 0, 7, 0, 5, 4, 6, -2, 0, 5 };
 
@@ -206,6 +205,179 @@ void test_multiple_product_by_its_inverse() {
 
     Matrix *m3 = multiply_matrices(m1, m2);
     assert(mcompare(multiply_matrices(m3, inverse(m2)), m1) == 0);
+}
+
+void test_multiply_point_by_translation_matrix() {
+    Matrix *m = translation(5, -3, 2);
+    Tuple p = point(-3, 4, 5);
+    Tuple transformed = multiply_matrix_with_tuple(m, p);
+
+    Tuple expected = point(2, 1, 7);
+    assert(tcompare(transformed, expected) == 0); 
+}
+
+void test_multiply_point_by_translation_inverse() {
+    Matrix *m = inverse(translation(5, -3, 2));
+    Tuple p = point(-3, 4, 5);
+    Tuple transformed = multiply_matrix_with_tuple(m, p);
+    
+    Tuple expected = point(-8, 7, 3);
+    assert(tcompare(transformed, expected) == 0);
+}
+
+void test_multiply_vector_by_translation_does_nothing() {
+    Matrix *m = translation(5, -3, 2);
+    Tuple v = vector(-3, 4, 5);
+    
+    Tuple transformed = multiply_matrix_with_tuple(m, v);
+    assert(tcompare(transformed, v) == 0);
+}
+
+void test_scale_matrix_applied_to_point() {
+    Matrix *m = scaling(2, 3, 4);
+    Tuple p = point(-4, 6, 8);
+    Tuple scaled = multiply_matrix_with_tuple(m, p);
+    Tuple expected = point(-8, 18, 32);
+    assert(tcompare(expected, scaled) == 0);
+}
+
+void test_scale_matrix_applied_to_vector() {
+    Matrix *m = scaling(2, 3, 4);
+    Tuple v = vector(-4, 6, 8);
+    Tuple scaled = multiply_matrix_with_tuple(m, v);
+    Tuple expected = vector(-8, 18, 32);
+    assert(tcompare(expected, scaled) == 0);
+}
+
+void test_multiply_by_inverse_of_scaling_matrix() {
+    Matrix *m = inverse(scaling(2, 3, 4));
+    Tuple v = vector(-4, 6, 8);
+    Tuple scaled = multiply_matrix_with_tuple(m, v);
+    Tuple expected = vector(-2, 2, 2);
+    assert(tcompare(expected, scaled) == 0);
+}
+
+void test_rotating_point_around_x_axis() {
+    Tuple p = point(0, 1 , 0);
+    Matrix *half = rotation_x(M_PI / 4);
+    Matrix *full = rotation_x(M_PI / 2);
+    Tuple rot1 = multiply_matrix_with_tuple(half, p);
+    Tuple rot2 = multiply_matrix_with_tuple(full, p);
+
+    Tuple e1 = point(0, sqrt(2)/2, sqrt(2)/2);
+    Tuple e2 = point(0, 0, 1);
+    assert(tcompare(e1, rot1) == 0);
+    assert(tcompare(e2, rot2) == 0);
+}
+
+void test_rotate_x_axis_by_inverse() {
+    Tuple p = point(0, 1 , 0);
+    Matrix *half = inverse(rotation_x(M_PI / 4));
+    Tuple rot1 = multiply_matrix_with_tuple(half, p);
+
+    Tuple e1 = point(0, sqrt(2)/2, -sqrt(2)/2);
+    assert(tcompare(e1, rot1) == 0);
+}
+
+void test_rotating_point_around_y_axis() {
+    Tuple p = point(0, 0, 1);
+    Matrix *half = rotation_y(M_PI / 4);
+    Matrix *full = rotation_y(M_PI / 2);
+    Tuple rot1 = multiply_matrix_with_tuple(half, p);
+    Tuple rot2 = multiply_matrix_with_tuple(full, p);
+
+    Tuple e1 = point(sqrt(2)/2, 0, sqrt(2)/2);
+    Tuple e2 = point(1, 0, 0);
+    assert(tcompare(e1, rot1) == 0);
+    assert(tcompare(e2, rot2) == 0);
+}
+
+void test_rotating_point_around_z_axis() {
+    Tuple p = point(0, 1 , 0);
+    Matrix *half = rotation_z(M_PI / 4);
+    Matrix *full = rotation_z(M_PI / 2);
+    Tuple rot1 = multiply_matrix_with_tuple(half, p);
+    Tuple rot2 = multiply_matrix_with_tuple(full, p);
+
+    Tuple e1 = point(-sqrt(2)/2, sqrt(2)/2, 0);
+    Tuple e2 = point(-1, 0, 0);
+    assert(tcompare(e1, rot1) == 0);
+    assert(tcompare(e2, rot2) == 0);
+}
+
+void test_shearing_moves_x_prop_y() {
+    Matrix *m = shearing(1, 0, 0, 0, 0, 0);
+    Tuple p = point(2, 3, 4);
+    Tuple sheared = multiply_matrix_with_tuple(m, p);
+    Tuple expected = point(5, 3, 4);
+    assert(tcompare(expected, sheared) == 0);
+}
+
+void test_shearing_moves_x_prop_z() {
+    Matrix *m = shearing(0, 1, 0, 0, 0, 0);
+    Tuple p = point(2, 3, 4);
+    Tuple sheared = multiply_matrix_with_tuple(m, p);
+    Tuple expected = point(6, 3, 4);
+    assert(tcompare(expected, sheared) == 0);
+}
+
+void test_shearing_moves_y_prop_x() {
+    Matrix *m = shearing(0, 0, 1, 0, 0, 0);
+    Tuple p = point(2, 3, 4);
+    Tuple sheared = multiply_matrix_with_tuple(m, p);
+    Tuple expected = point(2, 5, 4);
+    assert(tcompare(expected, sheared) == 0);
+}
+
+void test_shearing_moves_y_prop_z() {
+    Matrix *m = shearing(0, 0, 0, 1, 0, 0);
+    Tuple p = point(2, 3, 4);
+    Tuple sheared = multiply_matrix_with_tuple(m, p);
+    Tuple expected = point(2, 7, 4);
+    assert(tcompare(expected, sheared) == 0);
+}
+
+void test_shearing_moves_z_prop_x() {
+    Matrix *m = shearing(0, 0, 0, 0, 1, 0);
+    Tuple p = point(2, 3, 4);
+    Tuple sheared = multiply_matrix_with_tuple(m, p);
+    Tuple expected = point(2, 3, 6);
+    assert(tcompare(expected, sheared) == 0);
+}
+
+void test_shearing_moves_z_prop_y() {
+    Matrix *m = shearing(0, 0, 0, 0, 0, 1);
+    Tuple p = point(2, 3, 4);
+    Tuple sheared = multiply_matrix_with_tuple(m, p);
+    Tuple expected = point(2, 3, 7);
+    assert(tcompare(expected, sheared) == 0);
+}
+
+void test_individual_transformations_are_applied_in_sequence() {
+    Tuple p = point(1, 0, 1);
+    Matrix *rot = rotation_x(M_PI / 2);
+    Matrix *scal = scaling(5, 5, 5);
+    Matrix *trans = translation(10, 5, 7);
+    
+    Tuple p2 = multiply_matrix_with_tuple(rot, p);
+    assert(tcompare(p2, point(1, -1, 0)) == 0);
+    
+    Tuple p3 = multiply_matrix_with_tuple(scal, p2);
+    assert(tcompare(p3, point(5, -5, 0)) == 0);
+
+    Tuple p4 = multiply_matrix_with_tuple(trans, p3);
+    assert(tcompare(p4, point(15, 0, 7)) == 0);
+}
+
+void test_chained_transormations_must_be_applied_in_reverse() {
+    Tuple p = point(1, 0, 1);
+    Matrix *rot = rotation_x(M_PI / 2);
+    Matrix *scal = scaling(5, 5, 5);
+    Matrix *trans = translation(10, 5, 7);
+
+    Matrix *t = multiply_matrices(multiply_matrices(trans, scal), rot);
+    Tuple transformed = multiply_matrix_with_tuple(t, p);
+    assert(tcompare(transformed, point(15, 0, 7)) == 0);
 }
 
 int main() {
@@ -224,5 +396,22 @@ int main() {
     test_find_determinant_3_4_dim_matrix();
     test_invert_matrix();
     test_more_matrix_inversions();
-    test_multiple_product_by_its_inverse();
+    test_multiply_product_by_its_inverse();
+    test_multiply_point_by_translation_matrix();
+    test_multiply_point_by_translation_inverse();
+    test_scale_matrix_applied_to_point();
+    test_scale_matrix_applied_to_vector();
+    test_multiply_by_inverse_of_scaling_matrix();
+    test_rotating_point_around_x_axis();
+    test_rotate_x_axis_by_inverse();
+    test_rotating_point_around_y_axis();
+    test_rotating_point_around_z_axis();
+    test_shearing_moves_x_prop_y();
+    test_shearing_moves_x_prop_z();
+    test_shearing_moves_y_prop_x();
+    test_shearing_moves_y_prop_z();
+    test_shearing_moves_z_prop_x();
+    test_shearing_moves_z_prop_y();
+    test_individual_transformations_are_applied_in_sequence();
+    test_chained_transormations_must_be_applied_in_reverse();
 }

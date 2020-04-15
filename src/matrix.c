@@ -1,9 +1,8 @@
+#include <math.h>
 #include <stdlib.h>
 #include "matrix.h"
 #include "tuples.h"
 #include "utils.h"
-
-static Matrix idm = { .dim = 4, .data = NULL };
 
 Matrix *matrix(int dim) {
     Matrix *m = malloc(sizeof(Matrix));
@@ -15,17 +14,13 @@ Matrix *matrix(int dim) {
     return m;
 }
 
-Matrix IdentityMatrix() {
-    if (idm.data == NULL) {
-        idm.data = malloc(sizeof(double *) * idm.dim);
-        for (int i = 0; i < idm.dim; i++) {
-            idm.data[i] = calloc(idm.dim, sizeof(double));
-        }
-        idm.data[0][0] = 1;
-        idm.data[1][1] = 1;
-        idm.data[2][2] = 1;
-        idm.data[3][3] = 1;
-    }
+Matrix *IdentityMatrix() {
+    Matrix *idm = matrix(4);
+
+    idm->data[0][0] = 1;
+    idm->data[1][1] = 1;
+    idm->data[2][2] = 1;
+    idm->data[3][3] = 1;
 
     return idm; 
 }
@@ -154,4 +149,58 @@ Matrix *inverse(const Matrix *m) {
     }
 
     return i;
+}
+
+Matrix *translation(double x, double y, double z) {
+    Matrix *m = IdentityMatrix();
+    m->data[0][3] = x;
+    m->data[1][3] = y;
+    m->data[2][3] = z;
+    return m;
+}
+
+Matrix *scaling(double x, double y, double z) {
+    Matrix *m = IdentityMatrix();
+    m->data[0][0] = x;
+    m->data[1][1] = y;
+    m->data[2][2] = z;
+    return m;
+}
+
+Matrix *rotation_x(double radians) {
+    Matrix *m = IdentityMatrix();
+    m->data[1][1] = cos(radians);
+    m->data[1][2] = -sin(radians);
+    m->data[2][1] = sin(radians);
+    m->data[2][2] = cos(radians);
+    return m;
+}
+
+Matrix *rotation_y(double radians) {
+    Matrix *m = IdentityMatrix();
+    m->data[0][0] = cos(radians);
+    m->data[0][2] = sin(radians);
+    m->data[2][0] = -sin(radians);
+    m->data[2][2] = cos(radians);
+    return m;
+}
+
+Matrix *rotation_z(double radians) {
+    Matrix *m = IdentityMatrix();
+    m->data[0][0] = cos(radians);
+    m->data[0][1] = -sin(radians);
+    m->data[1][0] = sin(radians);
+    m->data[1][1] = cos(radians);
+    return m;
+}
+
+Matrix *shearing(double xy, double xz, double yx, double yz, double zx, double zy) {
+    Matrix *m = IdentityMatrix();
+    m->data[0][1] = xy;
+    m->data[0][2] = xz;
+    m->data[1][0] = yx;
+    m->data[1][2] = yz;
+    m->data[2][0] = zx;
+    m->data[2][1] = zy;
+    return m;
 }
