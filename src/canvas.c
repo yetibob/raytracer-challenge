@@ -21,7 +21,7 @@ Canvas* canvas(int width, int height) {
     return c;
 }
 
-void write_pixel(Canvas *c, int x, int y, Tuple color) {
+void canvas_write(Canvas *c, int x, int y, Tuple color) {
 	if (x >= c->width || x < 0 || y >= c->height || y < 0) { return; }
     int pos = (y * c->width + x) * 4;
 	if (pos+2 >= c->height * c->width * 4) { return; }
@@ -31,14 +31,14 @@ void write_pixel(Canvas *c, int x, int y, Tuple color) {
     c->pixels[pos+2] = color[2];
 }
 
-Tuple pixel_at(const Canvas *c, int x, int y) {
+Tuple canvas_at(const Canvas *c, int x, int y) {
 	if (x >= c->width || x < 0 || y >= c->height || y < 0) {
 			return color(0, 0, 0);
 	}
 
     int pos = (y * c->width + x) * 4;
 	if (pos+2 >= c->height * c->width * 4) {
-			return point(-1, -1, -1);
+			return tuple_point(-1, -1, -1);
 	}
 
     return &c->pixels[pos];
@@ -75,7 +75,7 @@ static int write_header(Canvas *c, char *ppm) {
     return i;
 }
 
-int write_body(Canvas *c, char *ppm, int line_length) {
+static int write_body(Canvas *c, char *ppm, int line_length) {
     int convPix;
     int skipPix = 0;
     char buf[5];
@@ -125,7 +125,10 @@ int write_body(Canvas *c, char *ppm, int line_length) {
     return pos-1;
 }
 
-void split_file(char *ppm, int len) {
+// split file was used as an inefficient line split after creating
+// an unsplit ppm
+/*
+static void split_file(char *ppm, int len) {
     int pos = 0;
     for (int i = 0; i < len; i++) {
         if (pos == 69) {
@@ -139,17 +142,20 @@ void split_file(char *ppm, int len) {
         pos++;
     }
 }
+*/
 
-char *canvas_to_ppm(Canvas *c) {
+char *canvas_gen_ppm(Canvas *c) {
     int size = c->height * c->width * 15;
     char *ppm = malloc(sizeof(char) * size);
     int header_pos = write_header(c, ppm);
-    int pos = write_body(c, ppm+header_pos, 70);
+    write_body(c, ppm+header_pos, 70);
+    // int pos = write_body(c, ppm+header_pos, 70);
     // split_file(ppm+header_pos, pos);
     // ppm[header_pos+pos] = '\n';
     return ppm;
 }
 
+/*
 InefficientCanvas* inefficient_canvas(int width, int height) {
     InefficientCanvas *c = malloc(sizeof(InefficientCanvas));
     c->width = width;
@@ -175,3 +181,4 @@ void inefficient_write_pixel(InefficientCanvas *c, int x, int y, Tuple color) {
 Tuple inefficient_pixel_at(const InefficientCanvas *c, int x, int y) {
     return c->pixels[x][y];
 }
+*/

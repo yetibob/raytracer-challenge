@@ -1,19 +1,19 @@
 #include "colors.h"
 
-double red(Tuple c) {
+double colors_red(Tuple c) {
     return c[0];
 }
 
-double green(Tuple c) {
+double colors_green(Tuple c) {
     return c[1];
 }
 
-double blue(Tuple c) {
+double colors_blue(Tuple c) {
     return c[2];
 }
 
 Tuple color(double red, double green, double blue) {
-    Tuple c = ztuple();
+    Tuple c = tuple();
     c[0] = red;
     c[1] = green;
     c[2] = blue;
@@ -21,8 +21,8 @@ Tuple color(double red, double green, double blue) {
     return c;
 }
 
-Tuple multiply_colors(Tuple c1, Tuple c2) {
-    Tuple nc = ztuple();
+Tuple colors_multiply(Tuple c1, Tuple c2) {
+    Tuple nc = tuple();
     nc[0] = c1[0] * c2[0];
     nc[1] = c1[1] * c2[1];
     nc[2] = c1[2] * c2[2];

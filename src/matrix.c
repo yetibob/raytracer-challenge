@@ -14,7 +14,7 @@ Matrix *matrix(int dim) {
     return m;
 }
 
-Matrix *IdentityMatrix() {
+Matrix *matrix_IdentityMatrix() {
     Matrix *idm = matrix(4);
 
     idm->data[0][0] = 1;
@@ -25,7 +25,7 @@ Matrix *IdentityMatrix() {
     return idm; 
 }
 
-Matrix *gen_matrix_from_arr(double *a, int dim) {
+Matrix *matrix_gen(double *a, int dim) {
     Matrix *m = matrix(dim);
     for (int i = 0; i < dim; i++) {
         for (int j = 0; j < dim; j++) {
@@ -35,7 +35,7 @@ Matrix *gen_matrix_from_arr(double *a, int dim) {
     return m;
 }
 
-int mcompare(const Matrix *m1, const Matrix *m2) {
+int matrix_compare(const Matrix *m1, const Matrix *m2) {
     if (m1->dim != m2->dim) {
         return 1;
     }
@@ -50,7 +50,7 @@ int mcompare(const Matrix *m1, const Matrix *m2) {
     return 0;
 }
 
-Matrix *multiply_matrices(const Matrix *m1, const Matrix *m2) {
+Matrix *matrix_multiply(const Matrix *m1, const Matrix *m2) {
     Matrix *p = matrix(4);
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
@@ -64,8 +64,8 @@ Matrix *multiply_matrices(const Matrix *m1, const Matrix *m2) {
     return p;
 }
 
-Tuple multiply_matrix_with_tuple(const Matrix *m, const Tuple t) {
-    Tuple res = ztuple();
+Tuple matrix_multiply_tuple(const Matrix *m, const Tuple t) {
+    Tuple res = tuple();
     for (int i = 0; i < 4; i++) {
         double result = 0;
         for (int j = 0; j < 4; j++) {
@@ -76,7 +76,7 @@ Tuple multiply_matrix_with_tuple(const Matrix *m, const Tuple t) {
     return res;
 }
 
-Matrix *transpose(const Matrix *m) {
+Matrix *matrix_transpose(const Matrix *m) {
     Matrix *t = matrix(4);
     for (int i = 0; i < t->dim; i++) {
         for (int j = 0; j < t->dim; j++) {
@@ -86,20 +86,20 @@ Matrix *transpose(const Matrix *m) {
     return t;
 }
 
-double determinant(const Matrix *m) {
+double matrix_determinant(const Matrix *m) {
     double det = 0;
     if (m->dim == 2) {
         det = m->data[0][0] * m->data[1][1] - m->data[0][1] * m->data[1][0];
     }
     else {
         for (int col = 0; col < m->dim; col++) {
-            det = det + m->data[0][col] * cofactor(m, 0, col); 
+            det = det + m->data[0][col] * matrix_cofactor(m, 0, col); 
         }
     }
     return det;
 }
 
-Matrix *submatrix(const Matrix *m, int row, int col) {
+Matrix *matrix_sub(const Matrix *m, int row, int col) {
     Matrix *res = matrix(m->dim - 1);
     int curRow = 0;
     int curCol = 0;
@@ -120,55 +120,57 @@ Matrix *submatrix(const Matrix *m, int row, int col) {
     return res;
 }
 
-double minor(const Matrix *m, int row, int col) {
-    Matrix *sub = submatrix(m, row, col);
-    return determinant(sub);
-} double cofactor(const Matrix *m, int row, int col) {
-    double d = minor(m, row, col);
+double matrix_minor(const Matrix *m, int row, int col) {
+    Matrix *sub = matrix_sub(m, row, col);
+    return matrix_determinant(sub);
+} 
+
+double matrix_cofactor(const Matrix *m, int row, int col) {
+    double d = matrix_minor(m, row, col);
     if ((row + col) % 2 == 1) {
         d = -d;
     }
     return d;
 }
 
-Matrix *inverse(const Matrix *m) {
-    if (equals(determinant(m), 0) == 0) {
+Matrix *matrix_inverse(const Matrix *m) {
+    if (equals(matrix_determinant(m), 0) == 0) {
         return NULL;
     }
 
     Matrix *i = matrix(m->dim);
     for (int row = 0; row < m->dim; row++) {
         for (int col = 0; col < m->dim; col++) {
-            double c = cofactor(m, row, col);
+            double c = matrix_cofactor(m, row, col);
             // this is worth calling out as a performance optimization
             // instead of doing something like i = transpose(i)
             // then looping through here and doing the division
             // we combine the operations as below
-            i->data[col][row] = c / determinant(m);
+            i->data[col][row] = c / matrix_determinant(m);
         }
     }
 
     return i;
 }
 
-Matrix *translation(double x, double y, double z) {
-    Matrix *m = IdentityMatrix();
+Matrix *matrix_translation(double x, double y, double z) {
+    Matrix *m = matrix_IdentityMatrix();
     m->data[0][3] = x;
     m->data[1][3] = y;
     m->data[2][3] = z;
     return m;
 }
 
-Matrix *scaling(double x, double y, double z) {
-    Matrix *m = IdentityMatrix();
+Matrix *matrix_scaling(double x, double y, double z) {
+    Matrix *m = matrix_IdentityMatrix();
     m->data[0][0] = x;
     m->data[1][1] = y;
     m->data[2][2] = z;
     return m;
 }
 
-Matrix *rotation_x(double radians) {
-    Matrix *m = IdentityMatrix();
+Matrix *matrix_rotation_x(double radians) {
+    Matrix *m = matrix_IdentityMatrix();
     m->data[1][1] = cos(radians);
     m->data[1][2] = -sin(radians);
     m->data[2][1] = sin(radians);
@@ -176,8 +178,8 @@ Matrix *rotation_x(double radians) {
     return m;
 }
 
-Matrix *rotation_y(double radians) {
-    Matrix *m = IdentityMatrix();
+Matrix *matrix_rotation_y(double radians) {
+    Matrix *m = matrix_IdentityMatrix();
     m->data[0][0] = cos(radians);
     m->data[0][2] = sin(radians);
     m->data[2][0] = -sin(radians);
@@ -185,8 +187,8 @@ Matrix *rotation_y(double radians) {
     return m;
 }
 
-Matrix *rotation_z(double radians) {
-    Matrix *m = IdentityMatrix();
+Matrix *matrix_rotation_z(double radians) {
+    Matrix *m = matrix_IdentityMatrix();
     m->data[0][0] = cos(radians);
     m->data[0][1] = -sin(radians);
     m->data[1][0] = sin(radians);
@@ -194,8 +196,8 @@ Matrix *rotation_z(double radians) {
     return m;
 }
 
-Matrix *shearing(double xy, double xz, double yx, double yz, double zx, double zy) {
-    Matrix *m = IdentityMatrix();
+Matrix *matrix_shearing(double xy, double xz, double yx, double yz, double zx, double zy) {
+    Matrix *m = matrix_IdentityMatrix();
     m->data[0][1] = xy;
     m->data[0][2] = xz;
     m->data[1][0] = yx;

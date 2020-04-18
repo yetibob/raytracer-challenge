@@ -3,24 +3,24 @@
 
 typedef double* Tuple;
 
-Tuple ztuple();
-double x(Tuple t);
-double y(Tuple t);
-double z(Tuple t);
-double w(Tuple t);
-Tuple point(double x, double y, double z);
-Tuple vector(double x, double y, double z);
-int is_point(Tuple t);
-int is_vector(Tuple t);
-int tcompare(Tuple t1, Tuple t2);
-Tuple add(Tuple t1, Tuple t2);
-Tuple subtract(Tuple t1, Tuple t2);
-Tuple negate(Tuple t);
-Tuple mscale(Tuple t, double scalar);
-Tuple dscale(Tuple t, double scalar);
-Tuple normalize(Tuple t);
-double magnitude(Tuple t);
-double dot(Tuple v1, Tuple v2);
-Tuple cross(Tuple v1, Tuple v2);
+Tuple tuple();
+double tuple_x(Tuple t);
+double tuple_y(Tuple t);
+double tuple_z(Tuple t);
+double tuple_w(Tuple t);
+Tuple tuple_point(double x, double y, double z);
+Tuple tuple_vector(double x, double y, double z);
+int tuple_is_point(Tuple t);
+int tuple_is_vector(Tuple t);
+int tuple_compare(Tuple t1, Tuple t2);
+Tuple tuple_add(Tuple t1, Tuple t2);
+Tuple tuple_subtract(Tuple t1, Tuple t2);
+Tuple tuple_negate(Tuple t);
+Tuple tuple_scale(Tuple t, double scalar);
+Tuple tuple_dscale(Tuple t, double scalar);
+Tuple tuple_normalize(Tuple t);
+double tuple_magnitude(Tuple t);
+double tuple_dot(Tuple v1, Tuple v2);
+Tuple tuple_cross(Tuple v1, Tuple v2);
 
 #endif
