@@ -23,6 +23,8 @@ typedef struct {
 // Returns a new canvas with the given width and height. All pixels initialize to black
 Canvas* canvas(int width, int height);
 
+void canvas_destroy(Canvas *c);
+
 // Writes a pixel to the canvas
 void canvas_write(Canvas *c, int x, int y, Tuple color);
 Tuple canvas_at(const Canvas *c, int x, int y);

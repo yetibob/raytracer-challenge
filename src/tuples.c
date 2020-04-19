@@ -24,6 +24,10 @@ Tuple tuple() {
     return calloc(4, sizeof(double));
 }
 
+void tuple_destroy(Tuple t) {
+    free(t);
+}
+
 Tuple tuple_point(double x, double y, double z) {
     Tuple t = tuple();
     t[0] = x;

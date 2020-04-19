@@ -14,23 +14,31 @@ struct Clock {
 
 int main() {
     struct Clock clock = {
-        .origin = point(25, 25, 0),
-        .hour = point(0, 1, 0)
+        .origin = tuple_point(25, 25, 0),
+        .hour = tuple_point(0, 1, 0)
     };
 
     Canvas *c = canvas(50, 50);
     Tuple pixel_color = color(1, 1, 1);
 
-    Matrix *m = rotation_z(M_PI/6);
+    Matrix *m = matrix_rotation_z(M_PI/6);
     double radius = c->width * (3.0/8.0);
 
     for (int i = 0; i < 12; i++) {
-        Tuple loc = mscale(clock.hour, radius);
-        loc = add(loc, clock.origin);
-        write_pixel(c, x(loc), y(loc), pixel_color);
-        clock.hour = multiply_matrix_with_tuple(m, clock.hour);
+        Tuple loc = tuple_scale(clock.hour, radius);
+        Tuple freeScaled = loc;
+
+        loc = tuple_add(loc, clock.origin);
+        canvas_write(c, tuple_x(loc), tuple_y(loc), pixel_color);
+
+        Tuple freeHour = clock.hour;
+        clock.hour = matrix_multiply_tuple(m, clock.hour);
+
+        free(loc);
+        free(freeScaled);
+        free(freeHour);
     }
 
-    char *ppm = canvas_to_ppm(c);
+    char *ppm = canvas_gen_ppm(c);
     write_to_file("analog.ppm", ppm);
 }

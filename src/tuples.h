@@ -4,6 +4,7 @@
 typedef double* Tuple;
 
 Tuple tuple();
+void tuple_destroy(Tuple t);
 double tuple_x(Tuple t);
 double tuple_y(Tuple t);
 double tuple_z(Tuple t);

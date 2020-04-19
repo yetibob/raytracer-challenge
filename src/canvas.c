@@ -21,6 +21,11 @@ Canvas* canvas(int width, int height) {
     return c;
 }
 
+void canvas_destroy(Canvas *c) {
+    free(c->pixels);
+    free(c);
+}
+
 void canvas_write(Canvas *c, int x, int y, Tuple color) {
 	if (x >= c->width || x < 0 || y >= c->height || y < 0) { return; }
     int pos = (y * c->width + x) * 4;

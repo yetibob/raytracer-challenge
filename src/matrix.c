@@ -14,6 +14,14 @@ Matrix *matrix(int dim) {
     return m;
 }
 
+void matrix_destroy(Matrix *m) {
+    for (int i = 0; i < m->dim; i++) {
+        free(m->data[i]);
+    }
+    free(m->data);
+    free(m);
+}
+
 Matrix *matrix_IdentityMatrix() {
     Matrix *idm = matrix(4);
 
