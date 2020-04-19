@@ -13,6 +13,7 @@ build-tests:
 	$(GCCTEST) src/colors.c src/tuples.c tests/colors.c -o tests/colors
 	$(GCCTEST) src/canvas.c src/colors.c src/tuples.c tests/canvas.c -o tests/canvas
 	$(GCCTEST) src/matrix.c src/tuples.c tests/matrix.c -o tests/matrix
+	$(GCCTEST) src/ray.c src/tuples.c tests/ray.c -o tests/ray
 
 test: build-tests
 	./tests/tuples
@@ -20,6 +21,7 @@ test: build-tests
 	./tests/colors
 	./tests/canvas
 	./tests/matrix
+	./tests/ray
 
 clean:
 	rm -rf ./bin
