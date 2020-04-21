@@ -105,6 +105,40 @@ void test_intersect_sets_the_object_on_the_intersection() {
     assert(xs[1]->object == s);
 }
 
+void test_hit_when_all_intersections_are_positive() {
+    Sphere *s = ray_sphere();
+    Intersection i1 = { 1, s };
+    Intersection i2 = { 2, s };
+    Intersection **xs = ray_intersections(2, &i2, &i1);
+    assert(hit(xs, 2) == &i1);
+}
+
+void test_hit_when_some_intersections_are_negative() {
+    Sphere *s = ray_sphere();
+    Intersection i1 = { -1, s };
+    Intersection i2 = { 1, s };
+    Intersection **xs = ray_intersections(2, &i2, &i1);
+    assert(hit(xs, 2) == &i2);
+}
+
+void test_hit_when_all_intersections_are_negative() {
+    Sphere *s = ray_sphere();
+    Intersection i1 = { -2, s };
+    Intersection i2 = { -1, s };
+    Intersection **xs = ray_intersections(2, &i1, &i2);
+    assert(hit(xs, 2) == NULL);
+}
+
+void test_hit_is_always_the_lowest_non_negative_intersection() {
+    Sphere *s = ray_sphere();
+    Intersection i1 = { 5, s };
+    Intersection i2 = { 7, s };
+    Intersection i3 = { -3, s };
+    Intersection i4 = { 2, s };
+    Intersection **xs = ray_intersections(4, &i1, &i2, &i3, &i4);
+    assert(hit(xs, 4) == &i4);
+}
+
 int main() {
     test_create_and_query_ray();
     test_compute_a_point_from_a_distance();
@@ -116,4 +150,8 @@ int main() {
     test_intersection_encapsulates_t_and_object();
     test_aggregating_intersections();
     test_intersect_sets_the_object_on_the_intersection();
+    test_hit_when_all_intersections_are_positive();
+    test_hit_when_some_intersections_are_negative();
+    test_hit_when_all_intersections_are_negative();
+    test_hit_is_always_the_lowest_non_negative_intersection();
 }

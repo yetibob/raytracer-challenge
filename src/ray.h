@@ -37,3 +37,4 @@ Intersection **ray_intersect(Sphere *s, const Ray *r, int *count);
 
 // Generates an array of intersection pointers of num length
 Intersection **ray_intersections(int num, ...);
+Intersection *hit(Intersection *xs[], int count);

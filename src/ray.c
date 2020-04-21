@@ -92,5 +92,27 @@ Intersection **ray_intersections(int num, ...) {
     }
 
     va_end(valist);
+
+    int swapped = 1;
+    while (swapped) {
+        swapped = 0;
+        for (int i = 1; i < num; i++) {
+            if (arr[i-1]->t > arr[i]->t) {
+                swapped = 1;
+                Intersection *tmp = arr[i-1];
+                arr[i-1] = arr[i];
+                arr[i] = tmp;
+            }
+        }
+    }
     return arr;
+}
+
+Intersection *hit(Intersection *xs[], int count) {
+    for (int i = 0; i < count; i++) {
+        if (xs[i]->t >= 0) {
+            return xs[i];
+        }
+    }    
+    return NULL;
 }
