@@ -1,4 +1,5 @@
 #include <math.h>
+#include <stdarg.h>
 #include "ray.h"
 
 Ray *ray(Tuple origin, Tuple dir) {
@@ -26,24 +27,24 @@ Sphere *ray_sphere() {
     return s;
 }
 
-void ray_spher_destroy(Sphere *s) {
+void ray_sphere_destroy(Sphere *s) {
     free(s->origin);
     free(s);
 }
 
-Intersection *ray_intersection() {
-    Intersection *i = malloc(sizeof(Intersection));
-    i->count = 2;
-    i->data = malloc(sizeof(double) * 2);
-    return i;
-}
+//Intersection *ray_intersection() {
+//    Intersection *i = malloc(sizeof(Intersection));
+//    i->t = 0;
+//    i->object = NULL;
+//    return i;
+//}
 
 void ray_intersection_destroy(Intersection *i) {
-    free(i->data);
+    free(i->object);
     free(i);
 }
 
-Intersection *ray_intersect(Sphere *s, Ray *r) {
+Intersection **ray_intersect(Sphere *s, const Ray *r, int *count) {
     Tuple sphere_to_ray = tuple_subtract(r->origin, s->origin);
 
     double dot = tuple_dot(r->direction, r->direction);
@@ -52,21 +53,44 @@ Intersection *ray_intersect(Sphere *s, Ray *r) {
 
     double discriminant = (dot2*dot2) - 4 * dot * dot3;
 
-    Intersection *xs = ray_intersection();
     if (discriminant < 0) {
-       xs->count = -1; 
-       return xs;
+       *count = -1; 
+       return NULL;
     }
+
+
     
     double t1 = (-dot2 - sqrt(discriminant)) / (2*dot);
     double t2 = (-dot2 + sqrt(discriminant)) / (2*dot);
-    xs->count = 2;
+    *count = 2;
+
+    Intersection *i1 = malloc(sizeof(Intersection));
+    Intersection *i2= malloc(sizeof(Intersection));
+    i1->object = s;
+    i2->object = s;
+
     if (t1 <= t2) {
-        xs->data[0] = t1;
-        xs->data[1] = t2;
+        i1->t = t1;
+        i2->t = t2;
     } else {
-        xs->data[0] = t2;
-        xs->data[1] = t1;
+        i1->t = t2;
+        i2->t = t1;
     }
-    return xs;
+    
+    Intersection **arr = ray_intersections(2, i1, i2);
+
+    return arr;
+}
+
+Intersection **ray_intersections(int num, ...) {
+    va_list valist;
+    Intersection **arr = malloc(sizeof(Intersection *) * num);
+    va_start(valist, num);
+
+    for (int i = 0; i < num; i++) {
+        arr[i] = va_arg(valist, Intersection *);
+    }
+
+    va_end(valist);
+    return arr;
 }
