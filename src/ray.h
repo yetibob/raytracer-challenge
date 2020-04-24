@@ -1,5 +1,9 @@
+#ifndef RAY_H
+#define RAY_H
+
 #include <stdlib.h>
 #include "tuples.h"
+#include "matrix.h"
 
 typedef struct Ray {
     Tuple origin;
@@ -11,6 +15,7 @@ typedef struct Ray {
 typedef struct Sphere {
    int id; 
    Tuple origin;
+   Matrix *transform;
 } Sphere;
 
 typedef struct Intersection {
@@ -20,6 +25,7 @@ typedef struct Intersection {
 
 // Create new array with given origin and direction
 Ray *ray(Tuple origin, Tuple dir);
+Ray *ray_transform(const Ray *r, const Matrix *m);
 void destroy_ray(Ray *r);
 // Get ray position after given time `t`
 Tuple ray_position(const Ray *r, double t);
@@ -27,6 +33,7 @@ Tuple ray_position(const Ray *r, double t);
 Sphere *ray_sphere();
 // int ray_sphere_compare(const Sphere *s1, const Sphere *s2);
 void ray_sphere_destroy(Sphere *s);
+void ray_sphere_set_transform(Sphere *s, Matrix *m);
 
 void ray_intersection_destroy(Intersection *i);
 
@@ -38,3 +45,5 @@ Intersection **ray_intersect(Sphere *s, const Ray *r, int *count);
 // Generates an array of intersection pointers of num length
 Intersection **ray_intersections(int num, ...);
 Intersection *hit(Intersection *xs[], int count);
+
+#endif

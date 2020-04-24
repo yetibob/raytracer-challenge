@@ -1,12 +1,20 @@
 #include <math.h>
 #include <stdarg.h>
 #include "ray.h"
+#include "matrix.h"
 
 Ray *ray(Tuple origin, Tuple dir) {
     Ray *r = malloc(sizeof(Ray));
     r->origin = origin;
     r->direction = dir;
     return r;
+}
+
+Ray *ray_transform(const Ray *r, const Matrix *m) {
+    Ray *tr = malloc(sizeof(Ray));
+    tr->origin = matrix_multiply_tuple(m, r->origin);
+    tr->direction = matrix_multiply_tuple(m, r->direction);
+    return tr;
 }
 
 void destroy_ray(Ray *r) {
@@ -24,7 +32,12 @@ Sphere *ray_sphere() {
     Sphere *s = malloc(sizeof(Sphere));
     s->id = id++;
     s->origin = tuple_point(0, 0, 0);
+    s->transform = matrix_IdentityMatrix();
     return s;
+}
+
+void ray_sphere_set_transform(Sphere *s, Matrix *m) {
+    s->transform = m;
 }
 
 void ray_sphere_destroy(Sphere *s) {
@@ -45,16 +58,17 @@ void ray_intersection_destroy(Intersection *i) {
 }
 
 Intersection **ray_intersect(Sphere *s, const Ray *r, int *count) {
-    Tuple sphere_to_ray = tuple_subtract(r->origin, s->origin);
+    Ray *t = ray_transform(r, matrix_inverse(s->transform));
+    Tuple sphere_to_ray = tuple_subtract(t->origin, s->origin);
 
-    double dot = tuple_dot(r->direction, r->direction);
-    double dot2 = 2 * tuple_dot(r->direction, sphere_to_ray);
+    double dot = tuple_dot(t->direction, t->direction);
+    double dot2 = 2 * tuple_dot(t->direction, sphere_to_ray);
     double dot3 = tuple_dot(sphere_to_ray, sphere_to_ray) - 1;
 
     double discriminant = (dot2*dot2) - 4 * dot * dot3;
 
     if (discriminant < 0) {
-       *count = -1; 
+       *count = 0; 
        return NULL;
     }
 

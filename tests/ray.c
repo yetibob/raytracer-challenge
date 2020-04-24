@@ -1,6 +1,6 @@
 #include <assert.h>
-#include <stdio.h>
 #include "../src/ray.h"
+#include "../src/matrix.h"
 #include "../src/tuples.h"
 #include "../src/utils.h"
 
@@ -56,7 +56,7 @@ void test_ray_misses_a_sphere() {
     Sphere *s = ray_sphere();
     int count;
     Intersection **xs = ray_intersect(s, r, &count);
-    assert(equals(count, -1) == 0);
+    assert(count == 0);
     assert(xs == NULL);
 }
 
@@ -139,6 +139,54 @@ void test_hit_is_always_the_lowest_non_negative_intersection() {
     assert(hit(xs, 4) == &i4);
 }
 
+void test_translating_a_ray() {
+    Ray *r = ray(tuple_point(1, 2, 3), tuple_vector(0, 1, 0));
+    Matrix *m = matrix_translation(3, 4, 5);
+    Ray *r2 = ray_transform(r, m);
+    assert(tuple_compare(r2->origin, tuple_point(4, 6, 8)) == 0);
+    assert(tuple_compare(r2->direction, tuple_vector(0, 1, 0)) == 0);
+}
+
+void test_scaling_a_ray() {
+    Ray *r = ray(tuple_point(1, 2, 3), tuple_vector(0, 1, 0));
+    Matrix *m = matrix_scaling(2, 3, 4);
+    Ray *r2 = ray_transform(r, m);
+    assert(tuple_compare(r2->origin, tuple_point(2, 6, 12)) == 0);
+    assert(tuple_compare(r2->direction, tuple_vector(0, 3, 0)) == 0);
+}
+
+void test_sphere_default_transformation() {
+    Sphere *s = ray_sphere();
+    assert(matrix_compare(s->transform, matrix_IdentityMatrix()) == 0);
+}
+
+void test_changing_a_spheres_transformation() {
+    Sphere *s = ray_sphere();
+    Matrix *t = matrix_translation(2, 3, 4);
+    ray_sphere_set_transform(s, t);
+    assert(matrix_compare(s->transform, t) == 0);
+}
+
+void test_intersecting_a_scaled_sphere_with_a_ray() {
+    Ray *r = ray(tuple_point(0, 0, -5), tuple_vector(0, 0, 1));
+    Sphere *s = ray_sphere();
+    ray_sphere_set_transform(s, matrix_scaling(2, 2, 2));
+    int count;
+    Intersection **xs = ray_intersect(s, r, &count);
+    assert(count == 2);
+    assert(equals(xs[0]->t, 3) == 0 );
+    assert(equals(xs[1]->t, 7) == 0 );
+}
+
+void test_intersecting_a_translated_sphere_with_a_ray() {
+    Ray *r = ray(tuple_point(0, 0, -5), tuple_vector(0, 0, 1));
+    Sphere *s = ray_sphere();
+    ray_sphere_set_transform(s, matrix_translation(5, 0, 0));
+    int count;
+    ray_intersect(s, r, &count);
+    assert(count == 0);
+}
+
 int main() {
     test_create_and_query_ray();
     test_compute_a_point_from_a_distance();
@@ -154,4 +202,10 @@ int main() {
     test_hit_when_some_intersections_are_negative();
     test_hit_when_all_intersections_are_negative();
     test_hit_is_always_the_lowest_non_negative_intersection();
+    test_translating_a_ray();
+    test_scaling_a_ray();
+    test_sphere_default_transformation();
+    test_changing_a_spheres_transformation();
+    test_intersecting_a_scaled_sphere_with_a_ray();
+    test_intersecting_a_translated_sphere_with_a_ray();
 }
