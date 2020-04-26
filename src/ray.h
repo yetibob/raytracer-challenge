@@ -26,7 +26,7 @@ typedef struct Intersection {
 // Create new array with given origin and direction
 Ray *ray(Tuple origin, Tuple dir);
 Ray *ray_transform(const Ray *r, const Matrix *m);
-void destroy_ray(Ray *r);
+void ray_destroy(Ray *r);
 // Get ray position after given time `t`
 Tuple ray_position(const Ray *r, double t);
 
@@ -44,6 +44,6 @@ Intersection **ray_intersect(Sphere *s, const Ray *r, int *count);
 
 // Generates an array of intersection pointers of num length
 Intersection **ray_intersections(int num, ...);
-Intersection *hit(Intersection *xs[], int count);
+Intersection *ray_hit(Intersection *xs[], int count);
 
 #endif

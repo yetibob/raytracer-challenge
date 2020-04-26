@@ -17,7 +17,7 @@ Ray *ray_transform(const Ray *r, const Matrix *m) {
     return tr;
 }
 
-void destroy_ray(Ray *r) {
+void ray_destroy(Ray *r) {
     free(r->origin);
     free(r->direction);
     free(r);
@@ -122,7 +122,7 @@ Intersection **ray_intersections(int num, ...) {
     return arr;
 }
 
-Intersection *hit(Intersection *xs[], int count) {
+Intersection *ray_hit(Intersection *xs[], int count) {
     for (int i = 0; i < count; i++) {
         if (xs[i]->t >= 0) {
             return xs[i];

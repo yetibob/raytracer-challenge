@@ -3,9 +3,10 @@ GCCTEST=gcc -lm src/utils.c
 build:
 	mkdir -p bin
 
-build-excercises:
+ex:
 	gcc -lm excercises/projectile.c src/tuples.c src/utils.c src/canvas.c src/colors.c -o excercises/projectile
 	gcc -lm excercises/analog.c src/matrix.c src/tuples.c src/utils.c src/canvas.c src/colors.c -o excercises/analog
+	gcc -lm excercises/shadow.c src/ray.c src/matrix.c src/tuples.c src/utils.c src/canvas.c src/colors.c -o excercises/shadow
 
 build-tests:
 	$(GCCTEST) src/tuples.c tests/tuples.c -o tests/tuples
