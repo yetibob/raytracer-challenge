@@ -45,21 +45,15 @@ void ray_sphere_destroy(Sphere *s) {
     free(s);
 }
 
-//Intersection *ray_intersection() {
-//    Intersection *i = malloc(sizeof(Intersection));
-//    i->t = 0;
-//    i->object = NULL;
-//    return i;
-//}
-
 void ray_intersection_destroy(Intersection *i) {
-    free(i->object);
     free(i);
 }
 
 Intersection **ray_intersect(Sphere *s, const Ray *r, int *count) {
-    Ray *t = ray_transform(r, matrix_inverse(s->transform));
+    Matrix *in = matrix_inverse(s->transform);
+    Ray *t = ray_transform(r, in);
     Tuple sphere_to_ray = tuple_subtract(t->origin, s->origin);
+
 
     double dot = tuple_dot(t->direction, t->direction);
     double dot2 = 2 * tuple_dot(t->direction, sphere_to_ray);
@@ -67,6 +61,9 @@ Intersection **ray_intersect(Sphere *s, const Ray *r, int *count) {
 
     double discriminant = (dot2*dot2) - 4 * dot * dot3;
 
+    ray_destroy(t);
+    matrix_destroy(in);
+    tuple_destroy(sphere_to_ray);
     if (discriminant < 0) {
        *count = 0; 
        return NULL;
@@ -92,7 +89,6 @@ Intersection **ray_intersect(Sphere *s, const Ray *r, int *count) {
     }
     
     Intersection **arr = ray_intersections(2, i1, i2);
-
     return arr;
 }
 

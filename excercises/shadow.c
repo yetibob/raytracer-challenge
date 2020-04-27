@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "../src/ray.h"
 #include "../src/canvas.h"
 #include "../src/matrix.h"
@@ -17,20 +18,30 @@ int main() {
     Tuple ray_origin = tuple_point(0, 0, -5);
 
     Sphere *s = ray_sphere();
-    // Tuple center = tuple_point(25, 25, 0);
     Tuple hit_pixel = color(1, 0, 0);
     int count;
 
-    for (int y=0; y < c->height; y++) {
+    for (int y = 0; y < c->height; y++) {
         double world_y = half - pixel_size * y;
-        for (int x=0; x < c->width; x++) {
+        for (int x = 0; x < c->width; x++) {
             double world_x = -half + pixel_size * x;
             Tuple pos = tuple_point(world_x, world_y, wall_z);
-            Ray *r = ray(ray_origin, tuple_normalize(tuple_subtract(pos, ray_origin)));
+            Tuple tmp = tuple();
+            memcpy(tmp, ray_origin, sizeof(double)*4);
+            Tuple dir = tuple_subtract(pos, tmp);
+            Tuple norm_dir  = tuple_normalize(dir);
+            Ray *r = ray(tmp, norm_dir);
             Intersection **xs = ray_intersect(s, r, &count);
             if (ray_hit(xs, count) != NULL) {
                 canvas_write(c, x, y, hit_pixel);
             } 
+            tuple_destroy(pos);
+            tuple_destroy(dir);
+            ray_destroy(r);
+            for (int i = 0; i < count; i++) {
+                ray_intersection_destroy(xs[i]);
+            }
+            free(xs);
         }
     }
 

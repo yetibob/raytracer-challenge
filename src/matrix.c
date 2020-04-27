@@ -130,7 +130,9 @@ Matrix *matrix_sub(const Matrix *m, int row, int col) {
 
 double matrix_minor(const Matrix *m, int row, int col) {
     Matrix *sub = matrix_sub(m, row, col);
-    return matrix_determinant(sub);
+    double det = matrix_determinant(sub);
+    matrix_destroy(sub);
+    return det;
 } 
 
 double matrix_cofactor(const Matrix *m, int row, int col) {
