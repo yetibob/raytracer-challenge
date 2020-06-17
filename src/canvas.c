@@ -26,6 +26,24 @@ void canvas_destroy(Canvas *c) {
     free(c);
 }
 
+void canvas_init(Canvas *c, int width, int height) {
+    c->width = width;
+    c->height = height;
+
+    int numPixels = c->width * c->height;
+    c->pixels = malloc(sizeof(double) * numPixels * 4);
+    for (int i = 0; i < numPixels * 4; i += 4) {
+        c->pixels[i]   = 0;
+        c->pixels[i+1] = 0;
+        c->pixels[i+2] = 0;
+        c->pixels[i+3] = 0;
+    }
+}
+
+void canvas_free(Canvas *c) {
+    free(c->pixels);
+}
+
 void canvas_write(Canvas *c, int x, int y, Tuple color) {
 	if (x >= c->width || x < 0 || y >= c->height || y < 0) { return; }
     int pos = (y * c->width + x) * 4;

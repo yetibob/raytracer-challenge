@@ -15,8 +15,10 @@ typedef struct Matrix {
 
 // Generates a new matrix with `dim` and all values initialized to 0
 Matrix *matrix(int dim);
-
 void matrix_destroy(Matrix *m);
+
+void matrix_init(Matrix *m, int dim);
+void matrix_free(Matrix *m);
 
 // Creates an returns the Identiy Matrix
 Matrix *matrix_IdentityMatrix();

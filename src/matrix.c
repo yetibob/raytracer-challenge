@@ -22,6 +22,21 @@ void matrix_destroy(Matrix *m) {
     free(m);
 }
 
+void matrix_init(Matrix *m, int dim) {
+    m->dim = dim;
+    m->data = malloc(sizeof(double *) * dim);
+    for (int i = 0; i < dim; i++) {
+        m->data[i] = calloc(dim, sizeof(double));
+    }
+}
+
+void matrix_free(Matrix *m) {
+    for (int i = 0; i < m->dim; i++) {
+        free(m->data[i]);
+    }
+    free(m->data);
+}
+
 Matrix *matrix_IdentityMatrix() {
     Matrix *idm = matrix(4);
 
