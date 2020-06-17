@@ -1,11 +1,5 @@
 .vscode/
 bin/
 
-tests/*
-!tests/*.*
-
-excercises/*
-!excercises/*.*
-
 *.ppm
 *.swp
