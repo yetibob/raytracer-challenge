@@ -26,7 +26,7 @@ int main() {
         for (int x = 0; x < c->width; x++) {
             double world_x = -half + pixel_size * x;
             Tuple pos = tuple_point(world_x, world_y, wall_z);
-            Tuple tmp = tuple();
+            Tuple tmp = ztuple();
             memcpy(tmp, ray_origin, sizeof(double)*4);
             Tuple dir = tuple_subtract(pos, tmp);
             Tuple norm_dir  = tuple_normalize(dir);

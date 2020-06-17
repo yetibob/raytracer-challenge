@@ -3,7 +3,7 @@
 
 typedef double* Tuple;
 
-Tuple tuple();
+Tuple ztuple();
 void tuple_destroy(Tuple t);
 double tuple_x(Tuple t);
 double tuple_y(Tuple t);

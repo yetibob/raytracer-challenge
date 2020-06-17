@@ -13,7 +13,7 @@ double colors_blue(Tuple c) {
 }
 
 Tuple color(double red, double green, double blue) {
-    Tuple c = tuple();
+    Tuple c = ztuple();
     c[0] = red;
     c[1] = green;
     c[2] = blue;
@@ -22,7 +22,7 @@ Tuple color(double red, double green, double blue) {
 }
 
 Tuple colors_multiply(Tuple c1, Tuple c2) {
-    Tuple nc = tuple();
+    Tuple nc = ztuple();
     nc[0] = c1[0] * c2[0];
     nc[1] = c1[1] * c2[1];
     nc[2] = c1[2] * c2[2];

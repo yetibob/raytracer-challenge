@@ -20,7 +20,7 @@ double tuple_w(Tuple t) {
     return t[3];
 }
 
-Tuple tuple() {
+Tuple ztuple() {
     return calloc(4, sizeof(double));
 }
 
@@ -29,7 +29,7 @@ void tuple_destroy(Tuple t) {
 }
 
 Tuple tuple_point(double x, double y, double z) {
-    Tuple t = tuple();
+    Tuple t = ztuple();
     t[0] = x;
     t[1] = y;
     t[2] = z;
@@ -45,7 +45,7 @@ int tuple_is_point(Tuple t) {
 }
 
 Tuple tuple_vector(double x, double y, double z) {
-    Tuple t = tuple();
+    Tuple t = ztuple();
     t[0] = x;
     t[1] = y;
     t[2] = z;
@@ -69,7 +69,7 @@ int tuple_compare(Tuple t1, Tuple t2) {
 }
 
 Tuple tuple_add(Tuple t1, Tuple t2) {
-    Tuple t = tuple();
+    Tuple t = ztuple();
     for(int i = 0; i < 4; i++) {
         t[i] = t1[i] + t2[i];
     }
@@ -77,7 +77,7 @@ Tuple tuple_add(Tuple t1, Tuple t2) {
 }
 
 Tuple tuple_subtract(Tuple t1, Tuple t2) {
-    Tuple t = tuple();
+    Tuple t = ztuple();
     for (int i = 0; i < 4; i++) {
         t[i] = t1[i] - t2[i];
     }
@@ -85,11 +85,11 @@ Tuple tuple_subtract(Tuple t1, Tuple t2) {
 }
 
 Tuple tuple_negate(Tuple t) {
-    return tuple_subtract(tuple(), t);
+    return tuple_subtract(ztuple(), t);
 }
 
 Tuple tuple_scale(Tuple t, double scalar) {
-    Tuple zt = tuple();
+    Tuple zt = ztuple();
     zt[0] = t[0] * scalar;
     zt[1] = t[1] * scalar;
     zt[2] = t[2] * scalar;
@@ -98,7 +98,7 @@ Tuple tuple_scale(Tuple t, double scalar) {
 }
 
 Tuple tuple_dscale(Tuple t, double scalar) {
-    Tuple zt = tuple();
+    Tuple zt = ztuple();
     zt[0] = t[0] / scalar;
     zt[1] = t[1] / scalar;
     zt[2] = t[2] / scalar;
@@ -113,7 +113,7 @@ double tuple_magnitude(Tuple t) {
 
 Tuple tuple_normalize(Tuple t) {
     double m = tuple_magnitude(t);
-    Tuple normalized = tuple();
+    Tuple normalized = ztuple();
     normalized[0] = t[0] / m;
     normalized[1] = t[1] / m;
     normalized[2] = t[2] / m;
@@ -131,7 +131,7 @@ double tuple_dot(Tuple v1, Tuple v2) {
 }
 
 Tuple tuple_cross(Tuple v1, Tuple v2) {
-    Tuple rv = tuple();
+    Tuple rv = ztuple();
     rv[0] = (tuple_y(v1) * tuple_z(v2)) - (tuple_z(v1) * tuple_y(v2));
     rv[1] = (tuple_z(v1) * tuple_x(v2)) - (tuple_x(v1) * tuple_z(v2));
     rv[2] = (tuple_x(v1) * tuple_y(v2)) - (tuple_y(v1) * tuple_x(v2));
