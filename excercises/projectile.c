@@ -27,16 +27,14 @@ void tick(struct Environment env, struct Projectile *proj, Tuple add) {
 }
 
 int main() {
-    struct Projectile p = { tuple_point(0, 200 ,0), tuple_scale(tuple_normalize(tuple_vector(1, 1, 0)), 11.5) };
+    struct Projectile p = { tuple_point(0, 1 ,0), tuple_scale(tuple_normalize(tuple_vector(1, 1.8, 0)), 11.25) };
     struct Environment e = { tuple_vector(0, -0.1, 0), tuple_vector(-0.01, 0, 0) };
     Tuple add = tuple_add(e.gravity, e.wind);
-    int ticks = 0;
-    Canvas *c = canvas(700, 400);
+    Canvas *c = canvas(900, 550);
     char *ppm;
     Tuple pixel_color = color(0, 1, 0);
 	
     while(tuple_y(p.position) > 0) {
-        ticks++;
         tick(e, &p, add);
         canvas_write(c, tuple_x(p.position), c->height - tuple_y(p.position), pixel_color);
     }
