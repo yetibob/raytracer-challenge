@@ -1,30 +1,36 @@
-GCCTEST=gcc -lm src/utils.c
+CC=gcc -Wall -Werror -O2 -lm
+CCTEST= $(CC) src/utils.c
+BINDIR=./bin
+EXDIR=$(BINDIR)/excercises
+TESTDIR=$(BINDIR)/tests
 
 build:
-	mkdir -p bin
+	mkdir -p $(EXDIR)
+	mkdir -p $(TESTDIR)
 
 ex:
-	gcc -lm excercises/projectile.c src/tuples.c src/utils.c src/canvas.c src/colors.c -o excercises/projectile
-	gcc -lm excercises/analog.c src/matrix.c src/tuples.c src/utils.c src/canvas.c src/colors.c -o excercises/analog
-	gcc -lm excercises/shadow.c src/ray.c src/matrix.c src/tuples.c src/utils.c src/canvas.c src/colors.c -o excercises/shadow
+	$(CC) excercises/projectile.c src/tuples.c src/utils.c src/canvas.c src/colors.c -o $(EXDIR)/projectile
+	$(CC) excercises/analog.c src/matrix.c src/tuples.c src/utils.c src/canvas.c src/colors.c -o $(EXDIR)/analog
+	$(CC) excercises/shadow.c src/ray.c src/matrix.c src/tuples.c src/utils.c src/canvas.c src/colors.c -o $(EXDIR)/shadow
 
 build-tests:
-	$(GCCTEST) src/tuples.c tests/tuples.c -o tests/tuples
-	$(GCCTEST) tests/utils.c -o tests/utils
-	$(GCCTEST) src/colors.c src/tuples.c tests/colors.c -o tests/colors
-	$(GCCTEST) src/canvas.c src/colors.c src/tuples.c tests/canvas.c -o tests/canvas
-	$(GCCTEST) src/matrix.c src/tuples.c tests/matrix.c -o tests/matrix
-	$(GCCTEST) src/ray.c src/tuples.c src/matrix.c tests/ray.c -o tests/ray
+	$(CCTEST) src/tuples.c tests/tuples.c -o $(TESTDIR)/tuples
+	$(CCTEST) tests/utils.c -o $(EXDIR)/utils
+	$(CCTEST) src/colors.c src/tuples.c tests/colors.c -o $(TESTDIR)/colors
+	$(CCTEST) src/canvas.c src/colors.c src/tuples.c tests/canvas.c -o $(TESTDIR)/canvas
+	$(CCTEST) src/matrix.c src/tuples.c tests/matrix.c -o $(TESTDIR)/matrix
+	$(CCTEST) src/ray.c src/tuples.c src/matrix.c tests/ray.c -o $(TESTDIR)/ray
 
 test: build-tests
-	./tests/tuples
-	./tests/utils
-	./tests/colors
-	./tests/canvas
-	./tests/matrix
-	./tests/ray
+	$(BINDIR)/tests/tuples
+	$(BINDIR)/tests/utils
+	$(BINDIR)/tests/colors
+	$(BINDIR)/tests/canvas
+	$(BINDIR)/tests/matrix
+	$(BINDIR)/tests/ray
 
 clean:
-	rm -rf ./bin
+	rm -rf ./bin/excercises/*
+	rm -rf ./bin/tests/*
 	find ./tests -type f ! -iname "*.c" -delete
 	find ./excercises -type f ! -iname "*.c" -delete
