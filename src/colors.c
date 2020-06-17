@@ -17,7 +17,6 @@ Tuple color(double red, double green, double blue) {
     c[0] = red;
     c[1] = green;
     c[2] = blue;
-    c[3] = 0;
     return c;
 }
 
