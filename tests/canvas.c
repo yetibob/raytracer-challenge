@@ -45,7 +45,8 @@ void test_canvas_gen_ppm_pixel_data() {
     char *ppm = canvas_gen_ppm(c);
     int i = 0;
     int line = 0;
-    for (i; line < 3; i++) {
+
+    for (; line < 3; i++) {
         if (ppm[i] == '\n') {
             line++;
         }
