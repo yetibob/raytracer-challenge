@@ -60,17 +60,17 @@ Matrix *matrix_gen(double *a, int dim) {
 
 int matrix_compare(const Matrix *m1, const Matrix *m2) {
     if (m1->dim != m2->dim) {
-        return 1;
+        return 0;
     }
 
     for (int i = 0; i < m1->dim; i++) {
         for (int j = 0; j < m1->dim; j++) {
-            if (equals(m1->data[i][j], m2->data[i][j]) == 1) {
-                return 1;
+            if (!equals(m1->data[i][j], m2->data[i][j])) {
+                return 0;
             }
         }
     }
-    return 0;
+    return 1;
 }
 
 Matrix *matrix_multiply(const Matrix *m1, const Matrix *m2) {
@@ -109,6 +109,7 @@ Matrix *matrix_transpose(const Matrix *m) {
 
 double matrix_determinant(const Matrix *m) {
     double det = 0;
+
     if (m->dim == 2) {
         det = m->data[0][0] * m->data[1][1] - m->data[0][1] * m->data[1][0];
     }
@@ -157,7 +158,7 @@ double matrix_cofactor(const Matrix *m, int row, int col) {
 }
 
 Matrix *matrix_inverse(const Matrix *m) {
-    if (equals(matrix_determinant(m), 0) == 0) {
+    if (equals(matrix_determinant(m), 0)) {
         return NULL;
     }
 

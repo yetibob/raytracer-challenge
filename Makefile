@@ -14,8 +14,8 @@ ex:
 	$(CC) excercises/shadow.c src/ray.c src/matrix.c src/tuples.c src/utils.c src/canvas.c src/colors.c -o $(EXDIR)/shadow
 
 build-tests:
+	$(CCTEST) tests/utils.c -o $(TESTDIR)/utils
 	$(CCTEST) src/tuples.c tests/tuples.c -o $(TESTDIR)/tuples
-	$(CCTEST) tests/utils.c -o $(EXDIR)/utils
 	$(CCTEST) src/colors.c src/tuples.c tests/colors.c -o $(TESTDIR)/colors
 	$(CCTEST) src/canvas.c src/colors.c src/tuples.c tests/canvas.c -o $(TESTDIR)/canvas
 	$(CCTEST) src/matrix.c src/tuples.c tests/matrix.c -o $(TESTDIR)/matrix

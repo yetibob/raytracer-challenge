@@ -26,11 +26,11 @@ void test_tuple_compare() {
     assert(tuple_compare(t1, t2));
     
     t1[0] = -3.1;
-    assert(tuple_compare(t1, t2));
+    assert(!tuple_compare(t1, t2));
     
     Tuple t3 = {3.0, -4.0, 5.0};
     tuple_vector(t3);
-    assert(tuple_compare(t2, t3));
+    assert(!tuple_compare(t2, t3));
 }
 
 void test_tuple_add() {
@@ -176,6 +176,7 @@ void test_tuple_cross_product() {
     Tuple v2 = {2, 3, 4};
     tuple_vector(v2);
     Tuple cp;
+    tuple_vector(cp);
     tuple_cross(v1, v2, cp);
     Tuple e = {-1, 2, -1};
     tuple_vector(e);
