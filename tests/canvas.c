@@ -7,20 +7,20 @@
 
 void test_create_canvas() {
     Canvas *c = canvas(10, 20);
-    assert(equals(c->width, 10) == 0);
-    assert(equals(c->height, 20) == 0);
+    assert(equals(c->width, 10));
+    assert(equals(c->height, 20));
 
-    Tuple black = color(0, 0, 0);
+    Tuple black = {0, 0, 0};
     for(int i = 0; i < c->width * c->height * 4; i += 4) {
-        assert(tuple_compare(c->pixels+i, black) == 0);
+        assert(tuple_compare(c->pixels+i, black));
     }
 }
 
 void test_canvas_write() {
     Canvas *c = canvas(10, 20);
-    Tuple c1 = color(0, 0, 1);
+    Tuple c1 = {0, 0, 1};
     canvas_write(c, 2, 3, c1);
-    assert(tuple_compare(canvas_at(c, 2, 3), c1) == 0);
+    assert(tuple_compare(canvas_at(c, 2, 3), c1));
 }
 
 void test_canvas_gen_ppm_header() {
@@ -34,7 +34,7 @@ void test_canvas_gen_ppm_header() {
 
 void test_canvas_gen_ppm_pixel_data() {
     Canvas *c = canvas(10, 2);
-    Tuple c1 = color(1, 0.8, 0.6);
+    Tuple c1 = {1, 0.8, 0.6};
     for (int x = 0; x < 10; x++) {
         for (int y = 0; y < 2; y++) {
             canvas_write(c, x, y, c1);
@@ -55,26 +55,6 @@ void test_canvas_gen_ppm_pixel_data() {
 }
 
 /*
-void test_inefficient_create_canvas() {
-    InefficientCanvas *c = inefficient_canvas(10, 20);
-    assert(equals(c->width, 10) == 0);
-    assert(equals(c->height, 20) == 0);
-
-    Tuple black = color(0, 0, 0);
-    for(int x = 0; x < c->width; x++) {
-        for(int y = 0; y < c->height; y++) {
-            assert(tuple_compare(c->pixels[x][y], black) == 0);
-        }
-    }
-}
-
-void test_inefficient_canvas_write() {
-    InefficientCanvas *c = inefficient_canvas(10, 20);
-    Tuple c1 = color(0, 0, 1);
-    inefficient_canvas_write(c, 2, 3, c1);
-    assert(tuple_compare(inefficient_canvas_at(c, 2, 3), c1) == 0);
-}
-
 void test_write_to_file() {
     const int width = 5, height = 3;
     Canvas *c = canvas(width, height);

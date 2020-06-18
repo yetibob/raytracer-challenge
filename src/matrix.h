@@ -33,7 +33,7 @@ int matrix_compare(const Matrix *m1, const Matrix *m2);
 Matrix *matrix_multiply(const Matrix *m1, const Matrix *m2);
 
 // Multiples a matrix with a tuple
-Tuple matrix_multiply_tuple(const Matrix *m, const Tuple t);
+void matrix_multiply_tuple(const Matrix *m, const Tuple t, Tuple res);
 
 // Generates a transposed matrix from `m` 
 Matrix *matrix_transpose(const Matrix *m);

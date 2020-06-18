@@ -5,9 +5,9 @@
 
 int equals(double x, double y) {
     if (fabs(x - y) < EPSILON) {
-        return 0;
+        return 1;
     }
-    return 1;
+    return 0;
 }
 
 void write_to_file(char *file_name, char *str) {

@@ -3,9 +3,6 @@
 
 #include "tuples.h"
 
-// Creates a new color with given rbg values
-Tuple color(double red, double green, double blue);
-
 // gets red value of color
 double colors_red(Tuple c);
 
@@ -16,6 +13,6 @@ double colors_green(Tuple c);
 double colors_blue(Tuple c);
 
 // multiplies 2 colors together
-Tuple colors_multiply(Tuple c1, Tuple c2);
+void colors_multiply(Tuple c1, Tuple c2, Tuple res);
 
 #endif

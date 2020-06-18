@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "canvas.h"
 #include "colors.h"
 #include "tuples.h"
@@ -44,7 +45,7 @@ void canvas_free(Canvas *c) {
     free(c->pixels);
 }
 
-void canvas_write(Canvas *c, int x, int y, Tuple color) {
+void canvas_write(Canvas *c, int x, int y, const Tuple color) {
 	if (x >= c->width || x < 0 || y >= c->height || y < 0) { return; }
     int pos = (y * c->width + x) * 4;
 	if (pos+2 >= c->height * c->width * 4) { return; }
@@ -54,17 +55,25 @@ void canvas_write(Canvas *c, int x, int y, Tuple color) {
     c->pixels[pos+2] = color[2];
 }
 
-Tuple canvas_at(const Canvas *c, int x, int y) {
+double *canvas_at(const Canvas *c, int x, int y) {
 	if (x >= c->width || x < 0 || y >= c->height || y < 0) {
-			return color(0, 0, 0);
+			return NULL;
 	}
+
+    double *r = malloc(sizeof(double) * TUPLE_LEN);
 
     int pos = (y * c->width + x) * 4;
 	if (pos+2 >= c->height * c->width * 4) {
-			return tuple_point(-1, -1, -1);
+            r[0] = -1;
+            r[1] = -1;
+            r[2] = -1;
+            r[3] = -1;
+            return r;
 	}
-
-    return &c->pixels[pos];
+    for (int i = 0; i < TUPLE_LEN; i++) {
+        r[i] = c->pixels[pos+i]; 
+    }
+    return r;
 }
 
 static int write_header(Canvas *c, char *ppm) {
@@ -148,60 +157,11 @@ static int write_body(Canvas *c, char *ppm, int line_length) {
     return pos-1;
 }
 
-// split file was used as an inefficient line split after creating
-// an unsplit ppm
-/*
-static void split_file(char *ppm, int len) {
-    int pos = 0;
-    for (int i = 0; i < len; i++) {
-        if (pos == 69) {
-            if (ppm[i] != ' ') {
-                for (; ppm[i] != ' '; i--)
-                    ;
-            }
-            ppm[i] = '\n';
-            pos = 0;
-        }
-        pos++;
-    }
-}
-*/
-
 char *canvas_gen_ppm(Canvas *c) {
     int size = c->height * c->width * 15;
     char *ppm = malloc(sizeof(char) * size);
     int header_pos = write_header(c, ppm);
     write_body(c, ppm+header_pos, 70);
-    // int pos = write_body(c, ppm+header_pos, 70);
-    // split_file(ppm+header_pos, pos);
-    // ppm[header_pos+pos] = '\n';
     return ppm;
 }
 
-/*
-InefficientCanvas* inefficient_canvas(int width, int height) {
-    InefficientCanvas *c = malloc(sizeof(InefficientCanvas));
-    c->width = width;
-    c->height = height;
-
-    c->pixels = malloc(sizeof(Tuple) * height);
-    for (int x = 0; x < width; x++) {
-        c->pixels[x] = malloc(sizeof(Tuple) * height);
-        for (int y = 0; y < width; y++) {
-            c->pixels[x][y] = color(0, 0, 0);
-        }
-    }
-
-    return c;
-}
-
-void inefficient_write_pixel(InefficientCanvas *c, int x, int y, Tuple color) {
-    c->pixels[x][y][0] = color[0];
-    c->pixels[x][y][1] = color[1];
-    c->pixels[x][y][2] = color[2];
-}
-
-Tuple inefficient_pixel_at(const InefficientCanvas *c, int x, int y) {
-    return c->pixels[x][y];
-}
-*/

@@ -24,13 +24,12 @@ typedef struct Intersection {
 } Intersection;
 
 // Create new array with given origin and direction
-Ray *ray(Tuple origin, Tuple dir);
 Ray *ray_transform(const Ray *r, const Matrix *m);
 void ray_destroy(Ray *r);
 // Get ray position after given time `t`
-Tuple ray_position(const Ray *r, double t);
+void ray_position(const Ray *r, double t, TuplePtr res);
 
-Sphere *ray_sphere();
+void *ray_sphere_init(Sphere *s);
 // int ray_sphere_compare(const Sphere *s1, const Sphere *s2);
 void ray_sphere_destroy(Sphere *s);
 void ray_sphere_set_transform(Sphere *s, Matrix *m);

@@ -87,8 +87,7 @@ Matrix *matrix_multiply(const Matrix *m1, const Matrix *m2) {
     return p;
 }
 
-Tuple matrix_multiply_tuple(const Matrix *m, const Tuple t) {
-    Tuple res = ztuple();
+void matrix_multiply_tuple(const Matrix *m, const Tuple t, Tuple res) {
     for (int i = 0; i < 4; i++) {
         double result = 0;
         for (int j = 0; j < 4; j++) {
@@ -96,7 +95,6 @@ Tuple matrix_multiply_tuple(const Matrix *m, const Tuple t) {
         }
         res[i] = result;
     }
-    return res;
 }
 
 Matrix *matrix_transpose(const Matrix *m) {

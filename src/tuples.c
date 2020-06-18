@@ -20,47 +20,30 @@ double tuple_w(Tuple t) {
     return t[3];
 }
 
-Tuple ztuple() {
-    return calloc(4, sizeof(double));
-}
-
-void tuple_destroy(Tuple t) {
-    free(t);
-}
-
-Tuple tuple_point(double x, double y, double z) {
-    Tuple t = ztuple();
-    t[0] = x;
-    t[1] = y;
-    t[2] = z;
+void tuple_point(Tuple t){
     t[3] = 1;
-    return t;
 }
 
 int tuple_is_point(Tuple t) {
-    if (tuple_w(t) == 1) {
-        return 0;
+    if (equals(tuple_w(t), 1)) {
+        return 1;
     }
-    return 1;
+    return 0;
 }
 
-Tuple tuple_vector(double x, double y, double z) {
-    Tuple t = ztuple();
-    t[0] = x;
-    t[1] = y;
-    t[2] = z;
-    return t;
+void tuple_vector(Tuple t) {
+    t[3] = 0;
 }
 
 int tuple_is_vector(Tuple t) {
-    if (tuple_w(t) == 0) {
-        return 0;
+    if (equals(tuple_w(t), 0)) {
+        return 1;
     }
-    return 1;
+    return 0;
 }
 
 int tuple_compare(Tuple t1, Tuple t2) {
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < TUPLE_LEN; i++) {
         if (equals(t1[i], t2[i]) == 1) {
             return 1;
         }
@@ -68,42 +51,35 @@ int tuple_compare(Tuple t1, Tuple t2) {
     return 0;
 }
 
-Tuple tuple_add(Tuple t1, Tuple t2) {
-    Tuple t = ztuple();
-    for(int i = 0; i < 4; i++) {
-        t[i] = t1[i] + t2[i];
+void tuple_add(Tuple t1, Tuple t2, Tuple res) {
+    for(int i = 0; i < TUPLE_LEN; i++) {
+        res[i] = t1[i] + t2[i];
     }
-    return t;
 }
 
-Tuple tuple_subtract(Tuple t1, Tuple t2) {
-    Tuple t = ztuple();
-    for (int i = 0; i < 4; i++) {
-        t[i] = t1[i] - t2[i];
+void tuple_subtract(Tuple t1, Tuple t2, Tuple res) {
+    for (int i = 0; i < TUPLE_LEN; i++) {
+        res[i] = t1[i] - t2[i];
     }
-    return t;
 }
 
-Tuple tuple_negate(Tuple t) {
-    return tuple_subtract(ztuple(), t);
+void tuple_negate(Tuple t, Tuple res) {
+    Tuple zt = {0};
+    tuple_subtract(zt, t, res);
 }
 
-Tuple tuple_scale(Tuple t, double scalar) {
-    Tuple zt = ztuple();
-    zt[0] = t[0] * scalar;
-    zt[1] = t[1] * scalar;
-    zt[2] = t[2] * scalar;
-    zt[3] = t[3];
-    return zt;
+void tuple_scale(Tuple t, Tuple res, double scalar) {
+    res[0] = t[0] * scalar;
+    res[1] = t[1] * scalar;
+    res[2] = t[2] * scalar;
+    res[3] = t[3];
 }
 
-Tuple tuple_dscale(Tuple t, double scalar) {
-    Tuple zt = ztuple();
-    zt[0] = t[0] / scalar;
-    zt[1] = t[1] / scalar;
-    zt[2] = t[2] / scalar;
-    zt[3] = t[3];
-    return zt;
+void tuple_dscale(Tuple t, Tuple res, double scalar) {
+    res[0] = t[0] / scalar;
+    res[1] = t[1] / scalar;
+    res[2] = t[2] / scalar;
+    res[3] = t[3];
 }
 
 double tuple_magnitude(Tuple t) {
@@ -111,14 +87,12 @@ double tuple_magnitude(Tuple t) {
     return sqrt(m);
 }
 
-Tuple tuple_normalize(Tuple t) {
+void tuple_normalize(Tuple t, Tuple res) {
     double m = tuple_magnitude(t);
-    Tuple normalized = ztuple();
-    normalized[0] = t[0] / m;
-    normalized[1] = t[1] / m;
-    normalized[2] = t[2] / m;
-    normalized[3] = t[3];
-    return normalized;
+    res[0] = t[0] / m;
+    res[1] = t[1] / m;
+    res[2] = t[2] / m;
+    res[3] = t[3];
 }
 
 double tuple_dot(Tuple v1, Tuple v2) {
@@ -130,10 +104,8 @@ double tuple_dot(Tuple v1, Tuple v2) {
     return sum;
 }
 
-Tuple tuple_cross(Tuple v1, Tuple v2) {
-    Tuple rv = ztuple();
-    rv[0] = (tuple_y(v1) * tuple_z(v2)) - (tuple_z(v1) * tuple_y(v2));
-    rv[1] = (tuple_z(v1) * tuple_x(v2)) - (tuple_x(v1) * tuple_z(v2));
-    rv[2] = (tuple_x(v1) * tuple_y(v2)) - (tuple_y(v1) * tuple_x(v2));
-    return rv;
+void tuple_cross(Tuple v1, Tuple v2, Tuple res) {
+    res[0] = (tuple_y(v1) * tuple_z(v2)) - (tuple_z(v1) * tuple_y(v2));
+    res[1] = (tuple_z(v1) * tuple_x(v2)) - (tuple_x(v1) * tuple_z(v2));
+    res[2] = (tuple_x(v1) * tuple_y(v2)) - (tuple_y(v1) * tuple_x(v2));
 }

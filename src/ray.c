@@ -3,37 +3,26 @@
 #include "ray.h"
 #include "matrix.h"
 
-Ray *ray(Tuple origin, Tuple dir) {
-    Ray *r = malloc(sizeof(Ray));
-    r->origin = origin;
-    r->direction = dir;
-    return r;
-}
-
 Ray *ray_transform(const Ray *r, const Matrix *m) {
     Ray *tr = malloc(sizeof(Ray));
-    tr->origin = matrix_multiply_tuple(m, r->origin);
-    tr->direction = matrix_multiply_tuple(m, r->direction);
+    matrix_multiply_tuple(m, r->origin, tr->origin);
+    matrix_multiply_tuple(m, r->direction, tr->direction);
     return tr;
 }
 
 void ray_destroy(Ray *r) {
-    free(r->origin);
-    free(r->direction);
     free(r);
 }
 
-Tuple ray_position(const Ray *r, double t) {
-    return tuple_add(r->origin, tuple_scale(r->direction, t));
+void ray_position(const Ray *r, double t, TuplePtr res) {
+    Tuple tmp = {0};
+    tuple_scale(r->direction, t, tmp);
+    return tuple_add(r->origin, tmp, res);
 }
 
-Sphere *ray_sphere() {
+void *ray_sphere_init(Sphere *s) {
     static int id = 0;
-    Sphere *s = malloc(sizeof(Sphere));
     s->id = id++;
-    s->origin = tuple_point(0, 0, 0);
-    s->transform = matrix_IdentityMatrix();
-    return s;
 }
 
 void ray_sphere_set_transform(Sphere *s, Matrix *m) {
@@ -41,7 +30,6 @@ void ray_sphere_set_transform(Sphere *s, Matrix *m) {
 }
 
 void ray_sphere_destroy(Sphere *s) {
-    free(s->origin);
     free(s);
 }
 
@@ -52,7 +40,8 @@ void ray_intersection_destroy(Intersection *i) {
 Intersection **ray_intersect(Sphere *s, const Ray *r, int *count) {
     Matrix *in = matrix_inverse(s->transform);
     Ray *t = ray_transform(r, in);
-    Tuple sphere_to_ray = tuple_subtract(t->origin, s->origin);
+    Tuple sphere_to_ray = {0};
+    tuple_subtract(t->origin, s->origin);
 
 
     double dot = tuple_dot(t->direction, t->direction);
@@ -63,7 +52,6 @@ Intersection **ray_intersect(Sphere *s, const Ray *r, int *count) {
 
     ray_destroy(t);
     matrix_destroy(in);
-    tuple_destroy(sphere_to_ray);
     if (discriminant < 0) {
        *count = 0; 
        return NULL;
