@@ -25,9 +25,10 @@ Projectile	excercises/projectile.c	/^struct Projectile {$/;"	s	file:
 RAY_H	src/ray.h	/^#define RAY_H$/;"	d
 Ray	src/ray.h	/^typedef struct Ray {$/;"	s
 Ray	src/ray.h	/^} Ray;$/;"	t	typeref:struct:Ray
+SPHERE_H	src/sphere.h	/^#define SPHERE_H$/;"	d
 Settings	.ycm_extra_conf.py	/^def Settings(**kwargs):$/;"	f
-Sphere	src/ray.h	/^typedef struct Sphere {$/;"	s
-Sphere	src/ray.h	/^} Sphere;$/;"	t	typeref:struct:Sphere
+Sphere	src/sphere.h	/^typedef struct Sphere {$/;"	s
+Sphere	src/sphere.h	/^} Sphere;$/;"	t	typeref:struct:Sphere
 TESTDIR	Makefile	/^TESTDIR=$(BINDIR)\/tests$/;"	m
 TUPLES_H	src/tuples.h	/^#define TUPLES_H$/;"	d
 TUPLE_LEN	src/tuples.h	/^#define TUPLE_LEN /;"	d
@@ -57,7 +58,7 @@ ex	Makefile	/^ex:$/;"	t
 gravity	excercises/projectile.c	/^    Tuple gravity;$/;"	m	struct:Environment	typeref:typename:Tuple	file:
 height	src/canvas.h	/^    int height;$/;"	m	struct:__anon3d99860e0108	typeref:typename:int
 hour	excercises/analog.c	/^    Tuple hour;$/;"	m	struct:Clock	typeref:typename:Tuple	file:
-id	src/ray.h	/^   int id; $/;"	m	struct:Sphere	typeref:typename:int
+id	src/sphere.h	/^   int id; $/;"	m	struct:Sphere	typeref:typename:int
 main	excercises/analog.c	/^int main() {$/;"	f	typeref:typename:int
 main	excercises/projectile.c	/^int main() {$/;"	f	typeref:typename:int
 main	excercises/shadow.c	/^int main() {$/;"	f	typeref:typename:int
@@ -65,6 +66,7 @@ main	tests/canvas.c	/^int main() {$/;"	f	typeref:typename:int
 main	tests/colors.c	/^int main() {$/;"	f	typeref:typename:int
 main	tests/matrix.c	/^int main() {$/;"	f	typeref:typename:int
 main	tests/ray.c	/^int main() {$/;"	f	typeref:typename:int
+main	tests/sphere.c	/^int main() {$/;"	f	typeref:typename:int
 main	tests/tuples.c	/^int main() {$/;"	f	typeref:typename:int
 main	tests/utils.c	/^int main() {$/;"	f	typeref:typename:int
 matrix	src/matrix.c	/^Matrix *matrix(int dim) {$/;"	f	typeref:typename:Matrix *
@@ -91,7 +93,7 @@ matrix_transpose	src/matrix.c	/^Matrix *matrix_transpose(const Matrix *m) {$/;"	
 object	src/ray.h	/^    void *object;$/;"	m	struct:Intersection	typeref:typename:void *
 origin	excercises/analog.c	/^    Tuple origin;$/;"	m	struct:Clock	typeref:typename:Tuple	file:
 origin	src/ray.h	/^    Tuple origin;$/;"	m	struct:Ray	typeref:typename:Tuple
-origin	src/ray.h	/^   Tuple origin;$/;"	m	struct:Sphere	typeref:typename:Tuple
+origin	src/sphere.h	/^   Tuple origin;$/;"	m	struct:Sphere	typeref:typename:Tuple
 pixels	src/canvas.h	/^    double *pixels;$/;"	m	struct:__anon3d99860e0108	typeref:typename:double *
 position	excercises/projectile.c	/^    Tuple position;$/;"	m	struct:Projectile	typeref:typename:Tuple	file:
 ray_destroy	src/ray.c	/^void ray_destroy(Ray *r) {$/;"	f	typeref:typename:void
@@ -100,10 +102,9 @@ ray_intersect	src/ray.c	/^Intersection **ray_intersect(Sphere *s, const Ray *r, 
 ray_intersection_destroy	src/ray.c	/^void ray_intersection_destroy(Intersection *i) {$/;"	f	typeref:typename:void
 ray_intersections	src/ray.c	/^Intersection **ray_intersections(int num, ...) {$/;"	f	typeref:typename:Intersection **
 ray_position	src/ray.c	/^void ray_position(const Ray *r, double t, Tuple res) {$/;"	f	typeref:typename:void
-ray_sphere_destroy	src/ray.c	/^void ray_sphere_destroy(Sphere *s) {$/;"	f	typeref:typename:void
-ray_sphere_init	src/ray.c	/^void ray_sphere_init(Sphere *s) {$/;"	f	typeref:typename:void
-ray_sphere_set_transform	src/ray.c	/^void ray_sphere_set_transform(Sphere *s, const Matrix *m) {$/;"	f	typeref:typename:void
 ray_transform	src/ray.c	/^Ray *ray_transform(const Ray *r, const Matrix *m) {$/;"	f	typeref:typename:Ray *
+sphere_init	src/sphere.c	/^void sphere_init(Sphere *s) {$/;"	f	typeref:typename:void
+sphere_set_transform	src/sphere.c	/^void sphere_set_transform(Sphere *s, const Matrix *m) {$/;"	f	typeref:typename:void
 t	src/ray.h	/^    double t;$/;"	m	struct:Intersection	typeref:typename:double
 test	Makefile	/^test: build-tests$/;"	t
 test_aggregating_intersections	tests/ray.c	/^void test_aggregating_intersections() {$/;"	f	typeref:typename:void
@@ -185,7 +186,7 @@ test_tuple_subtract_tuple_vector_from_tuple_point	tests/tuples.c	/^void test_tup
 test_tuple_subtract_two_tuple_points	tests/tuples.c	/^void test_tuple_subtract_two_tuple_points() {$/;"	f	typeref:typename:void
 test_tuple_subtract_two_tuple_vectors	tests/tuples.c	/^void test_tuple_subtract_two_tuple_vectors() {$/;"	f	typeref:typename:void
 tick	excercises/projectile.c	/^void tick(struct Environment env, struct Projectile *proj, Tuple add) {$/;"	f	typeref:typename:void
-transform	src/ray.h	/^   const Matrix *transform;$/;"	m	struct:Sphere	typeref:typename:const Matrix *
+transform	src/sphere.h	/^   const Matrix *transform;$/;"	m	struct:Sphere	typeref:typename:const Matrix *
 tuple_add	src/tuples.c	/^void tuple_add(const Tuple t1, const Tuple t2, Tuple res) {$/;"	f	typeref:typename:void
 tuple_compare	src/tuples.c	/^int tuple_compare(const Tuple t1, const Tuple t2) {$/;"	f	typeref:typename:int
 tuple_cross	src/tuples.c	/^void tuple_cross(const Tuple v1, const Tuple v2, Tuple res) {$/;"	f	typeref:typename:void

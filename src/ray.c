@@ -1,5 +1,7 @@
 #include <math.h>
 #include <stdarg.h>
+#include <stdlib.h>
+
 #include "ray.h"
 #include "matrix.h"
 
@@ -20,29 +22,10 @@ void ray_position(const Ray *r, double t, Tuple res) {
     tuple_add(r->origin, tmp, res);
 }
 
-void ray_sphere_init(Sphere *s) {
-    static int id = 0;
-    s->id = id++;
-    s->origin[0] = 0;
-    s->origin[1] = 0;
-    s->origin[2] = 0;
-    tuple_point(s->origin);
-    s->transform = matrix_IdentityMatrix();
-}
-
-void ray_sphere_set_transform(Sphere *s, const Matrix *m) {
-    s->transform = m;
-}
-
-void ray_sphere_destroy(Sphere *s) {
-    free(s);
-}
 
 void ray_intersection_destroy(Intersection *i) {
     free(i);
 }
-
-#include <stdio.h>
 
 Intersection **ray_intersect(Sphere *s, const Ray *r, int *count) {
     Matrix *in = matrix_inverse(s->transform);

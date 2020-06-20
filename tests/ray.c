@@ -1,8 +1,11 @@
 #include <assert.h>
+#include <stddef.h>
+
 #include "../src/ray.h"
 #include "../src/matrix.h"
 #include "../src/tuples.h"
 #include "../src/utils.h"
+#include "../src/sphere.h"
 
 void test_create_and_query_ray() {
     Ray r = {.origin = {1, 2, 3}, .direction = {4, 5, 6}};
@@ -62,7 +65,7 @@ void test_ray_intersects_a_sphere_at_two_points() {
     tuple_vector(r.direction);
 
     Sphere s;
-    ray_sphere_init(&s);
+    sphere_init(&s);
 
     int count;
     Intersection **xs = ray_intersect(&s, &r, &count);
@@ -82,7 +85,7 @@ void test_ray_intersects_sphere_at_tangent() {
     tuple_vector(r.direction);
     
     Sphere s;
-    ray_sphere_init(&s);
+    sphere_init(&s);
 
     int count;
     Intersection **xs = ray_intersect(&s, &r, &count);
@@ -101,7 +104,7 @@ void test_ray_misses_a_sphere() {
     tuple_vector(r.direction);
     
     Sphere s;
-    ray_sphere_init(&s);
+    sphere_init(&s);
     int count;
     Intersection **xs = ray_intersect(&s, &r, &count);
     assert(count == 0);
@@ -118,7 +121,7 @@ void test_ray_originates_in_a_sphere() {
     tuple_vector(r.direction);
     
     Sphere s;
-    ray_sphere_init(&s);
+    sphere_init(&s);
     int count;
     Intersection **xs = ray_intersect(&s, &r, &count);
     assert(equals(count, 2));
@@ -136,7 +139,7 @@ void test_sphere_is_behind_ray() {
     tuple_vector(r.direction);
 
     Sphere s;
-    ray_sphere_init(&s);
+    sphere_init(&s);
 
     int count;
     Intersection **xs = ray_intersect(&s, &r, &count);
@@ -147,7 +150,7 @@ void test_sphere_is_behind_ray() {
 
 void test_intersection_encapsulates_t_and_object() {
     Sphere s;
-    ray_sphere_init(&s);
+    sphere_init(&s);
 
     Intersection i = { .t=3.5, .object=&s };
     assert(equals(i.t, 3.5));
@@ -156,7 +159,7 @@ void test_intersection_encapsulates_t_and_object() {
 
 void test_aggregating_intersections() {
     Sphere s;
-    ray_sphere_init(&s);
+    sphere_init(&s);
 
     Intersection i1 = { .t=1, .object=&s };
     Intersection i2 = { .t=2, .object=&s };
@@ -175,7 +178,7 @@ void test_intersect_sets_the_object_on_the_intersection() {
     tuple_vector(r.direction);
     
     Sphere s;
-    ray_sphere_init(&s);
+    sphere_init(&s);
     int count;
     Intersection **xs = ray_intersect(&s,& r, &count);
     assert(xs[0]->object == &s);
@@ -184,7 +187,7 @@ void test_intersect_sets_the_object_on_the_intersection() {
 
 void test_ray_hit_when_all_intersections_are_positive() {
     Sphere s;
-    ray_sphere_init(&s);
+    sphere_init(&s);
 
     Intersection i1 = { 1, &s };
     Intersection i2 = { 2, &s };
@@ -194,7 +197,7 @@ void test_ray_hit_when_all_intersections_are_positive() {
 
 void test_ray_hit_when_some_intersections_are_negative() {
     Sphere s;
-    ray_sphere_init(&s);
+    sphere_init(&s);
     
     Intersection i1 = { -1, &s };
     Intersection i2 = { 1, &s };
@@ -204,7 +207,7 @@ void test_ray_hit_when_some_intersections_are_negative() {
 
 void test_ray_hit_when_all_intersections_are_negative() {
     Sphere s;
-    ray_sphere_init(&s);
+    sphere_init(&s);
 
     Intersection i1 = { -2, &s };
     Intersection i2 = { -1, &s };
@@ -214,7 +217,7 @@ void test_ray_hit_when_all_intersections_are_negative() {
 
 void test_ray_hit_is_always_the_lowest_non_negative_intersection() {
     Sphere s;
-    ray_sphere_init(&s);
+    sphere_init(&s);
 
     Intersection i1 = { 5, &s };
     Intersection i2 = { 7, &s };
@@ -270,17 +273,17 @@ void test_scaling_a_ray() {
 
 void test_sphere_default_transformation() {
     Sphere s;
-    ray_sphere_init(&s);
+    sphere_init(&s);
 
     assert(matrix_compare(s.transform, matrix_IdentityMatrix()));
 }
 
 void test_changing_a_spheres_transformation() {
     Sphere s;
-    ray_sphere_init(&s);
+    sphere_init(&s);
 
     Matrix *t = matrix_translation(2, 3, 4);
-    ray_sphere_set_transform(&s, t);
+    sphere_set_transform(&s, t);
     assert(matrix_compare(s.transform, t));
 }
 
@@ -294,9 +297,9 @@ void test_intersecting_a_scaled_sphere_with_a_ray() {
     tuple_vector(r.direction);
 
     Sphere s;
-    ray_sphere_init(&s);
+    sphere_init(&s);
 
-    ray_sphere_set_transform(&s, matrix_scaling(2, 2, 2));
+    sphere_set_transform(&s, matrix_scaling(2, 2, 2));
     int count;
     Intersection **xs = ray_intersect(&s, &r, &count);
     assert(count == 2);
@@ -314,9 +317,9 @@ void test_intersecting_a_translated_sphere_with_a_ray() {
     tuple_vector(r.direction);
 
     Sphere s;
-    ray_sphere_init(&s);
+    sphere_init(&s);
 
-    ray_sphere_set_transform(&s, matrix_translation(5, 0, 0));
+    sphere_set_transform(&s, matrix_translation(5, 0, 0));
     int count;
     ray_intersect(&s, &r, &count);
     assert(count == 0);

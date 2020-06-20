@@ -19,7 +19,7 @@ build-tests:
 	$(CCTEST) src/colors.c src/tuples.c tests/colors.c -o $(TESTDIR)/colors
 	$(CCTEST) src/canvas.c src/colors.c src/tuples.c tests/canvas.c -o $(TESTDIR)/canvas
 	$(CCTEST) src/matrix.c src/tuples.c tests/matrix.c -o $(TESTDIR)/matrix
-	$(CCTEST) src/ray.c src/tuples.c src/matrix.c tests/ray.c -o $(TESTDIR)/ray
+	$(CCTEST) src/ray.c src/tuples.c src/matrix.c src/sphere.c tests/ray.c -o $(TESTDIR)/ray
 
 test: build-tests
 	$(BINDIR)/tests/tuples
