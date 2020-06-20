@@ -11,7 +11,7 @@ build:
 ex:
 	$(CC) excercises/projectile.c src/tuples.c src/utils.c src/canvas.c src/colors.c -o $(EXDIR)/projectile
 	$(CC) excercises/analog.c src/matrix.c src/tuples.c src/utils.c src/canvas.c src/colors.c -o $(EXDIR)/analog
-	$(CC) excercises/shadow.c src/ray.c src/matrix.c src/tuples.c src/utils.c src/canvas.c src/colors.c -o $(EXDIR)/shadow
+	$(CC) excercises/shadow.c src/ray.c src/sphere.c src/matrix.c src/tuples.c src/utils.c src/canvas.c src/colors.c -o $(EXDIR)/shadow
 
 bst:
 

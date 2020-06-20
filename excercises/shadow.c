@@ -1,11 +1,14 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+
 #include "../src/ray.h"
 #include "../src/canvas.h"
 #include "../src/matrix.h"
 #include "../src/tuples.h"
 #include "../src/colors.h"
 #include "../src/utils.h"
+#include "../src/sphere.h"
 
 int main() {
     double wall_z = 10;
@@ -19,7 +22,7 @@ int main() {
     tuple_point(ray_origin);
 
     Sphere s;
-    ray_sphere_init(&s);
+    sphere_init(&s);
     Tuple hit_pixel = {1, 0, 0};
     int count;
 
