@@ -13,6 +13,8 @@ ex:
 	$(CC) excercises/analog.c src/matrix.c src/tuples.c src/utils.c src/canvas.c src/colors.c -o $(EXDIR)/analog
 	$(CC) excercises/shadow.c src/ray.c src/matrix.c src/tuples.c src/utils.c src/canvas.c src/colors.c -o $(EXDIR)/shadow
 
+bst:
+
 build-tests:
 	$(CCTEST) tests/utils.c -o $(TESTDIR)/utils
 	$(CCTEST) src/tuples.c tests/tuples.c -o $(TESTDIR)/tuples
@@ -20,14 +22,16 @@ build-tests:
 	$(CCTEST) src/canvas.c src/colors.c src/tuples.c tests/canvas.c -o $(TESTDIR)/canvas
 	$(CCTEST) src/matrix.c src/tuples.c tests/matrix.c -o $(TESTDIR)/matrix
 	$(CCTEST) src/ray.c src/tuples.c src/matrix.c src/sphere.c tests/ray.c -o $(TESTDIR)/ray
+	$(CCTEST) src/sphere.c src/tuples.c src/matrix.c tests/sphere.c -o $(TESTDIR)/sphere
 
 test: build-tests
-	$(BINDIR)/tests/tuples
-	$(BINDIR)/tests/utils
-	$(BINDIR)/tests/colors
-	$(BINDIR)/tests/canvas
-	$(BINDIR)/tests/matrix
-	$(BINDIR)/tests/ray
+	$(TESTDIR)/tuples
+	$(TESTDIR)/utils
+	$(TESTDIR)/colors
+	$(TESTDIR)/canvas
+	$(TESTDIR)/matrix
+	$(TESTDIR)/ray
+	$(TESTDIR)/sphere
 
 clean:
 	rm -rf ./bin/excercises/*

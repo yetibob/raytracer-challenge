@@ -18,4 +18,6 @@ void sphere_init(Sphere *s);
 void sphere_destroy(Sphere *s);
 void sphere_set_transform(Sphere *s, const Matrix *m);
 
+void sphere_normal_at(const Sphere *s, const Tuple p, Tuple res);
+
 #endif

@@ -154,6 +154,7 @@ test_multiply_tuple_point_by_matrix_translation_matrix	tests/matrix.c	/^void tes
 test_multiply_tuple_point_by_matrix_translation_matrix_inverse	tests/matrix.c	/^void test_multiply_tuple_point_by_matrix_translation_matrix_inverse() {$/;"	f	typeref:typename:void
 test_multiply_tuple_vector_by_matrix_translation_does_nothing	tests/matrix.c	/^void test_multiply_tuple_vector_by_matrix_translation_does_nothing() {$/;"	f	typeref:typename:void
 test_mutliply_color_by_scalar	tests/colors.c	/^void test_mutliply_color_by_scalar() {$/;"	f	typeref:typename:void
+test_normal_is_always_normalized	tests/sphere.c	/^void test_normal_is_always_normalized() {$/;"	f	typeref:typename:void
 test_ray_hit_is_always_the_lowest_non_negative_intersection	tests/ray.c	/^void test_ray_hit_is_always_the_lowest_non_negative_intersection() {$/;"	f	typeref:typename:void
 test_ray_hit_when_all_intersections_are_negative	tests/ray.c	/^void test_ray_hit_when_all_intersections_are_negative() {$/;"	f	typeref:typename:void
 test_ray_hit_when_all_intersections_are_positive	tests/ray.c	/^void test_ray_hit_when_all_intersections_are_positive() {$/;"	f	typeref:typename:void
@@ -171,6 +172,10 @@ test_scale_matrix_applied_to_tuple_vector	tests/matrix.c	/^void test_scale_matri
 test_scaling_a_ray	tests/ray.c	/^void test_scaling_a_ray() {$/;"	f	typeref:typename:void
 test_sphere_default_transformation	tests/ray.c	/^void test_sphere_default_transformation() {$/;"	f	typeref:typename:void
 test_sphere_is_behind_ray	tests/ray.c	/^void test_sphere_is_behind_ray() {$/;"	f	typeref:typename:void
+test_sphere_normal_on_nonaxial	tests/sphere.c	/^void test_sphere_normal_on_nonaxial() {$/;"	f	typeref:typename:void
+test_sphere_normal_on_x_axis	tests/sphere.c	/^void test_sphere_normal_on_x_axis() {$/;"	f	typeref:typename:void
+test_sphere_normal_on_y_axis	tests/sphere.c	/^void test_sphere_normal_on_y_axis() {$/;"	f	typeref:typename:void
+test_sphere_normal_on_z_axis	tests/sphere.c	/^void test_sphere_normal_on_z_axis() {$/;"	f	typeref:typename:void
 test_translating_a_ray	tests/ray.c	/^void test_translating_a_ray() {$/;"	f	typeref:typename:void
 test_tuple_add	tests/tuples.c	/^void test_tuple_add() {$/;"	f	typeref:typename:void
 test_tuple_add_colors	tests/colors.c	/^void test_tuple_add_colors() {$/;"	f	typeref:typename:void
