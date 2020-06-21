@@ -8,15 +8,11 @@
 #include "../src/sphere.h"
 
 void test_create_and_query_ray() {
-    Ray r = {.origin = {1, 2, 3}, .direction = {4, 5, 6}};
-    tuple_point(r.origin);
-    tuple_vector(r.direction);
+    Ray r = {.origin = {1, 2, 3, POINT}, .direction = {4, 5, 6, VEC}};
 
-    Tuple origin_e = {1, 2, 3};
-    tuple_point(origin_e);
+    Tuple origin_e = {1, 2, 3, POINT};
 
-    Tuple dir_e = {4, 5, 6};
-    tuple_vector(dir_e);
+    Tuple dir_e = {4, 5, 6, VEC};
 
     assert(tuple_compare(r.origin, origin_e));
     assert(tuple_compare(r.direction, dir_e));
@@ -24,12 +20,10 @@ void test_create_and_query_ray() {
 
 void test_compute_a_point_from_a_distance() {
     Ray r = {
-        .origin = {2, 3, 4},
-        .direction = {1, 0, 0}
+        .origin = {2, 3, 4, POINT},
+        .direction = {1, 0, 0, VEC}
     };
 
-    tuple_point(r.origin);
-    tuple_vector(r.direction);
     
     Tuple p1;
     ray_position(&r, 0, p1);
@@ -40,14 +34,10 @@ void test_compute_a_point_from_a_distance() {
     Tuple p4;
     ray_position(&r, 2.5, p4);
 
-    Tuple e1 = {2, 3, 4};
-    tuple_point(e1);
-    Tuple e2 = {3, 3, 4};
-    tuple_point(e2);
-    Tuple e3 = {1, 3, 4};
-    tuple_point(e3);
-    Tuple e4 = {4.5, 3, 4};
-    tuple_point(e4);
+    Tuple e1 = {2, 3, 4, POINT};
+    Tuple e2 = {3, 3, 4, POINT};
+    Tuple e3 = {1, 3, 4, POINT};
+    Tuple e4 = {4.5, 3, 4, POINT};
 
     assert(tuple_compare(e1, p1));
     assert(tuple_compare(e2, p2));
@@ -57,12 +47,9 @@ void test_compute_a_point_from_a_distance() {
 
 void test_ray_intersects_a_sphere_at_two_points() {
     Ray r = {
-        .origin = {0, 0, -5},
-        .direction = {0, 0, 1}
+        .origin = {0, 0, -5, POINT},
+        .direction = {0, 0, 1, VEC}
     };
-
-    tuple_point(r.origin);
-    tuple_vector(r.direction);
 
     Sphere s;
     sphere_init(&s);
@@ -77,13 +64,10 @@ void test_ray_intersects_a_sphere_at_two_points() {
 
 void test_ray_intersects_sphere_at_tangent() {
     Ray r = {
-        .origin = {0, 1, -5},
-        .direction = {0, 0, 1}
+        .origin = {0, 1, -5, POINT},
+        .direction = {0, 0, 1, VEC}
     };
 
-    tuple_point(r.origin);
-    tuple_vector(r.direction);
-    
     Sphere s;
     sphere_init(&s);
 
@@ -96,12 +80,9 @@ void test_ray_intersects_sphere_at_tangent() {
 
 void test_ray_misses_a_sphere() {
     Ray r = {
-        .origin = {0, 2, -5},
-        .direction = {0, 0, 1}
+        .origin = {0, 2, -5, POINT},
+        .direction = {0, 0, 1, VEC}
     };
-
-    tuple_point(r.origin);
-    tuple_vector(r.direction);
     
     Sphere s;
     sphere_init(&s);
@@ -113,12 +94,9 @@ void test_ray_misses_a_sphere() {
 
 void test_ray_originates_in_a_sphere() {
     Ray r = {
-        .origin = {0, 0, 0},
-        .direction = {0, 0, 1}
+        .origin = {0, 0, 0, POINT},
+        .direction = {0, 0, 1, VEC}
     };
-
-    tuple_point(r.origin);
-    tuple_vector(r.direction);
     
     Sphere s;
     sphere_init(&s);
@@ -131,12 +109,9 @@ void test_ray_originates_in_a_sphere() {
 
 void test_sphere_is_behind_ray() {
     Ray r = {
-        .origin = {0, 0, 5},
-        .direction = {0, 0, 1}
+        .origin = {0, 0, 5, POINT},
+        .direction = {0, 0, 1, VEC}
     };
-
-    tuple_point(r.origin);
-    tuple_vector(r.direction);
 
     Sphere s;
     sphere_init(&s);
@@ -170,12 +145,9 @@ void test_aggregating_intersections() {
 
 void test_intersect_sets_the_object_on_the_intersection() {
     Ray r = {
-        .origin = {0, 0, -5},
-        .direction = {0, 0, 1}
+        .origin = {0, 0, -5, POINT},
+        .direction = {0, 0, 1, VEC}
     };
-
-    tuple_point(r.origin);
-    tuple_vector(r.direction);
     
     Sphere s;
     sphere_init(&s);
@@ -229,21 +201,16 @@ void test_ray_hit_is_always_the_lowest_non_negative_intersection() {
 
 void test_translating_a_ray() {
     Ray r = {
-        .origin = {1, 2, 3},
-        .direction = {0, 1, 0}
+        .origin = {1, 2, 3, POINT},
+        .direction = {0, 1, 0, VEC}
     };
-
-    tuple_point(r.origin);
-    tuple_vector(r.direction);
 
     Matrix *m = matrix_translation(3, 4, 5);
     Ray *r2 = ray_transform(&r, m);
 
-    Tuple e1 = {4, 6, 8};
-    tuple_point(e1);
+    Tuple e1 = {4, 6, 8, POINT};
 
-    Tuple e2 = {0, 1, 0};
-    tuple_vector(e2);
+    Tuple e2 = {0, 1, 0, VEC};
 
     assert(tuple_compare(r2->origin, e1));
     assert(tuple_compare(r2->direction, e2));
@@ -251,21 +218,16 @@ void test_translating_a_ray() {
 
 void test_scaling_a_ray() {
     Ray r = {
-        .origin = {1, 2, 3},
-        .direction = {0, 1, 0}
+        .origin = {1, 2, 3, POINT},
+        .direction = {0, 1, 0, VEC}
     };
-
-    tuple_point(r.origin);
-    tuple_vector(r.direction);
     
     Matrix *m = matrix_scaling(2, 3, 4);
     Ray *r2 = ray_transform(&r, m);
 
-    Tuple e1 = {2, 6, 12};
-    tuple_point(e1);
+    Tuple e1 = {2, 6, 12, POINT};
 
-    Tuple e2 = {0, 3, 0};
-    tuple_vector(e2);
+    Tuple e2 = {0, 3, 0, VEC};
     
     assert(tuple_compare(r2->origin, e1));
     assert(tuple_compare(r2->direction, e2));
@@ -289,12 +251,9 @@ void test_changing_a_spheres_transformation() {
 
 void test_intersecting_a_scaled_sphere_with_a_ray() {
     Ray r = {
-        .origin = {0, 0, -5},
-        .direction = {0, 0, 1}
+        .origin = {0, 0, -5, POINT},
+        .direction = {0, 0, 1, VEC}
     };
-
-    tuple_point(r.origin);
-    tuple_vector(r.direction);
 
     Sphere s;
     sphere_init(&s);
@@ -309,12 +268,9 @@ void test_intersecting_a_scaled_sphere_with_a_ray() {
 
 void test_intersecting_a_translated_sphere_with_a_ray() {
     Ray r = {
-        .origin = {0, 0, -5},
-        .direction = {0, 0, 1}
+        .origin = {0, 0, -5, POINT},
+        .direction = {0, 0, 1, VEC}
     };
-
-    tuple_point(r.origin);
-    tuple_vector(r.direction);
 
     Sphere s;
     sphere_init(&s);

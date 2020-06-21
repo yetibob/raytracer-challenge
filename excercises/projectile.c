@@ -26,8 +26,7 @@ void tick(struct Environment env, struct Projectile *proj, Tuple add) {
 }
 
 int main() {
-    Tuple s = {1, 1.8, 0};
-    tuple_vector(s);
+    Tuple s = {1, 1.8, 0, VEC};
 
     Tuple norm;
     tuple_normalize(s, norm);
@@ -35,14 +34,12 @@ int main() {
     Tuple scaled;
     tuple_scale(norm, scaled, 11.25);
 
-    struct Projectile p = { .position = {0, 1 ,0}};
+    struct Projectile p = { .position = {0, 1 ,0, POINT}};
     memcpy(p.velocity, scaled, sizeof(double) * TUPLE_LEN);
-    tuple_point(p.position);
     tuple_vector(p.velocity);
 
-    struct Environment e = { .gravity={0, -0.1, 0}, .wind={-0.01, 0, 0} };
-    tuple_vector(e.gravity);
-    tuple_vector(e.wind);
+    struct Environment e = { .gravity={0, -0.1, 0, VEC}, .wind={-0.01, 0, 0, VEC} };
+
     Tuple add;
     tuple_add(e.gravity, e.wind, add);
     Canvas *c = canvas(900, 550);

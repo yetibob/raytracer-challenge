@@ -25,7 +25,7 @@ void tuple_point(Tuple t){
 }
 
 int tuple_is_point(const Tuple t) {
-    if (equals(tuple_w(t), 1)) {
+    if (equals(tuple_w(t), POINT)) {
         return 1;
     }
     return 0;
@@ -36,7 +36,7 @@ void tuple_vector(Tuple t) {
 }
 
 int tuple_is_vector(const Tuple t) {
-    if (equals(tuple_w(t), 0)) {
+    if (equals(tuple_w(t), VEC)) {
         return 1;
     }
     return 0;
@@ -51,35 +51,35 @@ int tuple_compare(const Tuple t1, const Tuple t2) {
     return 1;
 }
 
-void tuple_add(const Tuple t1, const Tuple t2, Tuple res) {
+void tuple_add(const Tuple t1, const Tuple t2, Tuple out) {
     for(int i = 0; i < TUPLE_LEN; i++) {
-        res[i] = t1[i] + t2[i];
+        out[i] = t1[i] + t2[i];
     }
 }
 
-void tuple_subtract(const Tuple t1, const Tuple t2, Tuple res) {
+void tuple_subtract(const Tuple t1, const Tuple t2, Tuple out) {
     for (int i = 0; i < TUPLE_LEN; i++) {
-        res[i] = t1[i] - t2[i];
+        out[i] = t1[i] - t2[i];
     }
 }
 
-void tuple_negate(const Tuple t, Tuple res) {
+void tuple_negate(const Tuple t, Tuple out) {
     Tuple zt = {0};
-    tuple_subtract(zt, t, res);
+    tuple_subtract(zt, t, out);
 }
 
-void tuple_scale(const Tuple t, Tuple res, double scalar) {
-    res[0] = t[0] * scalar;
-    res[1] = t[1] * scalar;
-    res[2] = t[2] * scalar;
-    res[3] = t[3];
+void tuple_scale(const Tuple t, Tuple out, double scalar) {
+    out[0] = t[0] * scalar;
+    out[1] = t[1] * scalar;
+    out[2] = t[2] * scalar;
+    out[3] = t[3];
 }
 
-void tuple_dscale(const Tuple t, Tuple res, double scalar) {
-    res[0] = t[0] / scalar;
-    res[1] = t[1] / scalar;
-    res[2] = t[2] / scalar;
-    res[3] = t[3];
+void tuple_dscale(const Tuple t, Tuple out, double scalar) {
+    out[0] = t[0] / scalar;
+    out[1] = t[1] / scalar;
+    out[2] = t[2] / scalar;
+    out[3] = t[3];
 }
 
 double tuple_magnitude(const Tuple t) {
@@ -87,12 +87,12 @@ double tuple_magnitude(const Tuple t) {
     return sqrt(m);
 }
 
-void tuple_normalize(const Tuple t, Tuple res) {
+void tuple_normalize(const Tuple t, Tuple out) {
     double m = tuple_magnitude(t);
-    res[0] = t[0] / m;
-    res[1] = t[1] / m;
-    res[2] = t[2] / m;
-    res[3] = t[3];
+    out[0] = t[0] / m;
+    out[1] = t[1] / m;
+    out[2] = t[2] / m;
+    out[3] = t[3];
 }
 
 double tuple_dot(const Tuple v1, const Tuple v2) {
@@ -104,8 +104,8 @@ double tuple_dot(const Tuple v1, const Tuple v2) {
     return sum;
 }
 
-void tuple_cross(const Tuple v1, const Tuple v2, Tuple res) {
-    res[0] = (tuple_y(v1) * tuple_z(v2)) - (tuple_z(v1) * tuple_y(v2));
-    res[1] = (tuple_z(v1) * tuple_x(v2)) - (tuple_x(v1) * tuple_z(v2));
-    res[2] = (tuple_x(v1) * tuple_y(v2)) - (tuple_y(v1) * tuple_x(v2));
+void tuple_cross(const Tuple v1, const Tuple v2, Tuple out) {
+    out[0] = (tuple_y(v1) * tuple_z(v2)) - (tuple_z(v1) * tuple_y(v2));
+    out[1] = (tuple_z(v1) * tuple_x(v2)) - (tuple_x(v1) * tuple_z(v2));
+    out[2] = (tuple_x(v1) * tuple_y(v2)) - (tuple_y(v1) * tuple_x(v2));
 }

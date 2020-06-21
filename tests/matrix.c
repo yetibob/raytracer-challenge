@@ -55,12 +55,12 @@ void test_matrix_multiply() {
 void test_matrix_multiply_tuple() {
     double a[16] = { 1, 2, 3, 4, 2, 4, 4, 2, 8, 6, 4, 1, 0, 0, 0, 1 };
     Matrix *m = matrix_gen(a, 4);
-    Tuple t1 = {1, 2, 3};
-    tuple_point(t1);
+    Tuple t1 = {1, 2, 3, POINT};
+    
     Tuple result;
     matrix_multiply_tuple(m, t1, result);
-    Tuple e = {18, 24, 33};
-    tuple_point(e);
+
+    Tuple e = {18, 24, 33, POINT};
     assert(tuple_compare(e, result));
 }
 
@@ -73,9 +73,9 @@ void test_multiply_matrix_by_identity_matrix() {
 }
 
 void test_multiply_tuple_by_identity_matrix() {
-    Tuple t = {1, 2, 3};
-    tuple_point(t);
+    Tuple t = {1, 2, 3, POINT};
     t[3] = 4;
+
     Tuple result;
     matrix_multiply_tuple(matrix_IdentityMatrix(), t, result);
     assert(tuple_compare(t, result));
@@ -214,32 +214,29 @@ void test_multiply_product_by_its_matrix_inverse() {
 
 void test_multiply_tuple_point_by_matrix_translation_matrix() {
     Matrix *m = matrix_translation(5, -3, 2);
-    Tuple p = {-3, 4, 5};
-    tuple_point(p);
+    Tuple p = {-3, 4, 5, POINT};
+
     Tuple transformed;
     matrix_multiply_tuple(m, p, transformed);
 
-    Tuple expected = {2, 1, 7};
-    tuple_point(expected);
+    Tuple expected = {2, 1, 7, POINT};
     assert(tuple_compare(transformed, expected)); 
 }
 
 void test_multiply_tuple_point_by_matrix_translation_matrix_inverse() {
     Matrix *m = matrix_inverse(matrix_translation(5, -3, 2));
-    Tuple p = {-3, 4, 5};
-    tuple_point(p);
+    Tuple p = {-3, 4, 5, POINT};
+
     Tuple transformed;
     matrix_multiply_tuple(m, p, transformed);
     
-    Tuple expected = {-8, 7, 3};
-    tuple_point(expected);
+    Tuple expected = {-8, 7, 3, POINT};
     assert(tuple_compare(transformed, expected));
 }
 
 void test_multiply_tuple_vector_by_matrix_translation_does_nothing() {
     Matrix *m = matrix_translation(5, -3, 2);
-    Tuple v = {-3, 4, 5};
-    tuple_vector(v);
+    Tuple v = {-3, 4, 5, VEC};
     
     Tuple transformed;
     matrix_multiply_tuple(m, v, transformed);
@@ -248,198 +245,191 @@ void test_multiply_tuple_vector_by_matrix_translation_does_nothing() {
 
 void test_scale_matrix_applied_to_tuple_point() {
     Matrix *m = matrix_scaling(2, 3, 4);
-    Tuple p = {-4, 6, 8};
-    tuple_point(p);
+    Tuple p = {-4, 6, 8, POINT};
+
     Tuple scaled;
     matrix_multiply_tuple(m, p, scaled);
-    Tuple expected = {-8, 18, 32};
-    tuple_point(expected);
+
+    Tuple expected = {-8, 18, 32, POINT};
     assert(tuple_compare(expected, scaled));
 }
 
 void test_scale_matrix_applied_to_tuple_vector() {
     Matrix *m = matrix_scaling(2, 3, 4);
-    Tuple v = {-4, 6, 8};
-    tuple_vector(v);
+    Tuple v = {-4, 6, 8, VEC};
+
     Tuple scaled;
     matrix_multiply_tuple(m, v, scaled);
-    Tuple expected = {-8, 18, 32};
-    tuple_vector(expected);
+
+    Tuple expected = {-8, 18, 32, VEC};
     assert(tuple_compare(expected, scaled));
 }
 
 void test_multiply_by_matrix_inverse_of_matrix_scaling_matrix() {
     Matrix *m = matrix_inverse(matrix_scaling(2, 3, 4));
-    Tuple v = {-4, 6, 8};
-    tuple_vector(v);
+    Tuple v = {-4, 6, 8, VEC};
+
     Tuple scaled;
     matrix_multiply_tuple(m, v, scaled);
-    Tuple expected = {-2, 2, 2};
-    tuple_vector(expected);
+
+    Tuple expected = {-2, 2, 2, VEC};
     assert(tuple_compare(expected, scaled));
 }
 
 void test_rotating_tuple_point_around_x_axis() {
-    Tuple p = {0, 1, 0};
-    tuple_point(p);
+    Tuple p = {0, 1, 0, POINT};
+
     Matrix *half = matrix_rotation_x(M_PI / 4);
     Matrix *full = matrix_rotation_x(M_PI / 2);
+
     Tuple rot1;
     matrix_multiply_tuple(half, p, rot1);
     Tuple rot2;
     matrix_multiply_tuple(full, p, rot2);
 
-    Tuple e1 = {0, sqrt(2)/2, sqrt(2)/2};
-    tuple_point(e1);
-    Tuple e2 = {0, 0, 1};
-    tuple_point(e2);
+    Tuple e1 = {0, sqrt(2)/2, sqrt(2)/2, POINT};
+    Tuple e2 = {0, 0, 1, POINT};
     assert(tuple_compare(e1, rot1));
     assert(tuple_compare(e2, rot2));
 }
 
 void test_rotate_x_axis_by_matrix_inverse() {
-    Tuple p = {0, 1, 0};
-    tuple_point(p);
+    Tuple p = {0, 1, 0, POINT};
+
     Matrix *half = matrix_inverse(matrix_rotation_x(M_PI / 4));
     Tuple rot1;
     matrix_multiply_tuple(half, p, rot1);
 
-    Tuple e1 = {0, sqrt(2)/2, -sqrt(2)/2};
-    tuple_point(e1);
+    Tuple e1 = {0, sqrt(2)/2, -sqrt(2)/2, POINT};
     assert(tuple_compare(e1, rot1));
 }
 
 void test_rotating_tuple_point_around_y_axis() {
-    Tuple p = {0, 0, 1};
-    tuple_point(p);
+    Tuple p = {0, 0, 1, POINT};
+
     Matrix *half = matrix_rotation_y(M_PI / 4);
     Matrix *full = matrix_rotation_y(M_PI / 2);
+
     Tuple rot1;
     matrix_multiply_tuple(half, p, rot1);
     Tuple rot2;
     matrix_multiply_tuple(full, p, rot2);
 
-    Tuple e1 = {sqrt(2)/2, 0, sqrt(2)/2};
-    tuple_point(e1);
-    Tuple e2 = {1, 0, 0};
-    tuple_point(e2);
+    Tuple e1 = {sqrt(2)/2, 0, sqrt(2)/2, POINT};
+    Tuple e2 = {1, 0, 0, POINT};
     assert(tuple_compare(e1, rot1));
     assert(tuple_compare(e2, rot2));
 }
 
 void test_rotating_tuple_point_around_z_axis() {
-    Tuple p = {0, 1, 0};
-    tuple_point(p);
+    Tuple p = {0, 1, 0, POINT};
+    
     Matrix *half = matrix_rotation_z(M_PI / 4);
     Matrix *full = matrix_rotation_z(M_PI / 2);
+    
     Tuple rot1;
     matrix_multiply_tuple(half, p, rot1);
     Tuple rot2;
     matrix_multiply_tuple(full, p, rot2);
 
-    Tuple e1 = {-sqrt(2)/2, sqrt(2)/2, 0};
-    tuple_point(e1);
-    Tuple e2 = {-1, 0, 0};
-    tuple_point(e2);
+    Tuple e1 = {-sqrt(2)/2, sqrt(2)/2, 0, POINT};
+    Tuple e2 = {-1, 0, 0, POINT};
     assert(tuple_compare(e1, rot1));
     assert(tuple_compare(e2, rot2));
 }
 
 void test_matrix_shearing_moves_x_prop_y() {
     Matrix *m = matrix_shearing(1, 0, 0, 0, 0, 0);
-    Tuple p = {2, 3, 4};
-    tuple_point(p);
+    Tuple p = {2, 3, 4, POINT};
+
     Tuple sheared;
     matrix_multiply_tuple(m, p, sheared);
-    Tuple expected = {5, 3, 4};
-    tuple_point(expected);
+    
+    Tuple expected = {5, 3, 4, POINT};
     assert(tuple_compare(expected, sheared));
 }
 
 void test_matrix_shearing_moves_x_prop_z() {
     Matrix *m = matrix_shearing(0, 1, 0, 0, 0, 0);
-    Tuple p = {2, 3, 4};
-    tuple_point(p);
+    Tuple p = {2, 3, 4, POINT};
+
     Tuple sheared;
     matrix_multiply_tuple(m, p, sheared);
-    Tuple expected = {6, 3, 4};
-    tuple_point(expected);
+
+    Tuple expected = {6, 3, 4, POINT};
     assert(tuple_compare(expected, sheared));
 }
 
 void test_matrix_shearing_moves_y_prop_x() {
     Matrix *m = matrix_shearing(0, 0, 1, 0, 0, 0);
-    Tuple p = {2, 3, 4};
-    tuple_point(p);
+    Tuple p = {2, 3, 4, POINT};
+
     Tuple sheared;
     matrix_multiply_tuple(m, p, sheared);
-    Tuple expected = {2, 5, 4};
-    tuple_point(expected);
+
+    Tuple expected = {2, 5, 4, POINT};
     assert(tuple_compare(expected, sheared));
 }
 
 void test_matrix_shearing_moves_y_prop_z() {
     Matrix *m = matrix_shearing(0, 0, 0, 1, 0, 0);
-    Tuple p = {2, 3, 4};
-    tuple_point(p);
+    Tuple p = {2, 3, 4, POINT};
+
     Tuple sheared;
     matrix_multiply_tuple(m, p, sheared);
-    Tuple expected = {2, 7, 4};
-    tuple_point(expected);
+
+    Tuple expected = {2, 7, 4, POINT};
     assert(tuple_compare(expected, sheared));
 }
 
 void test_matrix_shearing_moves_z_prop_x() {
     Matrix *m = matrix_shearing(0, 0, 0, 0, 1, 0);
-    Tuple p = {2, 3, 4};
-    tuple_point(p);
+    Tuple p = {2, 3, 4, POINT};
+
     Tuple sheared;
     matrix_multiply_tuple(m, p, sheared);
-    Tuple expected = {2, 3, 6};
-    tuple_point(expected );
+
+    Tuple expected = {2, 3, 6, POINT};
     assert(tuple_compare(expected, sheared));
 }
 
 void test_matrix_shearing_moves_z_prop_y() {
     Matrix *m = matrix_shearing(0, 0, 0, 0, 0, 1);
-    Tuple p = {2, 3, 4};
-    tuple_point(p);
+    Tuple p = {2, 3, 4, POINT};
+
     Tuple sheared;
     matrix_multiply_tuple(m, p, sheared);
-    Tuple expected = {2, 3, 7};
-    tuple_point(expected);
+
+    Tuple expected = {2, 3, 7, POINT};
     assert(tuple_compare(expected, sheared));
 }
 
 void test_individual_transformations_are_applied_in_sequence() {
-    Tuple p = {1, 0, 1};
-    tuple_point(p);
+    Tuple p = {1, 0, 1, POINT};
     Matrix *rot = matrix_rotation_x(M_PI / 2);
     Matrix *scal = matrix_scaling(5, 5, 5);
     Matrix *trans = matrix_translation(10, 5, 7);
     
     Tuple p2;
     matrix_multiply_tuple(rot, p, p2);
-    Tuple e = {1, -1, 0};
-    tuple_point(e);
+    Tuple e = {1, -1, 0, POINT};
     assert(tuple_compare(p2, e));
     
     Tuple p3;
     matrix_multiply_tuple(scal, p2, p3);
-    Tuple e2 = {5, -5, 0};
-    tuple_point(e2);
+
+    Tuple e2 = {5, -5, 0, POINT};
     assert(tuple_compare(p3, e2));
 
     Tuple p4;
     matrix_multiply_tuple(trans, p3, p4);
-    Tuple e3 = {15, 0, 7};
-    tuple_point(e3);
+
+    Tuple e3 = {15, 0, 7, POINT};
     assert(tuple_compare(p4, e3));
 }
 
 void test_chained_transormations_must_be_applied_in_reverse() {
-    Tuple p = {1, 0, 1};
-    tuple_point(p);
+    Tuple p = {1, 0, 1, POINT};
     Matrix *rot = matrix_rotation_x(M_PI / 2);
     Matrix *scal = matrix_scaling(5, 5, 5);
     Matrix *trans = matrix_translation(10, 5, 7);
@@ -447,8 +437,8 @@ void test_chained_transormations_must_be_applied_in_reverse() {
     Matrix *t = matrix_multiply(matrix_multiply(trans, scal), rot);
     Tuple transformed;
     matrix_multiply_tuple(t, p, transformed);
-    Tuple e = {15, 0, 7};
-    tuple_point(e);
+
+    Tuple e = {15, 0, 7, POINT};
     assert(tuple_compare(transformed, e));
 }
 

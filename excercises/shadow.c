@@ -18,8 +18,7 @@ int main() {
     double half = wall_size / 2;
 
     Canvas *c = canvas(canvas_pixels, canvas_pixels);
-    Tuple ray_origin = {0, 0, -5};
-    tuple_point(ray_origin);
+    Tuple ray_origin = {0, 0, -5, POINT};
 
     Sphere s;
     sphere_init(&s);
@@ -30,9 +29,9 @@ int main() {
         double world_y = half - pixel_size * y;
         for (int x = 0; x < c->width; x++) {
             double world_x = -half + pixel_size * x;
-            Tuple pos = {world_x, world_y, wall_z};
-            tuple_point(pos);
-            Tuple tmp = {0};
+            Tuple pos = {world_x, world_y, wall_z, POINT};
+
+            Tuple tmp;
             memcpy(tmp, ray_origin, sizeof(double)*TUPLE_LEN);
 
             Tuple dir;

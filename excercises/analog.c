@@ -15,12 +15,9 @@ struct Clock {
 
 int main() {
     struct Clock clock = {
-        .origin = {25, 25, 0},
-        .hour = {0, 1, 0}
+        .origin = {25, 25, 0, POINT},
+        .hour = {0, 1, 0, POINT}
     };
-
-    tuple_point(clock.origin);
-    tuple_point(clock.hour);
 
     Canvas *c = canvas(50, 50);
     Tuple pixel_color = {1, 1, 1};
