@@ -108,4 +108,17 @@ void tuple_cross(const Tuple v1, const Tuple v2, Tuple out) {
     out[0] = (tuple_y(v1) * tuple_z(v2)) - (tuple_z(v1) * tuple_y(v2));
     out[1] = (tuple_z(v1) * tuple_x(v2)) - (tuple_x(v1) * tuple_z(v2));
     out[2] = (tuple_x(v1) * tuple_y(v2)) - (tuple_y(v1) * tuple_x(v2));
+    out[3] = v2[3];
+}
+
+void tuple_reflect(const Tuple in, const Tuple normal, Tuple out) {
+    Tuple tmp;
+    tuple_scale(normal, tmp, 2);
+
+    double dot = tuple_dot(in, normal); 
+
+    Tuple tmp2;
+    tuple_scale(tmp, tmp2, dot);
+
+    tuple_subtract(in, tmp2, out);
 }

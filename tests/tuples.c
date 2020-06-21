@@ -170,16 +170,27 @@ void test_tuple_cross_product() {
     assert(tuple_compare(cp, e2));
 }
 
-//void test_reflect_around_normal() {
-//    Tuple v = {1, -1, 0, VEC};
-//    Tuple n = {0, 1, 0, VEC};
-//
-//    Tuple r;
-//    tuple_reflect(v, n, r);
-//
-//    Tuple e = {1, 1, 0, VEC};
-//    assert(tuple_compare(r, e));
-//}
+void test_reflect_at_angle() {
+    Tuple v = {1, -1, 0, VEC};
+    Tuple n = {0, 1, 0, VEC};
+
+    Tuple r;
+    tuple_reflect(v, n, r);
+
+    Tuple e = {1, 1, 0, VEC};
+    assert(tuple_compare(r, e));
+}
+
+void test_reflect_off_slant() {
+    Tuple v = {0, -1, 0, VEC};
+    Tuple n = {sqrt(2)/2, sqrt(2)/2, 0, VEC};
+
+    Tuple r;
+    tuple_reflect(v, n, r);
+
+    Tuple e = {1, 0, 0, VEC};
+    assert(tuple_compare(r, e));
+}
 
 
 int main() {
@@ -197,5 +208,6 @@ int main() {
     test_tuple_normalize_tuple_vector();
     test_tuple_dot_product();
     test_tuple_cross_product();
-//    test_reflect_around_normal();
+    test_reflect_at_angle();
+    test_reflect_off_slant();
 }

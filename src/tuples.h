@@ -5,9 +5,10 @@
 //#define POINT 1
 //#define VEC 0
 
-enum type {
+enum tuple_type {
     VEC,
-    POINT
+    POINT,
+    COLOR
 };
 
 typedef double Tuple[TUPLE_LEN];
@@ -30,6 +31,6 @@ void   tuple_normalize(const Tuple t, Tuple out);
 double tuple_magnitude(const Tuple t);
 double tuple_dot(const Tuple v1, const Tuple v2);
 void   tuple_cross(const Tuple v1, const Tuple v2, Tuple out);
-void   tuple_reflect(Tuple in, Tuple normal, Tuple out);
+void   tuple_reflect(const Tuple in, const Tuple normal, Tuple out);
 
 #endif
