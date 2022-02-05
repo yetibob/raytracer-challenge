@@ -1,3 +1,1 @@
-mod tuple;
-
 fn main() {}
