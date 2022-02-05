@@ -2,7 +2,8 @@ use std::ops;
 
 const EPSILON: f64 = 0.00001;
 
-struct Color {
+#[derive(Debug)]
+pub struct Color {
    red: f64,
    green: f64,
    blue: f64,
