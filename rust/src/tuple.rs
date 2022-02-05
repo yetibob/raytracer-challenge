@@ -50,6 +50,14 @@ impl Tuple {
         let m = self.magnitude();
         Tuple::new(self.x / m, self.y / m, self.z / m, self.w / m)
     }
+
+    pub fn dot(&self, oth: &Self) -> f64 {
+        (self.x * oth.x) + (self.y * oth.y) + (self.z * oth.z) + (self.w * oth.w)
+    }
+
+    pub fn cross(&self, oth: &Self) -> Self {
+        Tuple::vector((self.y * oth.z) - (self.z * oth.y), (self.z * oth.x) - (self.x * oth.z), (self.x * oth.y) - (self.y * oth.x)) 
+    }
 }
 
 impl ops::Add for Tuple {
@@ -143,7 +151,7 @@ mod tests {
     }
 
     #[test]
-    fn test_add_tuple() {
+    fn test_add() {
         let p = Tuple::new(1.0, 2.0, 3.0, 1.0);
         let v = Tuple::new(1.0, 2.0, 3.0, 0.0);
         let exp = Tuple::new(2.0, 4.0, 6.0, 1.0);
@@ -152,7 +160,7 @@ mod tests {
     }
 
     #[test]
-    fn test_sub_tuple() {
+    fn test_sub() {
         let p1 = Tuple::point(3.0, 1.0, 2.0);
         let p2 = Tuple::point(5.0, -1.0, 1.0);
 
@@ -166,7 +174,7 @@ mod tests {
     }
 
     #[test]
-    fn test_negate_tuple() {
+    fn test_negate() {
         let t = Tuple::new(1.0, -2.0, 3.0, -4.0);
         let exp = Tuple::new(-1.0, 2.0, -3.0, 4.0);
         
@@ -174,21 +182,21 @@ mod tests {
     }
 
     #[test]
-    fn test_tuple_mul_scalar() {
+    fn test_mul_by_scalar() {
         let t = Tuple::new(1.0, -2.0, 3.0, -4.0);
         let exp = Tuple::new(3.5, -7.0, 10.5, -14.0);
         assert!((t*3.5).cmp(&exp));
     }
 
     #[test]
-    fn test_tuple_div_scalar() {
+    fn test_div_by_scalar() {
         let t = Tuple::new(1.0, -2.0, 3.0, -4.0);
         let exp = Tuple::new(0.5, -1.0, 1.5, -2.0);
         assert!((t/2.0).cmp(&exp));
     }
 
     #[test]
-    fn test_tuple_magnitude() {
+    fn test_magnitude() {
         let mut v = Tuple::vector(1.0, 0.0, 0.0);
         assert_eq!(v.magnitude(), 1.0);
 
@@ -207,7 +215,7 @@ mod tests {
     }
 
     #[test]
-    fn test_tuple_magnitude_sq() {
+    fn test_magnitude_sq() {
         let mut v = Tuple::vector(1.0, 0.0, 0.0);
         assert_eq!(v.magnitude_sq(), 1.0);
 
@@ -236,5 +244,21 @@ mod tests {
         exp = Tuple::vector(1.0/s, 2.0/s, 3.0/s);
         assert!(v.normalize().cmp(&exp));
         assert_eq!(v.normalize().magnitude(), 1.0);
+    }
+
+    #[test]
+    fn test_dot() {
+        let v1 = Tuple::vector(1.0, 2.0, 3.0);
+        let v2 = Tuple::vector(2.0, 3.0, 4.0);
+        assert_eq!(v1.dot(&v2), 20.0);
+    }
+
+    #[test]
+    fn test_cross_product() {
+        let v1 = Tuple::vector(1.0, 2.0, 3.0);
+        let v2 = Tuple::vector(2.0, 3.0, 4.0);
+        let exp = Tuple ::vector(-1.0, 2.0, -1.0);
+        assert_eq!(v1.cross(&v2), exp);
+        assert_eq!(v2.cross(&v1), -exp);
     }
 }
