@@ -60,25 +60,28 @@ impl Canvas {
         let mut line = String::from("");
 
         for pix in &self.pixels {
-            line += &format!("{} {} {}", Canvas::clip(&pix.red), Canvas::clip(&pix.green), Canvas::clip(&pix.blue));
+            let rgb = vec![Canvas::clip(&pix.red), Canvas::clip(&pix.green), Canvas::clip(&pix.blue)];
+
+            for (idx, col) in rgb.iter().enumerate() {
+                if line.len() + col.to_string().len() >= 70 {
+                    line += "\n";
+                    self.ppm += &line;
+                    line = String::from("");
+                }
+
+                line += &col.to_string();
+            }
+
             pix_count += 1;
 
             if pix_count == self.width {
-                line += "\n";
+                if self.ppm.chars().last().unwrap() != '\n' {
+                    line += "\n";
+                }
                 self.ppm += &line;
                 line = String::from("");
                 pix_count = 0;
-            } else {
-                line += " ";
             }
-        }
-
-        // Iteratate over ppm and split along every 70 characters (or less if 70th char is not
-        // space)
-        let mut pos = 0;
-        let ppm = self.ppm.as_bytes()
-        for byte in ppm {
-
         }
 
         &self.ppm
