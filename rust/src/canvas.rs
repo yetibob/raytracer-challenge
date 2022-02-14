@@ -29,16 +29,59 @@ impl Canvas {
         (x + width * y) as usize
     }
 
-    pub fn write_pixel(&mut self, x: i32, y: i32, col:Color) {
+    pub fn clip(col: &f64) -> i64 {
+        let mut clipped = (col * 255.0).round() as i64;
+        if clipped < 0 {
+            clipped = 0;
+        } else if clipped > 255 {
+            clipped = 255; 
+        }
+        clipped
+    }
+
+    pub fn write_pixel(&mut self, x: i32, y: i32, col: Color) {
         self.pixels[Self::convert(x, y, self.width)] = col; 
+    }
+
+    pub fn write_all(&mut self, col: Color) {
+        for pix in &mut self.pixels {
+            *pix = col; 
+        }
     }
 
     pub fn pixel_at(&self, x: i32, y: i32) -> &Color {
         &self.pixels[Self::convert(x, y, self.width)]
     }
 
-    pub fn to_ppm(&mut self) {
-        self.ppm = format!("P3\n{} {}\n255", self.width, self.height);
+    pub fn to_ppm(&mut self) -> &String {
+        self.ppm = format!("P3\n{} {}\n255\n", self.width, self.height);
+
+        let mut pix_count = 0;
+        let mut line = String::from("");
+
+        for pix in &self.pixels {
+            line += &format!("{} {} {}", Canvas::clip(&pix.red), Canvas::clip(&pix.green), Canvas::clip(&pix.blue));
+            pix_count += 1;
+
+            if pix_count == self.width {
+                line += "\n";
+                self.ppm += &line;
+                line = String::from("");
+                pix_count = 0;
+            } else {
+                line += " ";
+            }
+        }
+
+        // Iteratate over ppm and split along every 70 characters (or less if 70th char is not
+        // space)
+        let mut pos = 0;
+        let ppm = self.ppm.as_bytes()
+        for byte in ppm {
+
+        }
+
+        &self.ppm
     }
 
     pub fn save(&self) {}
@@ -70,26 +113,62 @@ mod tests {
     }
 
     #[test]
-    fn test_to_ppm() {
+    fn test_to_ppm_header() {
         let mut c = Canvas::new(5, 3);
-        let exp = format!("P3\n5 3\n255");
+        let exp = format!("P3\n{} {}\n255\n", c.width, c.height);
 
-        c.to_ppm();
-        let ppm = c.ppm.split("\n");
+        let ppm: Vec<&str> = c.to_ppm().split("\n").collect();
         let mut header = String::from("");
 
-        let mut count = 0;
-        for line in ppm {
+        for line in &ppm[0..3] {
             header += line;
-
-            if count == 2 {
-                break;
-            }
             header += "\n";
-            count += 1;
         }
 
         assert_eq!(header, exp);
+    }
 
+    #[test]
+    fn test_to_ppm_pixels () {
+        let mut c = Canvas::new(5, 3);
+        let c1 = Color::new(1.5, 0.0, 0.0);
+        let c2 = Color::new(0.0, 0.5, 0.0);
+        let c3 = Color::new(-0.5, 0.0, 1.0);
+        c.write_pixel(0, 0, c1);
+        c.write_pixel(2, 1, c2);
+        c.write_pixel(4, 2, c3);
+        let exp = "255 0 0 0 0 0 0 0 0 0 0 0 0 0 0\n0 0 0 0 0 0 0 128 0 0 0 0 0 0 0\n0 0 0 0 0 0 0 0 0 0 0 0 0 0 255\n";
+
+        let ppm: Vec<&str> = c.to_ppm().split("\n").collect();
+        let mut body = String::from("");
+
+        for line in &ppm[3..6] {
+            body += line;
+            body += "\n";
+        }
+
+        assert_eq!(body, exp);
+    }
+
+    #[test]
+    fn test_to_ppm_max_len() {
+        let mut c = Canvas::new(10, 2);
+        let c1 = Color::new(1.0, 0.8, 0.6);
+        c.write_all(c1);
+
+        let exp = "255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204\n\
+                   153 255 204 153 255 204 153 255 204 153 255 204 153\n\
+                   255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204\n\
+                   153 255 204 153 255 204 153 255 204 153 255 204 153\n";
+
+        let ppm: Vec<&str> = c.to_ppm().split("\n").collect();
+        let mut body = String::from("");
+
+        for line in &ppm[3..] {
+            body += line;
+            body += "\n";
+        }
+
+        assert_eq!(body, exp);
     }
 }
