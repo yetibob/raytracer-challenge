@@ -81,7 +81,9 @@ impl Canvas {
             pix_count += 1;
 
             if pix_count == self.width {
-                line += "\n";
+                if line.chars().last().unwrap() != '\n' {
+                    line += "\n";
+                }
                 self.ppm += &line;
                 line = String::from("");
                 pix_count = 0;
