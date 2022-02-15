@@ -1,3 +1,4 @@
+use std::fs;
 use crate::color::Color;
 
 // Figure out how to do heap allocated arrays...don't need dynamic properties of vec
@@ -79,7 +80,6 @@ impl Canvas {
             }
 
             pix_count += 1;
-
             if pix_count == self.width {
                 if line.chars().last().unwrap() != '\n' {
                     line += "\n";
@@ -95,7 +95,9 @@ impl Canvas {
         &self.ppm
     }
 
-    pub fn save(&self) {}
+    pub fn save(&self, file: &str) {
+        fs::write(file, &self.ppm);
+    }
 }
 
 mod tests {
