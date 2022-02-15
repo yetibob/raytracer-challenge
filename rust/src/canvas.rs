@@ -64,23 +64,29 @@ impl Canvas {
 
             for (idx, col) in rgb.iter().enumerate() {
                 if line.len() + col.to_string().len() >= 70 {
+                    if line.chars().last().unwrap() == ' ' {
+                        line.pop();
+                    }
                     line += "\n";
                     self.ppm += &line;
                     line = String::from("");
                 }
 
                 line += &col.to_string();
+                if idx < 2 {
+                    line += " ";
+                }
             }
 
             pix_count += 1;
 
             if pix_count == self.width {
-                if self.ppm.chars().last().unwrap() != '\n' {
-                    line += "\n";
-                }
+                line += "\n";
                 self.ppm += &line;
                 line = String::from("");
                 pix_count = 0;
+            } else {
+                line += " ";
             }
         }
 
@@ -167,7 +173,7 @@ mod tests {
         let ppm: Vec<&str> = c.to_ppm().split("\n").collect();
         let mut body = String::from("");
 
-        for line in &ppm[3..] {
+        for line in &ppm[3..ppm.len()-1] {
             body += line;
             body += "\n";
         }
