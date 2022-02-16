@@ -19,7 +19,7 @@ struct Environment {
 fn main() {
     let mut p = Projectile {
         position: Tuple::point(0.0, 1.0, 0.0),
-        velocity: Tuple::vector(1.0, 1.0, 0.0).normalize(),
+        velocity: Tuple::vector(1.0, 1.8, 0.0).normalize() * 11.25,
     };
 
     let e = Environment {
@@ -27,12 +27,13 @@ fn main() {
         wind: Tuple::vector(-0.01, 0.0, 0.0),
     };
 
-    let mut c = Canvas::new(1920, 1080);
+    let mut c = Canvas::new(900, 550);
     let col = Color::new(1.0, 0.0, 0.0);
+
 
     while p.position.y > 0.0 {
         p = tick(&e, &p); 
-        c.write_pixel(p.position.x as u32, p.position.y as u32, col);
+        c.write_pixel(p.position.x as u32, c.height - p.position.y as u32, col);
     }
 
     fs::write("tmp.ppm", c.to_ppm()).expect("Uh Oh!");
