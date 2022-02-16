@@ -2,14 +2,15 @@ use crate::color::Color;
 
 // Figure out how to do heap allocated arrays...don't need dynamic properties of vec
 pub struct Canvas {
-    width: u32,
-    height: u32,
+    pub width: u32,
+    pub height: u32,
     pixels: Vec<Color>,
     ppm: String,
 }
 
+// Convert x, y coordinates to row major order for use in 1d array
 fn convert(x: u32, y: u32, width: u32) -> usize {
-    (x + width * y) as usize
+    (width * y + x) as usize
 }
 
 fn clip(col: &f64) -> i64 {
@@ -25,22 +26,18 @@ fn clip(col: &f64) -> i64 {
 
 impl Canvas {
     pub fn new(width: u32, height: u32) -> Self {
-        let size: usize = (width * height) as usize;
-        let mut c = Self {
+        Self {
             width,
             height,
-            pixels: Vec::with_capacity(size),
+            pixels: vec![Color::new(0.0, 0.0, 0.0); (width*height) as usize],
             ppm: String::from(""),
-        };
-
-        for _ in 0..size {
-            c.pixels.push(Color::new(0.0, 0.0, 0.0));
         }
-
-        c
     }
 
     pub fn write_pixel(&mut self, x: u32, y: u32, col: Color) {
+        if x >= self.width || y >= self.height {
+            return;
+        }
         self.pixels[convert(x, y, self.width)] = col; 
     }
 
