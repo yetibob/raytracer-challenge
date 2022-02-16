@@ -77,6 +77,7 @@ impl ops::Mul<f64> for Color {
     }
 }
 
+#[cfg(test)]
 mod tests {
     use super::*;
 
