@@ -1,16 +1,30 @@
-use std::fs;
 use crate::color::Color;
 
 // Figure out how to do heap allocated arrays...don't need dynamic properties of vec
-struct Canvas {
-    width: i32,
-    height: i32,
+pub struct Canvas {
+    width: u32,
+    height: u32,
     pixels: Vec<Color>,
     ppm: String,
 }
 
+fn convert(x: u32, y: u32, width: u32) -> usize {
+    (x + width * y) as usize
+}
+
+fn clip(col: &f64) -> i64 {
+    let mut clipped = (col * 255.0).round() as i64;
+    if clipped < 0 {
+        clipped = 0;
+    } else if clipped > 255 {
+        clipped = 255; 
+    }
+    clipped
+}
+
+
 impl Canvas {
-    pub fn new(width: i32, height: i32) -> Self {
+    pub fn new(width: u32, height: u32) -> Self {
         let size: usize = (width * height) as usize;
         let mut c = Self {
             width,
@@ -26,22 +40,8 @@ impl Canvas {
         c
     }
 
-    pub fn convert(x: i32, y: i32, width: i32) -> usize {
-        (x + width * y) as usize
-    }
-
-    pub fn clip(col: &f64) -> i64 {
-        let mut clipped = (col * 255.0).round() as i64;
-        if clipped < 0 {
-            clipped = 0;
-        } else if clipped > 255 {
-            clipped = 255; 
-        }
-        clipped
-    }
-
-    pub fn write_pixel(&mut self, x: i32, y: i32, col: Color) {
-        self.pixels[Self::convert(x, y, self.width)] = col; 
+    pub fn write_pixel(&mut self, x: u32, y: u32, col: Color) {
+        self.pixels[convert(x, y, self.width)] = col; 
     }
 
     pub fn write_all(&mut self, col: Color) {
@@ -50,8 +50,8 @@ impl Canvas {
         }
     }
 
-    pub fn pixel_at(&self, x: i32, y: i32) -> &Color {
-        &self.pixels[Self::convert(x, y, self.width)]
+    pub fn pixel_at(&self, x: u32, y: u32) -> &Color {
+        &self.pixels[convert(x, y, self.width)]
     }
 
     pub fn to_ppm(&mut self) -> &String {
@@ -61,7 +61,7 @@ impl Canvas {
         let mut line = String::from("");
 
         for pix in &self.pixels {
-            let rgb = vec![Canvas::clip(&pix.red), Canvas::clip(&pix.green), Canvas::clip(&pix.blue)];
+            let rgb = vec![clip(&pix.red), clip(&pix.green), clip(&pix.blue)];
 
             for (idx, col) in rgb.iter().enumerate() {
                 if line.len() + col.to_string().len() >= 70 {
@@ -93,10 +93,6 @@ impl Canvas {
         }
 
         &self.ppm
-    }
-
-    pub fn save(&self, file: &str) {
-        fs::write(file, &self.ppm);
     }
 }
 
@@ -166,8 +162,7 @@ mod tests {
     #[test]
     fn test_to_ppm_max_len() {
         let mut c = Canvas::new(10, 2);
-        let c1 = Color::new(1.0, 0.8, 0.6);
-        c.write_all(c1);
+        c.write_all(Color::new(1.0, 0.8, 0.6));
 
         let exp = "255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204\n\
                    153 255 204 153 255 204 153 255 204 153 255 204 153\n\
@@ -183,5 +178,14 @@ mod tests {
         }
 
         assert_eq!(body, exp);
+    }
+
+    #[test]
+    fn test_ppm_ends_in_newline() {
+        let mut c = Canvas::new(10, 2);
+        c.write_all(Color::new(1.0, 0.8, 0.6));
+        let ppm = c.to_ppm();
+        println!("{}", ppm);
+        assert_eq!(ppm.chars().last().unwrap(), '\n');
     }
 }
