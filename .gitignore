@@ -1,5 +1,6 @@
 .vscode/
 **/*.swp
+**/*.ppm
 
 # C Ignores
 c/bin/
