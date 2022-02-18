@@ -98,7 +98,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_new() {
+    fn new() {
         let c = Canvas::new(2, 4);
         assert_eq!(c.width, 2);
         assert_eq!(c.height, 4);
@@ -110,7 +110,7 @@ mod tests {
     }
 
     #[test]
-    fn test_write_pixel() {
+    fn write_pixel() {
         let mut c = Canvas::new(10, 20);
         let red = Color::new(1.0, 0.0, 0.0);
         let exp = Color::new(1.0, 0.0, 0.0); 
@@ -120,7 +120,7 @@ mod tests {
     }
 
     #[test]
-    fn test_to_ppm_header() {
+    fn to_ppm_header() {
         let mut c = Canvas::new(5, 3);
         let exp = format!("P3\n{} {}\n255\n", c.width, c.height);
 
@@ -136,7 +136,7 @@ mod tests {
     }
 
     #[test]
-    fn test_to_ppm_pixels () {
+    fn to_ppm_pixels () {
         let mut c = Canvas::new(5, 3);
         let c1 = Color::new(1.5, 0.0, 0.0);
         let c2 = Color::new(0.0, 0.5, 0.0);
@@ -158,7 +158,7 @@ mod tests {
     }
 
     #[test]
-    fn test_to_ppm_max_len() {
+    fn to_ppm_max_len() {
         let mut c = Canvas::new(10, 2);
         c.write_all(Color::new(1.0, 0.8, 0.6));
 
@@ -179,7 +179,7 @@ mod tests {
     }
 
     #[test]
-    fn test_ppm_ends_in_newline() {
+    fn ppm_ends_in_newline() {
         let mut c = Canvas::new(10, 2);
         c.write_all(Color::new(1.0, 0.8, 0.6));
         let ppm = c.to_ppm();

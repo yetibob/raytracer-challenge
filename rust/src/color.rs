@@ -82,7 +82,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_new() {
+    fn new() {
         let c = Color::new(0.0, 1.0, 2.0);
         assert_eq!(c.red, 0.0);
         assert_eq!(c.green, 1.0);
@@ -90,7 +90,7 @@ mod tests {
     }
 
     #[test]
-    fn test_add() {
+    fn add() {
         let c1 = Color::new(1.0, 2.0, 3.0);
         let c2 = Color::new(2.0, 3.0, 4.0);
         let exp = Color::new(3.0, 5.0, 7.0);
@@ -98,7 +98,7 @@ mod tests {
     }
 
     #[test]
-    fn test_sub() {
+    fn sub() {
         let c1 = Color::new(2.0, 3.0, 4.0);
         let c2 = Color::new(1.0, 2.0, 3.0);
         let exp = Color::new(1.0, 1.0, 1.0);
@@ -106,14 +106,14 @@ mod tests {
     }
 
     #[test]
-    fn test_mul_by_scalar() {
+    fn mul_by_scalar() {
         let c1 = Color::new(2.0, 3.0, 4.0);
         let exp = Color::new(4.0, 6.0, 8.0);
         assert!((c1*2.0).cmp(&exp));
     }
 
     #[test]
-    fn test_mul_by_color() {
+    fn mul_by_color() {
         let c1 = Color::new(2.0, 3.0, 4.0);
         let c2 = Color::new(1.0, 2.0, 3.0);
         let exp = Color::new(2.0, 6.0, 12.0);
