@@ -1,14 +1,23 @@
-use std::{ ops, cmp::PartialEq };
+use std::{ ops, cmp::PartialEq, cmp::Eq };
 
-const EPSILON: f64 = 0.00001;
-
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug)]
 pub struct Tuple {
     pub x: f64,
     pub y: f64,
     pub z: f64,
     pub w: f64,
 }
+
+impl PartialEq for Tuple {
+    fn eq(&self, oth: &Self) -> bool {
+        ((self.x - oth.x).abs() <= f64::EPSILON) &&
+        ((self.y - oth.y).abs() <= f64::EPSILON) &&
+        ((self.z - oth.z).abs() <= f64::EPSILON) &&
+        ((self.w - oth.w).abs() <= f64::EPSILON)
+    }
+}
+
+impl Eq for Tuple {}
 
 impl Tuple {
     pub fn new(x: f64, y: f64, z: f64, w: f64) -> Self {
@@ -29,13 +38,6 @@ impl Tuple {
 
     pub fn is_vector(&self) -> bool {
         self.w == 0.0
-    }
-
-    pub fn cmp(&self, oth: &Self) -> bool {
-        ((self.x - oth.x).abs() <= EPSILON) &&
-        ((self.y - oth.y).abs() <= EPSILON) &&
-        ((self.z - oth.z).abs() <= EPSILON) &&
-        ((self.w - oth.w).abs() <= EPSILON)
     }
 
     pub fn magnitude(&self) -> f64 {
@@ -130,10 +132,10 @@ mod tests {
     fn test_cmp() {
         let t1 = Tuple::new(0.0, 0.0, 0.0, 0.0);
         let mut t2 = Tuple::new(1.0, 0.0, 0.0, 0.0);
-        assert!(!t1.cmp(&t2));
+        assert_ne!(t1, t2);
 
-        t2 = Tuple::new(0.000001, 0.0, 0.0, 0.0);
-        assert!(t1.cmp(&t2));
+        t2 = Tuple::new(0.0000000000000001, 0.0, 0.0, 0.0);
+        assert_eq!(t1, t2);
     }
     
     #[test]
@@ -156,7 +158,7 @@ mod tests {
         let v = Tuple::new(1.0, 2.0, 3.0, 0.0);
         let exp = Tuple::new(2.0, 4.0, 6.0, 1.0);
 
-        assert!((p+v).cmp(&exp));
+        assert_eq!(p+v, exp);
     }
 
     #[test]
@@ -165,12 +167,12 @@ mod tests {
         let p2 = Tuple::point(5.0, -1.0, 1.0);
 
         let mut exp = Tuple::vector(-2.0, 2.0, 1.0);
-        assert!((p1-p2).cmp(&exp));
+        assert_eq!(p1-p2, exp);
 
 
         let v = Tuple::vector(1.0, 2.0, 3.0);
         exp = Tuple::point(2.0, -1.0, -1.0);
-        assert!((p1-v).cmp(&exp));
+        assert_eq!(p1-v, exp);
     }
 
     #[test]
@@ -178,21 +180,21 @@ mod tests {
         let t = Tuple::new(1.0, -2.0, 3.0, -4.0);
         let exp = Tuple::new(-1.0, 2.0, -3.0, 4.0);
         
-        assert!((-t).cmp(&exp));
+        assert_eq!(-t, exp);
     }
 
     #[test]
     fn test_mul_by_scalar() {
         let t = Tuple::new(1.0, -2.0, 3.0, -4.0);
         let exp = Tuple::new(3.5, -7.0, 10.5, -14.0);
-        assert!((t*3.5).cmp(&exp));
+        assert_eq!(t*3.5, exp);
     }
 
     #[test]
     fn test_div_by_scalar() {
         let t = Tuple::new(1.0, -2.0, 3.0, -4.0);
         let exp = Tuple::new(0.5, -1.0, 1.5, -2.0);
-        assert!((t/2.0).cmp(&exp));
+        assert_eq!(t/2.0, exp);
     }
 
     #[test]
@@ -237,12 +239,12 @@ mod tests {
         let mut v = Tuple::vector(4.0, 0.0, 0.0);
 
         let mut exp = Tuple::vector(1.0, 0.0, 0.0);
-        assert!(v.normalize().cmp(&exp));
+        assert_eq!(v.normalize(), exp);
 
         let s = 14.0_f64.sqrt();
         v = Tuple::vector(1.0, 2.0, 3.0);
         exp = Tuple::vector(1.0/s, 2.0/s, 3.0/s);
-        assert!(v.normalize().cmp(&exp));
+        assert_eq!(v.normalize(), exp);
         assert_eq!(v.normalize().magnitude(), 1.0);
     }
 
