@@ -13,6 +13,15 @@ pub struct Matrix {
     data: Vec<Vec<f64>>
 }
 
+impl Matrix {
+    pub fn IDENTITY() -> Matrix {
+        Matrix {
+            size: 4,
+            data: vec![vec![1.0, 0.0, 0.0, 0.0], vec![0.0, 1.0, 0.0, 0.0], vec![0.0, 0.0, 1.0, 0.0], vec![0.0, 0.0, 0.0, 1.0]],
+        }
+    }
+}
+
 impl PartialEq for Matrix {
     fn eq(&self, oth: &Self) -> bool {
         if self.size != oth.size {
@@ -72,7 +81,7 @@ impl ops::Mul<&Tuple> for &Matrix {
     type Output = Tuple;
 
     fn mul(self, rhs: &Tuple) -> Self::Output {
-        let mut t = Tuple::new(0.0, 0.0, 0.0, 0.0);
+        let mut t = Tuple::ZERO();
 
         for row in 0..4 {
             let mut result = 0.0;
@@ -152,5 +161,22 @@ mod tests {
         let exp = Tuple::new(18.0, 24.0, 33.0, 1.0);
 
         assert_eq!(&m*&t, exp);
+    }
+
+    #[test]
+    fn multiple_by_identity() {
+        let m = Matrix {
+            size: 4,
+            data: vec![vec![0.0, 1.0, 2.0, 4.0], vec![1.0, 2.0, 4.0, 8.0], vec![2.0, 4.0, 8.0, 16.0], vec![4.0, 8.0, 16.0, 32.0]]
+        };
+
+        assert_eq!(&m * &Matrix::IDENTITY(), m);
+    }
+
+    #[test]
+    fn multiple_tuple_by_identity() {
+        let t = Tuple::new(1.0, 2.0, 3.0, 4.0);
+
+        assert_eq!(&Matrix::IDENTITY() * &t, t);
     }
 }
