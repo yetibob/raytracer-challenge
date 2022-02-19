@@ -6,22 +6,12 @@ pub struct Tuple {
     pub y: f64,
     pub z: f64,
     pub w: f64,
+    oth  : f64
 }
-
-impl PartialEq for Tuple {
-    fn eq(&self, oth: &Self) -> bool {
-        ((self.x - oth.x).abs() <= f64::EPSILON) &&
-        ((self.y - oth.y).abs() <= f64::EPSILON) &&
-        ((self.z - oth.z).abs() <= f64::EPSILON) &&
-        ((self.w - oth.w).abs() <= f64::EPSILON)
-    }
-}
-
-impl Eq for Tuple {}
 
 impl Tuple {
     pub fn new(x: f64, y: f64, z: f64, w: f64) -> Self {
-        Tuple { x: x, y: y, z: z, w: w }
+        Tuple { x: x, y: y, z: z, w: w, oth: 0.0 }
     }
 
     pub fn point(x: f64, y: f64, z: f64) -> Self {
@@ -76,7 +66,8 @@ impl ops::AddAssign for Tuple {
             x: self.x + rhs.x,
             y: self.y + rhs.y,
             z: self.z + rhs.z,
-            w: self.w + rhs.w
+            w: self.w + rhs.w,
+            oth: 0.0,
         }
     }
 }
@@ -95,7 +86,8 @@ impl ops::SubAssign for Tuple {
             x: self.x - rhs.x,
             y: self.y - rhs.y,
             z: self.z - rhs.z,
-            w: self.w - rhs.w
+            w: self.w - rhs.w,
+            oth: 0.0,
         }
     }
 }
@@ -123,6 +115,42 @@ impl ops::Neg for Tuple {
         Tuple::new(-self.x, -self.y, -self.z, -self.w)
     }
 }
+
+impl PartialEq for Tuple {
+    fn eq(&self, oth: &Self) -> bool {
+        ((self.x - oth.x).abs() <= f64::EPSILON) &&
+        ((self.y - oth.y).abs() <= f64::EPSILON) &&
+        ((self.z - oth.z).abs() <= f64::EPSILON) &&
+        ((self.w - oth.w).abs() <= f64::EPSILON)
+    }
+}
+
+impl Eq for Tuple {}
+
+impl ops::Index<usize> for Tuple {
+    type Output = f64;
+    fn index(&self, idx: usize) -> &Self::Output {
+        match idx {
+            0 => &self.x,
+            1 => &self.y,
+            2 => &self.z,
+            3 => &self.w,
+            _ => &self.oth,
+        }
+    }
+}
+impl ops::IndexMut<usize> for Tuple {
+    fn index_mut(&mut self, idx: usize) -> &mut Self::Output {
+        match idx {
+            0 => &mut self.x,
+            1 => &mut self.y,
+            2 => &mut self.z,
+            3 => &mut self.w,
+            _ => &mut self.oth,
+        }
+    }
+}
+
 
 #[cfg(test)]
 mod tests {
