@@ -4,6 +4,8 @@ use std::{
     cmp::PartialEq,
 };
 
+use crate::tuple::Tuple;
+
 // TODO Is there a way to make data an array of size dim x dim?
 #[derive(Debug)]
 pub struct Matrix {
@@ -52,7 +54,7 @@ impl ops::Mul for &Matrix {
 
         for row in 0..4 {
             for col in 0..4 {
-               v[row][col] = self.data[row][0] * rhs.data[0][col]
+               v[row][col] =   self.data[row][0] * rhs.data[0][col]
                              + self.data[row][1] * rhs.data[1][col]
                              + self.data[row][2] * rhs.data[2][col]
                              + self.data[row][3] * rhs.data[3][col];
@@ -63,6 +65,23 @@ impl ops::Mul for &Matrix {
             size: self.size, 
             data: v,
         }
+    }
+}
+
+impl ops::Mul<&Tuple> for &Matrix {
+    type Output = Tuple;
+
+    fn mul(self, rhs: &Tuple) -> Self::Output {
+        let mut t = Tuple::new(0.0, 0.0, 0.0, 0.0);
+
+        for row in 0..4 {
+            let mut result = 0.0;
+            for col in 0..4 {
+               result +=   self.data[row][col] * rhs[col]
+            }
+            t[row] = result;
+        }
+        t
     }
 }
 
@@ -102,7 +121,7 @@ mod tests {
     }
 
     #[test]
-    fn multiply() {
+    fn multiply_by_matrix() {
         let m1 = Matrix {
             size: 4,
             data: vec![vec![1.0, 2.0, 3.0, 4.0], vec![5.0, 6.0, 7.0, 8.0], vec![9.0, 8.0, 7.0, 6.0], vec![5.0, 4.0, 3.0, 2.0]],
@@ -119,5 +138,19 @@ mod tests {
         };
 
         assert_eq!(&m1*&m2, exp);
+    }
+
+    #[test]
+    fn multiply_by_tuple() {
+        let m = Matrix {
+            size: 4,
+            data: vec![vec![1.0, 2.0, 3.0, 4.0], vec![2.0, 4.0, 4.0, 2.0], vec![8.0, 6.0, 4.0, 1.0], vec![0.0, 0.0, 0.0, 1.0]],
+        };
+
+        let t = Tuple::new(1.0, 2.0, 3.0, 1.0);
+
+        let exp = Tuple::new(18.0, 24.0, 33.0, 1.0);
+
+        assert_eq!(&m*&t, exp);
     }
 }
