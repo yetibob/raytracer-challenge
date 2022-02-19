@@ -14,6 +14,10 @@ impl Tuple {
         Tuple { x: x, y: y, z: z, w: w, oth: 0.0 }
     }
 
+    pub fn ZERO() -> Self {
+        Tuple::new(0.0, 0.0, 0.0, 0.0)
+    }
+
     pub fn point(x: f64, y: f64, z: f64) -> Self {
         Tuple::new(x, y, z, 1.0)
     }
