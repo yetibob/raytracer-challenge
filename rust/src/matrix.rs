@@ -48,9 +48,39 @@ impl Matrix {
     }
 
     pub fn submatrix(&self, row: usize, col: usize) -> Matrix {
-        let m = Matrix::ZERO(self.size - 1);
+        let mut m = Matrix::ZERO(self.size - 1);
+
+        let mut r = 0;
+        let mut c = 0;
+        for i in 0..m.size {
+            if i == row {
+                r += 1;
+            }
+            for j in 0..m.size {
+                if j == col {
+                    c += 1;
+                }
+                m.data[i][j] = self.data[r][c];
+                c += 1;
+            }
+            c = 0;
+            r += 1;
+        }
 
         m
+    }
+
+    pub fn minor(&self, row: usize, col: usize) -> f64 {
+        self.submatrix(row, col).determinant()
+    }
+
+    pub fn cofactor(&self, row: usize, col: usize) -> f64 {
+        let mut res = self.minor(row, col);
+        if row + col % 2 == 1 {
+            res = -res;
+        }
+
+        res
     }
 }
 
@@ -266,5 +296,29 @@ mod tests {
         };
 
         assert_eq!(m.submatrix(2, 1), exp);
+    }
+
+    #[test]
+    fn minor() {
+        let m = Matrix {
+            size: 3,
+            data: vec![vec![3.0, 5.0, 0.0], vec![2.0, -1.0, -7.0], vec![6.0, -1.0, 5.0]],
+        };
+        assert_eq!(m.submatrix(1, 0).determinant(), 25.0);
+        assert_eq!(m.minor(1, 0), 25.0);
+    }
+
+    #[test]
+    fn cofactor() {
+        let m = Matrix {
+            size: 3,
+            data: vec![vec![3.0, 5.0, 0.0], vec![2.0, -1.0, -7.0], vec![6.0, -1.0, 5.0]],
+        };
+
+        assert_eq!(m.minor(0, 0), -12.0);
+        assert_eq!(m.cofactor(0, 0), -12.0);
+
+        assert_eq!(m.minor(1, 0), 25.0);
+        assert_eq!(m.cofactor(1, 0), -25.0);
     }
 }
