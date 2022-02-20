@@ -9,8 +9,8 @@ use crate::tuple::Tuple;
 // TODO Is there a way to make data an array of size dim x dim?
 #[derive(Debug)]
 pub struct Matrix {
-    size: usize,
-    data: Vec<Vec<f64>>
+    pub size: usize,
+    pub data: Vec<Vec<f64>>
 }
 
 impl Matrix {
@@ -19,6 +19,21 @@ impl Matrix {
             size: 4,
             data: vec![vec![1.0, 0.0, 0.0, 0.0], vec![0.0, 1.0, 0.0, 0.0], vec![0.0, 0.0, 1.0, 0.0], vec![0.0, 0.0, 0.0, 1.0]],
         }
+    }
+
+    pub fn transpose(&self) -> Matrix {
+        let mut m = Matrix {
+            size: 4,
+            data: vec![vec![0.0, 0.0, 0.0, 0.0]; 4],
+        };
+
+        for row in 0..self.size {
+            for col in 0..self.size {
+                m.data[col][row] = self.data[row][col];
+            }
+        }
+
+        m
     }
 }
 
@@ -178,5 +193,21 @@ mod tests {
         let t = Tuple::new(1.0, 2.0, 3.0, 4.0);
 
         assert_eq!(&Matrix::IDENTITY() * &t, t);
+    }
+
+    #[test]
+    fn transpose() {
+        let m = Matrix {
+            size: 4,
+            data: vec![vec![0.0, 9.0, 3.0, 0.0], vec![9.0, 8.0, 0.0, 8.0], vec![1.0, 8.0, 5.0, 3.0], vec![0.0, 0.0, 5.0, 8.0]],
+        };
+
+        let exp = Matrix {
+            size: 4,
+            data: vec![vec![0.0, 9.0, 1.0, 0.0], vec![9.0, 8.0, 8.0, 0.0], vec![3.0, 0.0, 5.0, 5.0], vec![0.0, 8.0, 3.0, 8.0]],
+        };
+
+        assert_eq!(m.transpose(), exp);
+        assert_eq!(Matrix::IDENTITY().transpose(), Matrix::IDENTITY());
     }
 }
