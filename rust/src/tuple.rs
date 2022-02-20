@@ -1,5 +1,7 @@
 use std::{ ops, cmp::PartialEq, cmp::Eq };
 
+use crate::matrix::Matrix;
+
 #[derive(Clone, Copy, Debug)]
 pub struct Tuple {
     pub x: f64,
@@ -101,6 +103,23 @@ impl ops::Mul<f64> for Tuple {
 
     fn mul(self, rhs: f64) -> Self::Output {
         Tuple::new(self.x * rhs , self.y * rhs, self.z * rhs, self.w * rhs)
+    }
+}
+
+impl ops::Mul<&Matrix> for Tuple {
+    type Output = Tuple;
+
+    fn mul(self, rhs: &Matrix) -> Self::Output {
+        let mut t = Tuple::ZERO();
+
+        for row in 0..4 {
+            let mut result = 0.0;
+            for col in 0..4 {
+               result +=   rhs.data[row][col] * self[col]
+            }
+            t[row] = result;
+        }
+        t
     }
 }
 
