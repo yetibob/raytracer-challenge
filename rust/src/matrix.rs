@@ -14,6 +14,13 @@ pub struct Matrix {
 }
 
 impl Matrix {
+    pub fn ZERO(size: usize) -> Matrix {
+        Matrix {
+            size,
+            data: vec![vec![0.0; size]; size],
+        }
+    }
+
     pub fn IDENTITY() -> Matrix {
         Matrix {
             size: 4,
@@ -23,8 +30,8 @@ impl Matrix {
 
     pub fn transpose(&self) -> Matrix {
         let mut m = Matrix {
-            size: 4,
-            data: vec![vec![0.0, 0.0, 0.0, 0.0]; 4],
+            size: self.size,
+            data: vec![vec![0.0; self.size]; self.size],
         };
 
         for row in 0..self.size {
@@ -32,6 +39,16 @@ impl Matrix {
                 m.data[col][row] = self.data[row][col];
             }
         }
+
+        m
+    }
+
+    pub fn determinant(&self) -> f64 {
+        self.data[0][0] * self.data[1][1] - self.data[0][1] * self.data[1][0]
+    }
+
+    pub fn submatrix(&self, row: usize, col: usize) -> Matrix {
+        let m = Matrix::ZERO(self.size - 1);
 
         m
     }
@@ -209,5 +226,45 @@ mod tests {
 
         assert_eq!(m.transpose(), exp);
         assert_eq!(Matrix::IDENTITY().transpose(), Matrix::IDENTITY());
+    }
+
+    #[test]
+    fn determinant() {
+        let m = Matrix {
+            size: 4,
+            data: vec![vec![1.0, 5.0], vec![-3.0, 2.0]],
+        };
+
+        assert_eq!(m.determinant(), 17.0);
+    }
+
+    #[test]
+    fn submatrix_of_3_is_2() {
+        let m = Matrix {
+            size: 3,
+            data: vec![vec![1.0, 5.0, 0.0], vec![-3.0, 2.0, 7.0], vec![0.0, 6.0, -3.0]],
+        };
+
+        let exp = Matrix {
+            size: 2,
+            data: vec![vec![-3.0, 2.0], vec![0.0, 6.0]],
+        };
+
+        assert_eq!(m.submatrix(0, 2), exp);
+    }
+
+    #[test]
+    fn submatrix_of_4_is_3() {
+        let m = Matrix {
+            size: 4,
+            data: vec![vec![-6.0, 1.0, 1.0, 6.0], vec![-8.0, 5.0, 8.0, 6.0], vec![-1.0, 0.0, 8.0, 2.0], vec![-7.0, 1.0, -1.0, 1.0]],
+        };
+
+        let exp = Matrix {
+            size: 3,
+            data: vec![vec![-6.0, 1.0, 6.0], vec![-8.0, 8.0, 6.0], vec![-7.0, -1.0, 1.0]],
+        };
+
+        assert_eq!(m.submatrix(2, 1), exp);
     }
 }
