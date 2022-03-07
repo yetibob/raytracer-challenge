@@ -6,6 +6,8 @@ use std::{
 
 use crate::tuple::Tuple;
 
+const EPSILON: f64 = 0.00001;
+
 // TODO Is there a way to make data an array of size dim x dim?
 #[derive(Debug)]
 pub struct Matrix {
@@ -44,7 +46,16 @@ impl Matrix {
     }
 
     pub fn determinant(&self) -> f64 {
-        self.data[0][0] * self.data[1][1] - self.data[0][1] * self.data[1][0]
+        match self.size {
+            2 => self.data[0][0] * self.data[1][1] - self.data[0][1] * self.data[1][0],
+            _ => {
+                let mut det = 0.0;
+                for col in 0..self.size {
+                    det += self.data[0][col] * self.cofactor(0, col);
+                }
+                det
+            },
+        }
     }
 
     pub fn submatrix(&self, row: usize, col: usize) -> Matrix {
@@ -76,11 +87,28 @@ impl Matrix {
 
     pub fn cofactor(&self, row: usize, col: usize) -> f64 {
         let mut res = self.minor(row, col);
-        if row + col % 2 == 1 {
+        if (row + col) % 2 == 1 {
             res = -res;
         }
 
         res
+    }
+    
+    pub fn inverse(&self) -> Option<Matrix> {
+        if self.determinant() == 0.0 {
+            return None;
+        }
+
+        let mut m = Matrix::ZERO(self.size);
+
+        for row in 0..m.size {
+            for col in 0..m.size {
+                let c = self.cofactor(row, col);
+                m.data[col][row] = c / self.determinant();
+            }
+        }
+
+        Some(m)
     }
 }
 
@@ -92,7 +120,7 @@ impl PartialEq for Matrix {
 
         for i in 0..self.size {
             for j in 0..self.size {
-                if (self.data[i][j] - oth.data[i][j]).abs() >= f64::EPSILON {
+                if (self.data[i][j] - oth.data[i][j]).abs() >= EPSILON {
                     return false;
                 }
             }
@@ -261,7 +289,7 @@ mod tests {
     #[test]
     fn determinant() {
         let m = Matrix {
-            size: 4,
+            size: 2,
             data: vec![vec![1.0, 5.0], vec![-3.0, 2.0]],
         };
 
@@ -320,5 +348,121 @@ mod tests {
 
         assert_eq!(m.minor(1, 0), 25.0);
         assert_eq!(m.cofactor(1, 0), -25.0);
+    }
+
+    #[test]
+    fn determinant_3x3() {
+        let m = Matrix {
+            size: 3,
+            data: vec![vec![1.0, 2.0, 6.0], vec![-5.0, 8.0, -4.0], vec![2.0, 6.0, 4.0]],
+        };
+
+        assert_eq!(m.cofactor(0, 0), 56.0);
+        assert_eq!(m.cofactor(0, 1), 12.0);
+        assert_eq!(m.cofactor(0, 2), -46.0);
+        assert_eq!(m.determinant(), -196.0);
+    }
+
+    #[test]
+    fn determinant_4x4() {
+        let m = Matrix {
+            size: 4,
+            data: vec![vec![-2.0, -8.0, 3.0, 5.0], vec![-3.0, 1.0, 7.0, 3.0], vec![1.0, 2.0, -9.0, 6.0], vec![-6.0, 7.0, 7.0, -9.0]],
+        };
+
+        assert_eq!(m.cofactor(0, 0), 690.0);
+        assert_eq!(m.cofactor(0, 1), 447.0);
+        assert_eq!(m.cofactor(0, 2), 210.0);
+        assert_eq!(m.cofactor(0, 3), 51.0);
+        assert_eq!(m.determinant(), -4071.0);
+    }
+
+    #[test]
+    fn is_invertible() {
+        let m = Matrix {
+            size: 4,
+            data: vec![vec![6.0, 4.0, 4.0, 4.0], vec![5.0, 5.0, 7.0, 6.0], vec![4.0, -9.0, 3.0, -7.0], vec![9.0, 1.0, 7.0, -6.0]]
+        };
+
+        assert!(!m.inverse().is_none());
+    }
+
+    #[test]
+    fn is_not_invertible() {
+        let m = Matrix {
+            size: 4,
+            data: vec![vec![-4.0, 2.0, -2.0, -3.0], vec![9.0, 6.0, 2.0, 6.0], vec![0.0, -5.0, 1.0, -5.0], vec![0.0, 0.0, 0.0, 0.0]]
+        };
+
+        assert!(m.inverse().is_none());
+    }
+
+    #[test]
+    fn inverse() {
+        let m = Matrix {
+            size: 4,
+            data: vec![vec![-5.0, 2.0, 6.0, -8.0], vec![1.0, -5.0, 1.0, 8.0], vec![7.0, 7.0, -6.0, -7.0], vec![1.0, -3.0, 7.0, 4.0]],
+        };
+
+        let inv = m.inverse().unwrap();
+
+        let exp = Matrix {
+            size: 4,
+            data: vec![vec![0.21805, 0.45113, 0.24060, -0.04511], vec![-0.80827, -1.45677, -0.44361, 0.52068], vec![-0.07895, -0.22368, -0.05263, 0.19737], vec![-0.52256, -0.81391, -0.30075, 0.30639]],
+        };
+
+        assert_eq!(m.determinant(), 532.0);
+        assert_eq!(m.cofactor(2, 3), -160.0);
+        assert_eq!(inv.data[3][2], -160.0 / 532.0);
+        assert_eq!(m.cofactor(3, 2), 105.0);
+        assert_eq!(inv.data[2][3], 105.0 / 532.0);
+        assert_eq!(inv, exp);
+    }
+
+    #[test]
+    fn inverse_more() {
+        let m = Matrix {
+            size: 4,
+            data: vec![vec![8.0, -5.0, 9.0, 2.0], vec![7.0, 5.0, 6.0, 1.0], vec![-6.0, 0.0, 9.0, 6.0], vec![-3.0, 0.0, -9.0, -4.0]],
+        };
+
+        let inv = m.inverse().unwrap();
+
+        let exp = Matrix {
+            size: 4,
+            data: vec![vec![-0.15385, -0.15385, -0.28205, -0.53846], vec![-0.07692, 0.12308, 0.02564, 0.03077], vec![0.35897, 0.35897, 0.43590, 0.92308], vec![-0.69231, -0.69231, -0.76923, -1.92308]],
+        };
+
+        assert_eq!(inv, exp);
+
+        let m2 = Matrix {
+            size: 4,
+            data: vec![vec![9.0, 3.0, 0.0, 9.0], vec![-5.0, -2.0, -6.0, -3.0], vec![-4.0, 9.0, 6.0, 4.0], vec![-7.0, 6.0, 6.0, 2.0]],
+        };
+
+        let inv2 = m2.inverse().unwrap();
+
+        let exp2 = Matrix {
+            size: 4,
+            data: vec![vec![-0.04074, -0.07778, 0.14444, -0.22222], vec![-0.07778, 0.03333, 0.36667, -0.33333], vec![-0.02901, -0.14630, -0.10926, 0.12963], vec![0.17778, 0.06667, -0.26667, 0.33333]],
+        };
+
+        assert_eq!(inv2, exp2);
+    }
+
+    #[test]
+    fn product_by_inverse() {
+        let m = Matrix {
+            size: 4,
+            data: vec![vec![3.0, -9.0, 7.0, 3.0], vec![3.0, -8.0, 2.0, -9.0], vec![-4.0, 4.0, 4.0, 1.0], vec![-6.0, 5.0, -1.0, 1.0]],
+        };
+
+        let m2 = Matrix {
+            size: 4,
+            data: vec![vec![8.0, 2.0, 2.0, 2.0], vec![3.0, -1.0, 7.0, 0.0], vec![7.0, 0.0, 5.0, 4.0], vec![6.0, -2.0, 0.0, 5.0]],
+        };
+
+        let m3 = &m * &m2;
+        assert_eq!(&m3 * &m2.inverse().unwrap(), m);
     }
 }
