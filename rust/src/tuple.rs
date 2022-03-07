@@ -2,6 +2,8 @@ use std::{ ops, cmp::PartialEq, cmp::Eq };
 
 use crate::matrix::Matrix;
 
+const EPSILON: f64 = 0.00001;
+
 #[derive(Clone, Copy, Debug)]
 pub struct Tuple {
     pub x: f64,
@@ -141,10 +143,10 @@ impl ops::Neg for Tuple {
 
 impl PartialEq for Tuple {
     fn eq(&self, oth: &Self) -> bool {
-        ((self.x - oth.x).abs() <= f64::EPSILON) &&
-        ((self.y - oth.y).abs() <= f64::EPSILON) &&
-        ((self.z - oth.z).abs() <= f64::EPSILON) &&
-        ((self.w - oth.w).abs() <= f64::EPSILON)
+        ((self.x - oth.x).abs() <= EPSILON) &&
+        ((self.y - oth.y).abs() <= EPSILON) &&
+        ((self.z - oth.z).abs() <= EPSILON) &&
+        ((self.w - oth.w).abs() <= EPSILON)
     }
 }
 
