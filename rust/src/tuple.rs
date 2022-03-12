@@ -157,7 +157,7 @@ impl ops::Index<usize> for Tuple {
             1 => &self.y,
             2 => &self.z,
             3 => &self.w,
-            _ => panic!("Can only index values 0, 3. Index passed was {}", idx),
+            _ => panic!("Can only index values 0 through 3. Index passed was {}", idx),
         }
     }
 }
@@ -168,7 +168,7 @@ impl ops::IndexMut<usize> for Tuple {
             1 => &mut self.y,
             2 => &mut self.z,
             3 => &mut self.w,
-            _ => panic!("Can only index values 0, 3. Index passed was {}", idx),
+            _ => panic!("Can only index values 0 through 3. Index passed was {}", idx),
         }
     }
 }
