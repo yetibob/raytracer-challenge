@@ -10,12 +10,11 @@ pub struct Tuple {
     pub y: f64,
     pub z: f64,
     pub w: f64,
-    oth  : f64
 }
 
 impl Tuple {
     pub fn new(x: f64, y: f64, z: f64, w: f64) -> Tuple {
-        Tuple { x: x, y: y, z: z, w: w, oth: 0.0 }
+        Tuple { x: x, y: y, z: z, w: w }
     }
 
     pub fn zero() -> Tuple {
@@ -75,7 +74,6 @@ impl ops::AddAssign for Tuple {
             y: self.y + rhs.y,
             z: self.z + rhs.z,
             w: self.w + rhs.w,
-            oth: 0.0,
         }
     }
 }
@@ -95,7 +93,6 @@ impl ops::SubAssign for Tuple {
             y: self.y - rhs.y,
             z: self.z - rhs.z,
             w: self.w - rhs.w,
-            oth: 0.0,
         }
     }
 }
@@ -160,7 +157,7 @@ impl ops::Index<usize> for Tuple {
             1 => &self.y,
             2 => &self.z,
             3 => &self.w,
-            _ => &self.oth,
+            _ => panic!("Can only index values 0, 3. Index passed was {}", idx),
         }
     }
 }
@@ -171,7 +168,7 @@ impl ops::IndexMut<usize> for Tuple {
             1 => &mut self.y,
             2 => &mut self.z,
             3 => &mut self.w,
-            _ => &mut self.oth,
+            _ => panic!("Can only index values 0, 3. Index passed was {}", idx),
         }
     }
 }
