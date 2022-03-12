@@ -30,11 +30,13 @@ impl Matrix {
         }
     }
 
-    pub fn translation() -> Matrix {
-        Matrix {
-            size: 4,
-            data: vec![],
-        }
+    pub fn translation(x: f64, y: f64, z: f64) -> Matrix {
+        let mut m = Matrix::identity();
+        m.data[0][3] = x;
+        m.data[1][3] = y;
+        m.data[2][3] = z;
+
+        m
     }
 
     pub fn transpose(&self) -> Matrix {
@@ -471,5 +473,29 @@ mod tests {
 
         let m3 = &m * &m2;
         assert_eq!(&m3 * &m2.inverse().unwrap(), m);
+    }
+
+    #[test]
+    fn translation() {
+        let transform = Matrix::translation(5.0, -3.0, 2.0);
+        let p = Tuple::point(-3.0, 4.0, 5.0);
+
+        assert_eq!(&transform * &p, Tuple::point(2.0, 1.0, 7.0));
+    }
+
+    #[test]
+    fn translation_inverse() {
+        let transform = Matrix::translation(5.0, -3.0, 2.0).inverse().unwrap();
+        let p = Tuple::point(-3.0, 4.0, 5.0);
+
+        assert_eq!(&transform * &p, Tuple::point(-8.0, 7.0, 3.0));
+    }
+
+    #[test]
+    fn translation_by_vector() {
+        let transform = Matrix::translation(5.0, -3.0, 2.0);
+        let v = Tuple::vector(-3.0, 4.0, 5.0);
+
+        assert_eq!(&transform * &v, v);
     }
 }
