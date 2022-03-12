@@ -16,17 +16,24 @@ pub struct Matrix {
 }
 
 impl Matrix {
-    pub fn ZERO(size: usize) -> Matrix {
+    pub fn zero(size: usize) -> Matrix {
         Matrix {
             size,
             data: vec![vec![0.0; size]; size],
         }
     }
 
-    pub fn IDENTITY() -> Matrix {
+    pub fn identity() -> Matrix {
         Matrix {
             size: 4,
             data: vec![vec![1.0, 0.0, 0.0, 0.0], vec![0.0, 1.0, 0.0, 0.0], vec![0.0, 0.0, 1.0, 0.0], vec![0.0, 0.0, 0.0, 1.0]],
+        }
+    }
+
+    pub fn translation() -> Matrix {
+        Matrix {
+            size: 4,
+            data: vec![],
         }
     }
 
@@ -59,7 +66,7 @@ impl Matrix {
     }
 
     pub fn submatrix(&self, row: usize, col: usize) -> Matrix {
-        let mut m = Matrix::ZERO(self.size - 1);
+        let mut m = Matrix::zero(self.size - 1);
 
         let mut r = 0;
         let mut c = 0;
@@ -99,7 +106,7 @@ impl Matrix {
             return None;
         }
 
-        let mut m = Matrix::ZERO(self.size);
+        let mut m = Matrix::zero(self.size);
 
         for row in 0..m.size {
             for col in 0..m.size {
@@ -134,7 +141,7 @@ impl Eq for Matrix {}
 
 // TODO
 // Figure out best way to overload multiplication operator
-// Want to be able to do m*m now &m * &m
+// Want to be able to do m*m not &m * &m
 // However that requires implementing Copy for Vecs 
 impl ops::Mul for &Matrix {
     type Output = Matrix;
@@ -171,7 +178,7 @@ impl ops::Mul<&Tuple> for &Matrix {
     type Output = Tuple;
 
     fn mul(self, rhs: &Tuple) -> Self::Output {
-        let mut t = Tuple::ZERO();
+        let mut t = Tuple::zero();
 
         for row in 0..4 {
             let mut result = 0.0;
@@ -260,14 +267,14 @@ mod tests {
             data: vec![vec![0.0, 1.0, 2.0, 4.0], vec![1.0, 2.0, 4.0, 8.0], vec![2.0, 4.0, 8.0, 16.0], vec![4.0, 8.0, 16.0, 32.0]]
         };
 
-        assert_eq!(&m * &Matrix::IDENTITY(), m);
+        assert_eq!(&m * &Matrix::identity(), m);
     }
 
     #[test]
     fn multiple_tuple_by_identity() {
         let t = Tuple::new(1.0, 2.0, 3.0, 4.0);
 
-        assert_eq!(&Matrix::IDENTITY() * &t, t);
+        assert_eq!(&Matrix::identity() * &t, t);
     }
 
     #[test]
@@ -283,7 +290,7 @@ mod tests {
         };
 
         assert_eq!(m.transpose(), exp);
-        assert_eq!(Matrix::IDENTITY().transpose(), Matrix::IDENTITY());
+        assert_eq!(Matrix::identity().transpose(), Matrix::identity());
     }
 
     #[test]

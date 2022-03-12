@@ -14,19 +14,19 @@ pub struct Tuple {
 }
 
 impl Tuple {
-    pub fn new(x: f64, y: f64, z: f64, w: f64) -> Self {
+    pub fn new(x: f64, y: f64, z: f64, w: f64) -> Tuple {
         Tuple { x: x, y: y, z: z, w: w, oth: 0.0 }
     }
 
-    pub fn ZERO() -> Self {
+    pub fn zero() -> Tuple {
         Tuple::new(0.0, 0.0, 0.0, 0.0)
     }
 
-    pub fn point(x: f64, y: f64, z: f64) -> Self {
+    pub fn point(x: f64, y: f64, z: f64) -> Tuple {
         Tuple::new(x, y, z, 1.0)
     }
 
-    pub fn vector(x: f64, y: f64, z: f64) -> Self {
+    pub fn vector(x: f64, y: f64, z: f64) -> Tuple {
         Tuple::new(x, y, z, 0.0)
     }
 
@@ -46,7 +46,7 @@ impl Tuple {
         self.x.powi(2) + self.y.powi(2) + self.z.powi(2) + self.w.powi(2)
     }
 
-    pub fn normalize(&self) -> Self {
+    pub fn normalize(&self) -> Tuple {
         let m = self.magnitude();
         Tuple::new(self.x / m, self.y / m, self.z / m, self.w / m)
     }
@@ -55,7 +55,7 @@ impl Tuple {
         (self.x * oth.x) + (self.y * oth.y) + (self.z * oth.z) + (self.w * oth.w)
     }
 
-    pub fn cross(&self, oth: &Self) -> Self {
+    pub fn cross(&self, oth: &Self) -> Tuple {
         Tuple::vector((self.y * oth.z) - (self.z * oth.y), (self.z * oth.x) - (self.x * oth.z), (self.x * oth.y) - (self.y * oth.x)) 
     }
 }
@@ -112,7 +112,7 @@ impl ops::Mul<&Matrix> for Tuple {
     type Output = Tuple;
 
     fn mul(self, rhs: &Matrix) -> Self::Output {
-        let mut t = Tuple::ZERO();
+        let mut t = Tuple::zero();
 
         for row in 0..4 {
             let mut result = 0.0;

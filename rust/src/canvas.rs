@@ -25,7 +25,7 @@ fn clip(col: &f64) -> i64 {
 
 
 impl Canvas {
-    pub fn new(width: u32, height: u32) -> Self {
+    pub fn new(width: u32, height: u32) -> Canvas {
         Self {
             width,
             height,
