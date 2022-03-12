@@ -1,9 +1,7 @@
-use std::fs;
-
 use rust::matrix::Matrix;
 
 fn main() {
-    let m = Matrix::IDENTITY();
+    let m = Matrix::identity();
     let m2 = m.inverse().unwrap();
     println!("M: {:?}", m);
     println!("M: {:?}", m2);
