@@ -36,7 +36,7 @@ fn main() {
         c.write_pixel(p.position.x as u32, c.height - p.position.y as u32, col);
     }
 
-    fs::write("tmp.ppm", c.to_ppm()).expect("Uh Oh!");
+    fs::write("ch02.ppm", c.to_ppm()).expect("Uh Oh!");
 }
 
 fn tick(env: &Environment, proj: &Projectile) -> Projectile {
