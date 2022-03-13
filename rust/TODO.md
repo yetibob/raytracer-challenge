@@ -4,6 +4,7 @@ Tuples should probably have a data member similar to Matrix for storing its info
 
 ## Matrix
 Make matrixes indexable by simply making the index return m.data[idx]
+Look into making transformation matrices chainable. Ie `let final_transform = Matrix::identity().rotation_x().scale(5.0, 5.0, 5.0).translate(10.0, 5.0, 7.0);`
 
 
 ## General
