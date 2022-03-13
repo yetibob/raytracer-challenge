@@ -2,7 +2,6 @@ use std::{
     ops,
     cmp::Eq,
     cmp::PartialEq,
-    f64::consts::PI,
 };
 
 use crate::tuple::Tuple;
@@ -248,6 +247,7 @@ impl ops::Mul<&Tuple> for &Matrix {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::f64::consts::PI;
 
     #[test]
     fn create() {
