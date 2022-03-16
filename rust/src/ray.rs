@@ -9,15 +9,28 @@ pub struct Ray {
     direction: Tuple,
 }
 
-pub struct Intersection {
-    count: u64,
-    data: Vec<f64>,
+pub struct Intersection<T> {
+    pub t: f64,
+    pub object: T,
+}
+
+impl<T> Intersection<T> {
+    pub fn new(t: f64, object: T) -> Self {
+        Self {
+            t,
+            object
+        }
+    }
+
+    pub fn intersections(i1: Self, i2: Self) -> Vec<Self> {
+        vec![i1, i2]
+    }
 }
 
 impl Ray {
     pub fn new(origin: Tuple, direction: Tuple) -> Ray {
         // TODO
-        // Perform some kind of validation to ensure origin is a point and direction is a tuple
+        // Perform some kind of validation to ensure origin is a point and direction is a vector
         // OR rework tuples to have an explicit Point and Vector types
         Ray {
             origin,
@@ -29,7 +42,11 @@ impl Ray {
         self.origin + (self.direction * t) 
     }
 
-    pub fn intersect(&self, t: &impl Object) -> Intersection {
+
+    pub fn intersect<'a, T>(&self, t: &'a T) -> Vec<Intersection<&'a T>> 
+    where
+        T: Object,
+    {
         let sphere_to_ray = self.origin - t.origin(); 
         let a = self.direction.dot(&self.direction);
         let b = 2_f64 * self.direction.dot(&sphere_to_ray);
@@ -37,18 +54,14 @@ impl Ray {
 
         let disc = (b * b) - (4_f64 * a * c);
 
-        let mut xs = Intersection {
-            count: 0,
-            data: vec![],
-        };
+        let mut xs: Vec<Intersection<&T>> = vec![];
 
         if disc < 0.0 {
             return xs;
         }
 
-        xs.count = 2;
-        xs.data.push((-b - disc.sqrt()) / (2_f64 * a));
-        xs.data.push((-b + disc.sqrt()) / (2_f64 * a));
+        xs.push(Intersection::new((-b - disc.sqrt()) / (2_f64 * a), &t));
+        xs.push(Intersection::new((-b + disc.sqrt()) / (2_f64 * a), &t));
 
         xs
     }
@@ -84,9 +97,9 @@ mod test {
         let s = Sphere::new();
 
         let xs = r.intersect(&s);
-        assert_eq!(xs.count, 2);
-        assert_eq!(xs.data[0], 4.0);
-        assert_eq!(xs.data[1], 6.0);
+        assert_eq!(xs.len(), 2);
+        assert_eq!(xs[0].t, 4.0);
+        assert_eq!(xs[1].t, 6.0);
     }
 
     #[test]
@@ -95,9 +108,9 @@ mod test {
         let s = Sphere::new();
 
         let xs = r.intersect(&s);
-        assert_eq!(xs.count, 2);
-        assert_eq!(xs.data[0], 5.0);
-        assert_eq!(xs.data[1], 5.0);
+        assert_eq!(xs.len(), 2);
+        assert_eq!(xs[0].t, 5.0);
+        assert_eq!(xs[1].t, 5.0);
     }
 
     #[test]
@@ -106,7 +119,7 @@ mod test {
         let s = Sphere::new();
 
         let xs = r.intersect(&s);
-        assert_eq!(xs.count, 0);
+        assert_eq!(xs.len(), 0);
     }
 
     #[test]
@@ -115,9 +128,9 @@ mod test {
         let s = Sphere::new();
 
         let xs = r.intersect(&s);
-        assert_eq!(xs.count, 2);
-        assert_eq!(xs.data[0], -1.0);
-        assert_eq!(xs.data[1], 1.0);
+        assert_eq!(xs.len(), 2);
+        assert_eq!(xs[0].t, -1.0);
+        assert_eq!(xs[1].t, 1.0);
     }
 
     #[test]
@@ -126,8 +139,29 @@ mod test {
         let s = Sphere::new();
 
         let xs = r.intersect(&s);
-        assert_eq!(xs.count, 2);
-        assert_eq!(xs.data[0], -6.0);
-        assert_eq!(xs.data[1], -4.0);
+        assert_eq!(xs.len(), 2);
+        assert_eq!(xs[0].t, -6.0);
+        assert_eq!(xs[1].t, -4.0);
+    }
+
+    #[test]
+    fn intersection() {
+        let s = Sphere::new();
+        let i = Intersection::new(3.5, &s);
+
+        assert_eq!(i.t, 3.5);
+        assert_eq!(i.object.id, s.id);
+    }
+
+    #[test]
+    fn aggregating_intersections() {
+        let s = Sphere::new();
+        let i1 = Intersection::new(1.0, &s);
+        let i2 = Intersection::new(2.0, &s);
+
+        let xs = Intersection::intersections(i1, i2);
+        assert_eq!(xs.len(), 2);
+        assert_eq!(xs[0].t, 1.0);
+        assert_eq!(xs[1].t, 2.0);
     }
 }
