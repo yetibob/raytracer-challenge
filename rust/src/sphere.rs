@@ -3,9 +3,11 @@ use crate::{
 };
 
 pub trait Object {
+    fn id(&self) -> u64;
     fn origin(&self) -> Tuple;
 }
 
+#[derive(Debug)]
 pub struct Sphere {
     pub id: u64,
     pub origin: Tuple,
@@ -27,6 +29,20 @@ impl Sphere {
 }
 
 impl Object for Sphere {
+    fn id(&self) -> u64 {
+        self.id
+    }
+
+    fn origin(&self) -> Tuple {
+        self.origin
+    } 
+}
+
+impl Object for &Sphere {
+    fn id(&self) -> u64 {
+        self.id
+    }
+
     fn origin(&self) -> Tuple {
         self.origin
     } 

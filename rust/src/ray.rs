@@ -1,17 +1,32 @@
+use std::cmp::PartialEq;
+
 use crate::{
     tuple::Tuple,
     sphere::Sphere,
     sphere::Object,
 };
 
+#[derive(Debug)]
 pub struct Ray {
     origin: Tuple,
     direction: Tuple,
 }
 
+// TODO:
+// Limit intersection to only contains objects that implement Object instead of enforcing it in
+// function args
+#[derive(Debug)]
 pub struct Intersection<T> {
     pub t: f64,
     pub object: T,
+}
+
+impl<T> PartialEq for Intersection<T> 
+where T: Object
+{
+    fn eq(&self, oth: &Self) -> bool {
+        self.t == oth.t && self.object.id() == oth.object.id()
+    }
 }
 
 impl<T> Intersection<T> {
@@ -22,8 +37,21 @@ impl<T> Intersection<T> {
         }
     }
 
-    pub fn intersections(i1: Self, i2: Self) -> Vec<Self> {
-        vec![i1, i2]
+    // TODO
+    // Holy References Batman. Figure out if this stuff can be restructured
+    pub fn intersections(mut xs: Vec<&Self>) -> Vec<&Self> {
+        xs.sort_unstable_by(|a, b| a.t.partial_cmp(&b.t).unwrap());
+        xs
+    }
+
+    pub fn hit<'a>(xs: &'a Vec<&Self>) -> Option<&'a Self> {
+        for i in xs {
+            if i.t > 0.0 {
+                return Some(i);
+            }
+        }
+
+        None
     }
 }
 
@@ -65,7 +93,6 @@ impl Ray {
 
         xs
     }
-
 }
 
 #[cfg(test)]
@@ -154,14 +181,52 @@ mod test {
     }
 
     #[test]
-    fn aggregating_intersections() {
+    fn hit_when_all_positive() {
         let s = Sphere::new();
         let i1 = Intersection::new(1.0, &s);
         let i2 = Intersection::new(2.0, &s);
 
-        let xs = Intersection::intersections(i1, i2);
-        assert_eq!(xs.len(), 2);
-        assert_eq!(xs[0].t, 1.0);
-        assert_eq!(xs[1].t, 2.0);
+        let xs = Intersection::intersections(vec![&i2, &i1]);
+        let i = Intersection::hit(&xs).unwrap();
+
+        assert_eq!(*i, i1);
+    }
+
+    #[test]
+    fn hit_when_some_negative() {
+        let s = Sphere::new();
+        let i1 = Intersection::new(-1.0, &s);
+        let i2 = Intersection::new(1.0, &s);
+
+        let xs = Intersection::intersections(vec![&i2, &i1]);
+        let i = Intersection::hit(&xs).unwrap();
+
+        assert_eq!(*i, i2);
+    }
+
+    #[test]
+    fn hit_when_all_negative() {
+        let s = Sphere::new();
+        let i1 = Intersection::new(-2.0, &s);
+        let i2 = Intersection::new(-1.0, &s);
+
+        let xs = Intersection::intersections(vec![&i1, &i2]);
+        let i = Intersection::hit(&xs);
+
+        assert!(i.is_none());
+    }
+
+    #[test]
+    fn hit_is_always_lowest_non_negative_intersection() {
+        let s = Sphere::new();
+        let i1 = Intersection::new(5.0, &s);
+        let i2 = Intersection::new(7.0, &s);
+        let i3 = Intersection::new(-3.0, &s);
+        let i4 = Intersection::new(2.0, &s);
+
+        let xs = Intersection::intersections(vec![&i1, &i2, &i3, &i4]);
+        let i = Intersection::hit(&xs).unwrap();
+
+        assert_eq!(*i, i4);
     }
 }
