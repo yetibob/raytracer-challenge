@@ -9,7 +9,7 @@ use crate::tuple::Tuple;
 const EPSILON: f64 = 0.00001;
 
 // TODO Is there a way to make data an array of size dim x dim?
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct Matrix {
     pub size: usize,
     pub data: Vec<Vec<f64>>
@@ -154,9 +154,11 @@ impl Matrix {
         res
     }
     
-    pub fn inverse(&self) -> Option<Matrix> {
+    // TODO: INV
+    // Returning itself when not inversible might not work or do what i expect down the line
+    pub fn inverse(&self) -> Matrix {
         if self.determinant() == 0.0 {
-            return None;
+            return self.clone();
         }
 
         let mut m = Matrix::zero(self.size);
@@ -168,7 +170,7 @@ impl Matrix {
             }
         }
 
-        Some(m)
+        m
     }
 }
 
@@ -445,7 +447,7 @@ mod tests {
             data: vec![vec![6.0, 4.0, 4.0, 4.0], vec![5.0, 5.0, 7.0, 6.0], vec![4.0, -9.0, 3.0, -7.0], vec![9.0, 1.0, 7.0, -6.0]]
         };
 
-        assert!(!m.inverse().is_none());
+        assert_ne!(m, m.inverse());
     }
 
     #[test]
@@ -455,7 +457,7 @@ mod tests {
             data: vec![vec![-4.0, 2.0, -2.0, -3.0], vec![9.0, 6.0, 2.0, 6.0], vec![0.0, -5.0, 1.0, -5.0], vec![0.0, 0.0, 0.0, 0.0]]
         };
 
-        assert!(m.inverse().is_none());
+        assert_eq!(m, m.inverse());
     }
 
     #[test]
@@ -465,7 +467,7 @@ mod tests {
             data: vec![vec![-5.0, 2.0, 6.0, -8.0], vec![1.0, -5.0, 1.0, 8.0], vec![7.0, 7.0, -6.0, -7.0], vec![1.0, -3.0, 7.0, 4.0]],
         };
 
-        let inv = m.inverse().unwrap();
+        let inv = m.inverse();
 
         let exp = Matrix {
             size: 4,
@@ -487,7 +489,7 @@ mod tests {
             data: vec![vec![8.0, -5.0, 9.0, 2.0], vec![7.0, 5.0, 6.0, 1.0], vec![-6.0, 0.0, 9.0, 6.0], vec![-3.0, 0.0, -9.0, -4.0]],
         };
 
-        let inv = m.inverse().unwrap();
+        let inv = m.inverse();
 
         let exp = Matrix {
             size: 4,
@@ -501,7 +503,7 @@ mod tests {
             data: vec![vec![9.0, 3.0, 0.0, 9.0], vec![-5.0, -2.0, -6.0, -3.0], vec![-4.0, 9.0, 6.0, 4.0], vec![-7.0, 6.0, 6.0, 2.0]],
         };
 
-        let inv2 = m2.inverse().unwrap();
+        let inv2 = m2.inverse();
 
         let exp2 = Matrix {
             size: 4,
@@ -524,7 +526,7 @@ mod tests {
         };
 
         let m3 = &m * &m2;
-        assert_eq!(&m3 * &m2.inverse().unwrap(), m);
+        assert_eq!(&m3 * &m2.inverse(), m);
     }
 
     #[test]
@@ -537,7 +539,7 @@ mod tests {
 
     #[test]
     fn translation_inverse() {
-        let transform = Matrix::translation(5.0, -3.0, 2.0).inverse().unwrap();
+        let transform = Matrix::translation(5.0, -3.0, 2.0).inverse();
         let p = Tuple::point(-3.0, 4.0, 5.0);
 
         assert_eq!(&transform * &p, Tuple::point(-8.0, 7.0, 3.0));
@@ -569,7 +571,7 @@ mod tests {
 
     #[test]
     fn scaling_inverse() {
-        let t = Matrix::scaling(2.0, 3.0, 4.0).inverse().unwrap();
+        let t = Matrix::scaling(2.0, 3.0, 4.0).inverse();
         let v = Tuple::vector(-4.0, 6.0, 8.0);
 
         assert_eq!(&t * &v, Tuple::vector(-2.0, 2.0, 2.0));
@@ -596,7 +598,7 @@ mod tests {
 
     #[test]
     fn rotation_x_inverse() {
-        let half = Matrix::rotation_x(PI / 4.0).inverse().unwrap();
+        let half = Matrix::rotation_x(PI / 4.0).inverse();
         let p = Tuple::point(0.0, 1.0, 0.0);
 
         assert_eq!(&half * &p, Tuple::point(0.0, 2_f64.sqrt() / 2.0, -2_f64.sqrt() / 2.0));
