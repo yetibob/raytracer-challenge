@@ -2,7 +2,7 @@ use rust::matrix::Matrix;
 
 fn main() {
     let m = Matrix::identity();
-    let m2 = m.inverse().unwrap();
+    let m2 = m.inverse();
     println!("M: {:?}", m);
     println!("M: {:?}", m2);
 
@@ -11,7 +11,7 @@ fn main() {
         data: vec![vec![1.0, 3.0, 3.0, 7.0], vec![2.0, 7.0, 4.0, 5.0], vec![1.0, 4.0, 5.0, 6.0], vec![9.0, 7.0, 122.0, 9.0]],
     };
     
-    let m4 = m3.inverse().unwrap();
+    let m4 = m3.inverse();
 
     println!("M3: {:?}", m3);
     println!("M4: {:?}", m4);
