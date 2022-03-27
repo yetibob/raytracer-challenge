@@ -71,6 +71,9 @@ impl Ray {
     }
 
 
+    // TODO: Consider restructuring this so that each shape handles the complexity of its
+    // intersectiony stuff instead of having the sphere implement all of the intersection handling
+    // methods
     pub fn intersect<'a, T>(&self, t: &'a T) -> Vec<Intersection<&'a T>> 
     where
         T: Object,
