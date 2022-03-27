@@ -1,16 +1,19 @@
 use crate::{
     tuple::Tuple,
+    matrix::Matrix,
 };
 
 pub trait Object {
     fn id(&self) -> u64;
     fn origin(&self) -> Tuple;
+    fn transform(&self) -> &Matrix;
 }
 
 #[derive(Debug)]
 pub struct Sphere {
     pub id: u64,
     pub origin: Tuple,
+    pub transform: Matrix,
 }
 
 // TODO
@@ -24,7 +27,12 @@ impl Sphere {
         Sphere {
             id: unsafe { let orig = ID; ID = ID + 1; orig },
             origin: Tuple::point(0.0, 0.0, 0.0),
+            transform: Matrix::identity(),
         } 
+    }
+
+    pub fn set_transform(&mut self, m: &Matrix) {
+        self.transform = m.clone();
     }
 }
 
@@ -36,6 +44,10 @@ impl Object for Sphere {
     fn origin(&self) -> Tuple {
         self.origin
     } 
+
+    fn transform(&self) -> &Matrix {
+        &self.transform
+    }
 }
 
 impl Object for &Sphere {
@@ -46,6 +58,10 @@ impl Object for &Sphere {
     fn origin(&self) -> Tuple {
         self.origin
     } 
+
+    fn transform(&self) -> &Matrix {
+        &self.transform
+    }
 }
 
 #[cfg(test)]
@@ -58,5 +74,15 @@ mod test {
         let s2 = Sphere::new();
 
         assert_ne!(s1.id, s2.id);
+        assert_eq!(s1.transform, Matrix::identity());
+    }
+
+    #[test]
+    fn set_transform() {
+        let mut s = Sphere::new();
+        let t = Matrix::translation(2.0, 3.0, 4.0);
+        s.set_transform(&t);
+
+        assert_eq!(s.transform, t);
     }
 }
