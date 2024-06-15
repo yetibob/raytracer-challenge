@@ -1,0 +1,218 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	0.0.0	/a3c87ab5/
+BINDIR	Makefile	/^BINDIR=.\/bin$/;"	m
+CANVAS_H	src/canvas.h	/^#define CANVAS_H$/;"	d
+CC	Makefile	/^CC=gcc -Wall -Werror -O2 -lm$/;"	m
+CCTEST	Makefile	/^CCTEST= $(CC) src\/utils.c$/;"	m
+COLORS_H	src/colors.h	/^#define COLORS_H$/;"	d
+Canvas	src/canvas.h	/^} Canvas;$/;"	t	typeref:struct:__anon3d99860e0108
+Clock	excercises/analog.c	/^struct Clock {$/;"	s	file:
+EPSILON	src/utils.h	/^#define EPSILON /;"	d
+EXDIR	Makefile	/^EXDIR=$(BINDIR)\/excercises$/;"	m
+Environment	excercises/projectile.c	/^struct Environment {$/;"	s	file:
+Intersection	src/ray.h	/^typedef struct Intersection {$/;"	s
+Intersection	src/ray.h	/^} Intersection;$/;"	t	typeref:struct:Intersection
+MATRIX_H	src/matrix.h	/^#define MATRIX_H$/;"	d
+Matrix	src/matrix.h	/^typedef struct Matrix {$/;"	s
+Matrix	src/matrix.h	/^} Matrix;$/;"	t	typeref:struct:Matrix
+Projectile	excercises/projectile.c	/^struct Projectile {$/;"	s	file:
+RAY_H	src/ray.h	/^#define RAY_H$/;"	d
+Ray	src/ray.h	/^typedef struct Ray {$/;"	s
+Ray	src/ray.h	/^} Ray;$/;"	t	typeref:struct:Ray
+SPHERE_H	src/sphere.h	/^#define SPHERE_H$/;"	d
+Settings	.ycm_extra_conf.py	/^def Settings(**kwargs):$/;"	f
+Sphere	src/sphere.h	/^typedef struct Sphere {$/;"	s
+Sphere	src/sphere.h	/^} Sphere;$/;"	t	typeref:struct:Sphere
+TESTDIR	Makefile	/^TESTDIR=$(BINDIR)\/tests$/;"	m
+TUPLES_H	src/tuples.h	/^#define TUPLES_H$/;"	d
+TUPLE_LEN	src/tuples.h	/^#define TUPLE_LEN /;"	d
+Tuple	src/tuples.h	/^typedef double Tuple[TUPLE_LEN];$/;"	t	typeref:typename:double[TUPLE_LEN]
+UTILS_H	src/utils.h	/^#define UTILS_H$/;"	d
+__anon3d99860e0108	src/canvas.h	/^typedef struct {$/;"	s
+build	Makefile	/^build:$/;"	t
+build-tests	Makefile	/^build-tests:$/;"	t
+canvas	src/canvas.c	/^Canvas* canvas(int width, int height) {$/;"	f	typeref:typename:Canvas *
+canvas_at	src/canvas.c	/^double *canvas_at(const Canvas *c, int x, int y) {$/;"	f	typeref:typename:double *
+canvas_destroy	src/canvas.c	/^void canvas_destroy(Canvas *c) {$/;"	f	typeref:typename:void
+canvas_free	src/canvas.c	/^void canvas_free(Canvas *c) {$/;"	f	typeref:typename:void
+canvas_gen_ppm	src/canvas.c	/^char *canvas_gen_ppm(Canvas *c) {$/;"	f	typeref:typename:char *
+canvas_init	src/canvas.c	/^void canvas_init(Canvas *c, int width, int height) {$/;"	f	typeref:typename:void
+canvas_write	src/canvas.c	/^void canvas_write(Canvas *c, int x, int y, const Tuple color) {$/;"	f	typeref:typename:void
+clean	Makefile	/^clean:$/;"	t
+colors_blue	src/colors.c	/^double colors_blue(Tuple c) {$/;"	f	typeref:typename:double
+colors_green	src/colors.c	/^double colors_green(Tuple c) {$/;"	f	typeref:typename:double
+colors_multiply	src/colors.c	/^void colors_multiply(Tuple c1, Tuple c2, Tuple res) {$/;"	f	typeref:typename:void
+colors_red	src/colors.c	/^double colors_red(Tuple c) {$/;"	f	typeref:typename:double
+data	src/matrix.h	/^    double **data;$/;"	m	struct:Matrix	typeref:typename:double **
+dim	src/matrix.h	/^    int dim;$/;"	m	struct:Matrix	typeref:typename:int
+direction	src/ray.h	/^    Tuple direction;$/;"	m	struct:Ray	typeref:typename:Tuple
+display_matrix	tests/matrix.c	/^void display_matrix(Matrix m) {$/;"	f	typeref:typename:void
+equals	src/utils.c	/^int equals(double x, double y) {$/;"	f	typeref:typename:int
+ex	Makefile	/^ex:$/;"	t
+gravity	excercises/projectile.c	/^    Tuple gravity;$/;"	m	struct:Environment	typeref:typename:Tuple	file:
+height	src/canvas.h	/^    int height;$/;"	m	struct:__anon3d99860e0108	typeref:typename:int
+hour	excercises/analog.c	/^    Tuple hour;$/;"	m	struct:Clock	typeref:typename:Tuple	file:
+id	src/sphere.h	/^   int id; $/;"	m	struct:Sphere	typeref:typename:int
+main	excercises/analog.c	/^int main() {$/;"	f	typeref:typename:int
+main	excercises/projectile.c	/^int main() {$/;"	f	typeref:typename:int
+main	excercises/shadow.c	/^int main() {$/;"	f	typeref:typename:int
+main	tests/canvas.c	/^int main() {$/;"	f	typeref:typename:int
+main	tests/colors.c	/^int main() {$/;"	f	typeref:typename:int
+main	tests/matrix.c	/^int main() {$/;"	f	typeref:typename:int
+main	tests/ray.c	/^int main() {$/;"	f	typeref:typename:int
+main	tests/sphere.c	/^int main() {$/;"	f	typeref:typename:int
+main	tests/tuples.c	/^int main() {$/;"	f	typeref:typename:int
+main	tests/utils.c	/^int main() {$/;"	f	typeref:typename:int
+matrix	src/matrix.c	/^Matrix *matrix(int dim) {$/;"	f	typeref:typename:Matrix *
+matrix_IdentityMatrix	src/matrix.c	/^Matrix *matrix_IdentityMatrix() {$/;"	f	typeref:typename:Matrix *
+matrix_cofactor	src/matrix.c	/^double matrix_cofactor(const Matrix *m, int row, int col) {$/;"	f	typeref:typename:double
+matrix_compare	src/matrix.c	/^int matrix_compare(const Matrix *m1, const Matrix *m2) {$/;"	f	typeref:typename:int
+matrix_destroy	src/matrix.c	/^void matrix_destroy(Matrix *m) {$/;"	f	typeref:typename:void
+matrix_determinant	src/matrix.c	/^double matrix_determinant(const Matrix *m) {$/;"	f	typeref:typename:double
+matrix_free	src/matrix.c	/^void matrix_free(Matrix *m) {$/;"	f	typeref:typename:void
+matrix_gen	src/matrix.c	/^Matrix *matrix_gen(double *a, int dim) {$/;"	f	typeref:typename:Matrix *
+matrix_init	src/matrix.c	/^void matrix_init(Matrix *m, int dim) {$/;"	f	typeref:typename:void
+matrix_inverse	src/matrix.c	/^Matrix *matrix_inverse(const Matrix *m) {$/;"	f	typeref:typename:Matrix *
+matrix_minor	src/matrix.c	/^double matrix_minor(const Matrix *m, int row, int col) {$/;"	f	typeref:typename:double
+matrix_multiply	src/matrix.c	/^Matrix *matrix_multiply(const Matrix *m1, const Matrix *m2) {$/;"	f	typeref:typename:Matrix *
+matrix_multiply_tuple	src/matrix.c	/^void matrix_multiply_tuple(const Matrix *m, const Tuple t, Tuple res) {$/;"	f	typeref:typename:void
+matrix_rotation_x	src/matrix.c	/^Matrix *matrix_rotation_x(double radians) {$/;"	f	typeref:typename:Matrix *
+matrix_rotation_y	src/matrix.c	/^Matrix *matrix_rotation_y(double radians) {$/;"	f	typeref:typename:Matrix *
+matrix_rotation_z	src/matrix.c	/^Matrix *matrix_rotation_z(double radians) {$/;"	f	typeref:typename:Matrix *
+matrix_scaling	src/matrix.c	/^Matrix *matrix_scaling(double x, double y, double z) {$/;"	f	typeref:typename:Matrix *
+matrix_shearing	src/matrix.c	/^Matrix *matrix_shearing(double xy, double xz, double yx, double yz, double zx, double zy) {$/;"	f	typeref:typename:Matrix *
+matrix_sub	src/matrix.c	/^Matrix *matrix_sub(const Matrix *m, int row, int col) {$/;"	f	typeref:typename:Matrix *
+matrix_translation	src/matrix.c	/^Matrix *matrix_translation(double x, double y, double z) {$/;"	f	typeref:typename:Matrix *
+matrix_transpose	src/matrix.c	/^Matrix *matrix_transpose(const Matrix *m) {$/;"	f	typeref:typename:Matrix *
+object	src/ray.h	/^    void *object;$/;"	m	struct:Intersection	typeref:typename:void *
+origin	excercises/analog.c	/^    Tuple origin;$/;"	m	struct:Clock	typeref:typename:Tuple	file:
+origin	src/ray.h	/^    Tuple origin;$/;"	m	struct:Ray	typeref:typename:Tuple
+origin	src/sphere.h	/^   Tuple origin;$/;"	m	struct:Sphere	typeref:typename:Tuple
+pixels	src/canvas.h	/^    double *pixels;$/;"	m	struct:__anon3d99860e0108	typeref:typename:double *
+position	excercises/projectile.c	/^    Tuple position;$/;"	m	struct:Projectile	typeref:typename:Tuple	file:
+ray_destroy	src/ray.c	/^void ray_destroy(Ray *r) {$/;"	f	typeref:typename:void
+ray_hit	src/ray.c	/^Intersection *ray_hit(Intersection *xs[], int count) {$/;"	f	typeref:typename:Intersection *
+ray_intersect	src/ray.c	/^Intersection **ray_intersect(Sphere *s, const Ray *r, int *count) {$/;"	f	typeref:typename:Intersection **
+ray_intersection_destroy	src/ray.c	/^void ray_intersection_destroy(Intersection *i) {$/;"	f	typeref:typename:void
+ray_intersections	src/ray.c	/^Intersection **ray_intersections(int num, ...) {$/;"	f	typeref:typename:Intersection **
+ray_position	src/ray.c	/^void ray_position(const Ray *r, double t, Tuple res) {$/;"	f	typeref:typename:void
+ray_transform	src/ray.c	/^Ray *ray_transform(const Ray *r, const Matrix *m) {$/;"	f	typeref:typename:Ray *
+sphere_init	src/sphere.c	/^void sphere_init(Sphere *s) {$/;"	f	typeref:typename:void
+sphere_set_transform	src/sphere.c	/^void sphere_set_transform(Sphere *s, const Matrix *m) {$/;"	f	typeref:typename:void
+t	src/ray.h	/^    double t;$/;"	m	struct:Intersection	typeref:typename:double
+test	Makefile	/^test: build-tests$/;"	t
+test_aggregating_intersections	tests/ray.c	/^void test_aggregating_intersections() {$/;"	f	typeref:typename:void
+test_canvas_gen_ppm_header	tests/canvas.c	/^void test_canvas_gen_ppm_header() {$/;"	f	typeref:typename:void
+test_canvas_gen_ppm_pixel_data	tests/canvas.c	/^void test_canvas_gen_ppm_pixel_data() {$/;"	f	typeref:typename:void
+test_canvas_write	tests/canvas.c	/^void test_canvas_write() {$/;"	f	typeref:typename:void
+test_chained_transormations_must_be_applied_in_reverse	tests/matrix.c	/^void test_chained_transormations_must_be_applied_in_reverse() {$/;"	f	typeref:typename:void
+test_changing_a_spheres_transformation	tests/ray.c	/^void test_changing_a_spheres_transformation() {$/;"	f	typeref:typename:void
+test_color_tuple	tests/colors.c	/^void test_color_tuple() {$/;"	f	typeref:typename:void
+test_compare_doubles	tests/utils.c	/^void test_compare_doubles() {$/;"	f	typeref:typename:void
+test_compute_a_point_from_a_distance	tests/ray.c	/^void test_compute_a_point_from_a_distance() {$/;"	f	typeref:typename:void
+test_compute_tuple_vector_tuple_magnitude	tests/tuples.c	/^void test_compute_tuple_vector_tuple_magnitude() {$/;"	f	typeref:typename:void
+test_create_and_query_ray	tests/ray.c	/^void test_create_and_query_ray() {$/;"	f	typeref:typename:void
+test_create_canvas	tests/canvas.c	/^void test_create_canvas() {$/;"	f	typeref:typename:void
+test_create_matrix	tests/matrix.c	/^void test_create_matrix() {$/;"	f	typeref:typename:void
+test_find_matrix_determinant_2_dim_matrix	tests/matrix.c	/^void test_find_matrix_determinant_2_dim_matrix() {$/;"	f	typeref:typename:void
+test_find_matrix_determinant_3_4_dim_matrix	tests/matrix.c	/^void test_find_matrix_determinant_3_4_dim_matrix() {$/;"	f	typeref:typename:void
+test_get_matrix_cofactor	tests/matrix.c	/^void test_get_matrix_cofactor() {$/;"	f	typeref:typename:void
+test_get_matrix_minor	tests/matrix.c	/^void test_get_matrix_minor() {$/;"	f	typeref:typename:void
+test_get_matrix_sub	tests/matrix.c	/^void test_get_matrix_sub() {$/;"	f	typeref:typename:void
+test_individual_transformations_are_applied_in_sequence	tests/matrix.c	/^void test_individual_transformations_are_applied_in_sequence() {$/;"	f	typeref:typename:void
+test_intersect_sets_the_object_on_the_intersection	tests/ray.c	/^void test_intersect_sets_the_object_on_the_intersection() {$/;"	f	typeref:typename:void
+test_intersecting_a_scaled_sphere_with_a_ray	tests/ray.c	/^void test_intersecting_a_scaled_sphere_with_a_ray() {$/;"	f	typeref:typename:void
+test_intersecting_a_translated_sphere_with_a_ray	tests/ray.c	/^void test_intersecting_a_translated_sphere_with_a_ray() {$/;"	f	typeref:typename:void
+test_intersection_encapsulates_t_and_object	tests/ray.c	/^void test_intersection_encapsulates_t_and_object() {$/;"	f	typeref:typename:void
+test_invert_matrix	tests/matrix.c	/^void test_invert_matrix() {$/;"	f	typeref:typename:void
+test_make_tuple_point	tests/tuples.c	/^void test_make_tuple_point() {$/;"	f	typeref:typename:void
+test_make_tuple_vector	tests/tuples.c	/^void test_make_tuple_vector() {$/;"	f	typeref:typename:void
+test_matrix_compare	tests/matrix.c	/^void test_matrix_compare() {$/;"	f	typeref:typename:void
+test_matrix_multiply	tests/matrix.c	/^void test_matrix_multiply() {$/;"	f	typeref:typename:void
+test_matrix_multiply_tuple	tests/matrix.c	/^void test_matrix_multiply_tuple() {$/;"	f	typeref:typename:void
+test_matrix_shearing_moves_x_prop_y	tests/matrix.c	/^void test_matrix_shearing_moves_x_prop_y() {$/;"	f	typeref:typename:void
+test_matrix_shearing_moves_x_prop_z	tests/matrix.c	/^void test_matrix_shearing_moves_x_prop_z() {$/;"	f	typeref:typename:void
+test_matrix_shearing_moves_y_prop_x	tests/matrix.c	/^void test_matrix_shearing_moves_y_prop_x() {$/;"	f	typeref:typename:void
+test_matrix_shearing_moves_y_prop_z	tests/matrix.c	/^void test_matrix_shearing_moves_y_prop_z() {$/;"	f	typeref:typename:void
+test_matrix_shearing_moves_z_prop_x	tests/matrix.c	/^void test_matrix_shearing_moves_z_prop_x() {$/;"	f	typeref:typename:void
+test_matrix_shearing_moves_z_prop_y	tests/matrix.c	/^void test_matrix_shearing_moves_z_prop_y() {$/;"	f	typeref:typename:void
+test_matrix_transpose_identity_matrix	tests/matrix.c	/^void test_matrix_transpose_identity_matrix() {$/;"	f	typeref:typename:void
+test_matrix_transpose_matrix	tests/matrix.c	/^void test_matrix_transpose_matrix() {$/;"	f	typeref:typename:void
+test_more_matrix_inversions	tests/matrix.c	/^void test_more_matrix_inversions() {$/;"	f	typeref:typename:void
+test_multiple_two_colors	tests/colors.c	/^void test_multiple_two_colors() {$/;"	f	typeref:typename:void
+test_multiply_by_matrix_inverse_of_matrix_scaling_matrix	tests/matrix.c	/^void test_multiply_by_matrix_inverse_of_matrix_scaling_matrix() {$/;"	f	typeref:typename:void
+test_multiply_matrix_by_identity_matrix	tests/matrix.c	/^void test_multiply_matrix_by_identity_matrix() {$/;"	f	typeref:typename:void
+test_multiply_product_by_its_matrix_inverse	tests/matrix.c	/^void test_multiply_product_by_its_matrix_inverse() {$/;"	f	typeref:typename:void
+test_multiply_tuple_by_identity_matrix	tests/matrix.c	/^void test_multiply_tuple_by_identity_matrix() {$/;"	f	typeref:typename:void
+test_multiply_tuple_point_by_matrix_translation_matrix	tests/matrix.c	/^void test_multiply_tuple_point_by_matrix_translation_matrix() {$/;"	f	typeref:typename:void
+test_multiply_tuple_point_by_matrix_translation_matrix_inverse	tests/matrix.c	/^void test_multiply_tuple_point_by_matrix_translation_matrix_inverse() {$/;"	f	typeref:typename:void
+test_multiply_tuple_vector_by_matrix_translation_does_nothing	tests/matrix.c	/^void test_multiply_tuple_vector_by_matrix_translation_does_nothing() {$/;"	f	typeref:typename:void
+test_mutliply_color_by_scalar	tests/colors.c	/^void test_mutliply_color_by_scalar() {$/;"	f	typeref:typename:void
+test_normal_is_always_normalized	tests/sphere.c	/^void test_normal_is_always_normalized() {$/;"	f	typeref:typename:void
+test_ray_hit_is_always_the_lowest_non_negative_intersection	tests/ray.c	/^void test_ray_hit_is_always_the_lowest_non_negative_intersection() {$/;"	f	typeref:typename:void
+test_ray_hit_when_all_intersections_are_negative	tests/ray.c	/^void test_ray_hit_when_all_intersections_are_negative() {$/;"	f	typeref:typename:void
+test_ray_hit_when_all_intersections_are_positive	tests/ray.c	/^void test_ray_hit_when_all_intersections_are_positive() {$/;"	f	typeref:typename:void
+test_ray_hit_when_some_intersections_are_negative	tests/ray.c	/^void test_ray_hit_when_some_intersections_are_negative() {$/;"	f	typeref:typename:void
+test_ray_intersects_a_sphere_at_two_points	tests/ray.c	/^void test_ray_intersects_a_sphere_at_two_points() {$/;"	f	typeref:typename:void
+test_ray_intersects_sphere_at_tangent	tests/ray.c	/^void test_ray_intersects_sphere_at_tangent() {$/;"	f	typeref:typename:void
+test_ray_misses_a_sphere	tests/ray.c	/^void test_ray_misses_a_sphere() {$/;"	f	typeref:typename:void
+test_ray_originates_in_a_sphere	tests/ray.c	/^void test_ray_originates_in_a_sphere() {$/;"	f	typeref:typename:void
+test_rotate_x_axis_by_matrix_inverse	tests/matrix.c	/^void test_rotate_x_axis_by_matrix_inverse() {$/;"	f	typeref:typename:void
+test_rotating_tuple_point_around_x_axis	tests/matrix.c	/^void test_rotating_tuple_point_around_x_axis() {$/;"	f	typeref:typename:void
+test_rotating_tuple_point_around_y_axis	tests/matrix.c	/^void test_rotating_tuple_point_around_y_axis() {$/;"	f	typeref:typename:void
+test_rotating_tuple_point_around_z_axis	tests/matrix.c	/^void test_rotating_tuple_point_around_z_axis() {$/;"	f	typeref:typename:void
+test_scale_matrix_applied_to_tuple_point	tests/matrix.c	/^void test_scale_matrix_applied_to_tuple_point() {$/;"	f	typeref:typename:void
+test_scale_matrix_applied_to_tuple_vector	tests/matrix.c	/^void test_scale_matrix_applied_to_tuple_vector() {$/;"	f	typeref:typename:void
+test_scaling_a_ray	tests/ray.c	/^void test_scaling_a_ray() {$/;"	f	typeref:typename:void
+test_sphere_default_transformation	tests/ray.c	/^void test_sphere_default_transformation() {$/;"	f	typeref:typename:void
+test_sphere_is_behind_ray	tests/ray.c	/^void test_sphere_is_behind_ray() {$/;"	f	typeref:typename:void
+test_sphere_normal_on_nonaxial	tests/sphere.c	/^void test_sphere_normal_on_nonaxial() {$/;"	f	typeref:typename:void
+test_sphere_normal_on_x_axis	tests/sphere.c	/^void test_sphere_normal_on_x_axis() {$/;"	f	typeref:typename:void
+test_sphere_normal_on_y_axis	tests/sphere.c	/^void test_sphere_normal_on_y_axis() {$/;"	f	typeref:typename:void
+test_sphere_normal_on_z_axis	tests/sphere.c	/^void test_sphere_normal_on_z_axis() {$/;"	f	typeref:typename:void
+test_translating_a_ray	tests/ray.c	/^void test_translating_a_ray() {$/;"	f	typeref:typename:void
+test_tuple_add	tests/tuples.c	/^void test_tuple_add() {$/;"	f	typeref:typename:void
+test_tuple_add_colors	tests/colors.c	/^void test_tuple_add_colors() {$/;"	f	typeref:typename:void
+test_tuple_compare	tests/tuples.c	/^void test_tuple_compare() {$/;"	f	typeref:typename:void
+test_tuple_cross_product	tests/tuples.c	/^void test_tuple_cross_product() {$/;"	f	typeref:typename:void
+test_tuple_dot_product	tests/tuples.c	/^void test_tuple_dot_product() {$/;"	f	typeref:typename:void
+test_tuple_dscale_tuple	tests/tuples.c	/^void test_tuple_dscale_tuple() {$/;"	f	typeref:typename:void
+test_tuple_negate_tuple	tests/tuples.c	/^void test_tuple_negate_tuple() {$/;"	f	typeref:typename:void
+test_tuple_normalize_tuple_vector	tests/tuples.c	/^void test_tuple_normalize_tuple_vector() {$/;"	f	typeref:typename:void
+test_tuple_scale_tuple	tests/tuples.c	/^void test_tuple_scale_tuple() {$/;"	f	typeref:typename:void
+test_tuple_subtract_colors	tests/colors.c	/^void test_tuple_subtract_colors() {$/;"	f	typeref:typename:void
+test_tuple_subtract_tuple_vector_from_tuple_point	tests/tuples.c	/^void test_tuple_subtract_tuple_vector_from_tuple_point() {$/;"	f	typeref:typename:void
+test_tuple_subtract_two_tuple_points	tests/tuples.c	/^void test_tuple_subtract_two_tuple_points() {$/;"	f	typeref:typename:void
+test_tuple_subtract_two_tuple_vectors	tests/tuples.c	/^void test_tuple_subtract_two_tuple_vectors() {$/;"	f	typeref:typename:void
+tick	excercises/projectile.c	/^void tick(struct Environment env, struct Projectile *proj, Tuple add) {$/;"	f	typeref:typename:void
+transform	src/sphere.h	/^   const Matrix *transform;$/;"	m	struct:Sphere	typeref:typename:const Matrix *
+tuple_add	src/tuples.c	/^void tuple_add(const Tuple t1, const Tuple t2, Tuple res) {$/;"	f	typeref:typename:void
+tuple_compare	src/tuples.c	/^int tuple_compare(const Tuple t1, const Tuple t2) {$/;"	f	typeref:typename:int
+tuple_cross	src/tuples.c	/^void tuple_cross(const Tuple v1, const Tuple v2, Tuple res) {$/;"	f	typeref:typename:void
+tuple_dot	src/tuples.c	/^double tuple_dot(const Tuple v1, const Tuple v2) {$/;"	f	typeref:typename:double
+tuple_dscale	src/tuples.c	/^void tuple_dscale(const Tuple t, Tuple res, double scalar) {$/;"	f	typeref:typename:void
+tuple_is_point	src/tuples.c	/^int tuple_is_point(const Tuple t) {$/;"	f	typeref:typename:int
+tuple_is_vector	src/tuples.c	/^int tuple_is_vector(const Tuple t) {$/;"	f	typeref:typename:int
+tuple_magnitude	src/tuples.c	/^double tuple_magnitude(const Tuple t) {$/;"	f	typeref:typename:double
+tuple_negate	src/tuples.c	/^void tuple_negate(const Tuple t, Tuple res) {$/;"	f	typeref:typename:void
+tuple_normalize	src/tuples.c	/^void tuple_normalize(const Tuple t, Tuple res) {$/;"	f	typeref:typename:void
+tuple_point	src/tuples.c	/^void tuple_point(Tuple t){$/;"	f	typeref:typename:void
+tuple_scale	src/tuples.c	/^void tuple_scale(const Tuple t, Tuple res, double scalar) {$/;"	f	typeref:typename:void
+tuple_subtract	src/tuples.c	/^void tuple_subtract(const Tuple t1, const Tuple t2, Tuple res) {$/;"	f	typeref:typename:void
+tuple_vector	src/tuples.c	/^void tuple_vector(Tuple t) {$/;"	f	typeref:typename:void
+tuple_w	src/tuples.c	/^double tuple_w(const Tuple t) {$/;"	f	typeref:typename:double
+tuple_x	src/tuples.c	/^double tuple_x(const Tuple t) {$/;"	f	typeref:typename:double
+tuple_y	src/tuples.c	/^double tuple_y(const Tuple t) {$/;"	f	typeref:typename:double
+tuple_z	src/tuples.c	/^double tuple_z(const Tuple t) {$/;"	f	typeref:typename:double
+velocity	excercises/projectile.c	/^    Tuple velocity;$/;"	m	struct:Projectile	typeref:typename:Tuple	file:
+width	src/canvas.h	/^    int width;$/;"	m	struct:__anon3d99860e0108	typeref:typename:int
+wind	excercises/projectile.c	/^    Tuple wind;$/;"	m	struct:Environment	typeref:typename:Tuple	file:
+write_body	src/canvas.c	/^static int write_body(Canvas *c, char *ppm, int line_length) {$/;"	f	typeref:typename:int	file:
+write_header	src/canvas.c	/^static int write_header(Canvas *c, char *ppm) {$/;"	f	typeref:typename:int	file:
+write_to_file	src/utils.c	/^void write_to_file(char *file_name, char *str) {$/;"	f	typeref:typename:void
