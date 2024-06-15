@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+if clang-tidy -p build **/*.h; then
+    clang-tidy -p build **/*.cpp
+fi
+
+

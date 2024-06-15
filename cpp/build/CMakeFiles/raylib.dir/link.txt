@@ -1,0 +1,1 @@
+/usr/lib64/ccache/c++ -fPIC  -Wall -Werror -g -shared -Wl,-soname,libraylib.so -o libraylib.so CMakeFiles/raylib.dir/src/tuples.cpp.o CMakeFiles/raylib.dir/src/utils.cpp.o 
