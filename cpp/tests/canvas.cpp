@@ -1,9 +1,9 @@
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
-#include "../src/canvas.h"
-#include "../src/utils.h"
-#include "../src/colors.h"
+#include "canvas.hpp"
+#include "utils.hpp"
+#include "colors.hpp"
 
 void test_create_canvas() {
     Canvas *c = canvas(10, 20);

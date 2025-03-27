@@ -1,9 +1,9 @@
 #include <assert.h>
 #include <math.h>
 
-#include "../src/sphere.h"
-#include "../src/tuples.h"
-#include "../src/matrix.h"
+#include "sphere.hpp"
+#include "tuples.hpp"
+#include "matrix.hpp"
 
 void test_sphere_normal_on_x_axis() {
     Sphere s;

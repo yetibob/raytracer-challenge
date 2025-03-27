@@ -1,7 +1,7 @@
 #ifndef COLORS_H
 #define COLORS_H
 
-#include "tuples.h"
+#include "tuples.hpp"
 
 // gets red value of color
 double colors_red(Tuple c);

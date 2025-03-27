@@ -1,8 +1,8 @@
 #ifndef SPHERE_H
 #define SPHERE_H
 
-#include "tuples.h"
-#include "matrix.h"
+#include "tuples.hpp"
+#include "matrix.hpp"
 
 // Never create a sphere without calling `ray_sphere_init` unless you
 // can guarantee a unique id for the sphere

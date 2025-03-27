@@ -19,7 +19,13 @@ file(GLOB source_files "${SOURCE_DIRS}/*.cpp")
 
 # add_library(${LIB} ${source_files})
 add_library(${LIB} ${PROJECT_SOURCE_DIR}/src/tuples.cpp ${PROJECT_SOURCE_DIR}/src/utils.cpp)
-add_executable(tuple_test ${PROJECT_SOURCE_DIR}/tests/tuples.cpp)
+add_executable(canvas_test ${PROJECT_SOURCE_DIR}/tests/canvas.cpp)
+add_executable(colors_test ${PROJECT_SOURCE_DIR}/tests/colors.cpp)
+add_executable(matrix_test ${PROJECT_SOURCE_DIR}/tests/matrix.cpp)
+add_executable(ray_test    ${PROJECT_SOURCE_DIR}/tests/ray.cpp)
+add_executable(sphere_test ${PROJECT_SOURCE_DIR}/tests/sphere.cpp)
+add_executable(tuple_test  ${PROJECT_SOURCE_DIR}/tests/tuples.cpp)
+add_executable(utils_test  ${PROJECT_SOURCE_DIR}/tests/utils.cpp)
 
 # Custom boost dir
 # set(BOOST_ROOT "${PROJECT_SOURCE_DIR}/libs/boost")
@@ -54,11 +60,29 @@ add_executable(tuple_test ${PROJECT_SOURCE_DIR}/tests/tuples.cpp)
 
 # list(APPEND EXTRA_LIBS spdlog fmt::fmt mega ${Boost_LIBRARIES})
 
-target_include_directories(${LIB} PUBLIC
+include_directories(${LIB} PUBLIC
     ${INCLUDE_DIRS}
 )
 
+target_link_libraries(canvas_test PRIVATE
+    ${LIB}
+)
+target_link_libraries(colors_test PRIVATE
+    ${LIB}
+)
+target_link_libraries(matrix_test PRIVATE
+    ${LIB}
+)
+target_link_libraries(sphere_test PRIVATE
+    ${LIB}
+)
+target_link_libraries(ray_test PRIVATE
+    ${LIB}
+)
 target_link_libraries(tuple_test PRIVATE
+    ${LIB}
+)
+target_link_libraries(utils_test PRIVATE
     ${LIB}
 )
 
@@ -70,7 +94,8 @@ if (${PROJ}_TEST)
     FetchContent_Declare(
         googletest
         GIT_REPOSITORY https://github.com/google/googletest.git
-        GIT_TAG v1.13.0
+        GIT_TAG main
+        # GIT_TAG v1.13.0
     )
 
     # For Windows: Prevent overriding the parent project's compiler/linker settings

@@ -1,9 +1,9 @@
 #ifndef RAY_H
 #define RAY_H
 
-#include "tuples.h"
-#include "matrix.h"
-#include "sphere.h"
+#include "tuples.hpp"
+#include "matrix.hpp"
+#include "sphere.hpp"
 
 typedef struct Ray {
     Tuple origin;

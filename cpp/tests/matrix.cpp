@@ -1,9 +1,9 @@
 #include <assert.h>
 #include <math.h>
 #include <stdio.h>
-#include "../src/matrix.h"
-#include "../src/utils.h"
-#include "../src/tuples.h"
+#include "matrix.hpp"
+#include "utils.hpp"
+#include "tuples.hpp"
 
 void display_matrix(Matrix m) {
     for (int i = 0; i < m.dim; i++) {

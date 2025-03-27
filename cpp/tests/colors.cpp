@@ -1,6 +1,6 @@
 #include <assert.h>
-#include "../src/colors.h"
-#include "../src/utils.h"
+#include "colors.hpp"
+#include "utils.hpp"
 
 void test_color_tuple() {
     Tuple c = {-0.5, 0.4, 1.7};

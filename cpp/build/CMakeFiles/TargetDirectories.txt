@@ -1,5 +1,0 @@
-/home/wickie/dev/raytracer-challenge/cpp/build/CMakeFiles/raylib.dir
-/home/wickie/dev/raytracer-challenge/cpp/build/CMakeFiles/tuple_test.dir
-/home/wickie/dev/raytracer-challenge/cpp/build/CMakeFiles/doxygen.dir
-/home/wickie/dev/raytracer-challenge/cpp/build/CMakeFiles/edit_cache.dir
-/home/wickie/dev/raytracer-challenge/cpp/build/CMakeFiles/rebuild_cache.dir

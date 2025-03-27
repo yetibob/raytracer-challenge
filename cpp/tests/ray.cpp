@@ -1,11 +1,11 @@
 #include <assert.h>
 #include <stddef.h>
 
-#include "../src/ray.h"
-#include "../src/matrix.h"
-#include "../src/tuples.h"
-#include "../src/utils.h"
-#include "../src/sphere.h"
+#include "ray.hpp"
+#include "matrix.hpp"
+#include "tuples.hpp"
+#include "utils.hpp"
+#include "sphere.hpp"
 
 void test_create_and_query_ray() {
     Ray r = {.origin = {1, 2, 3, POINT}, .direction = {4, 5, 6, VEC}};

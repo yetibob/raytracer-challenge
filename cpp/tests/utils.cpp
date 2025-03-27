@@ -1,5 +1,5 @@
 #include <assert.h>
-#include "../src/utils.h"
+#include "utils.hpp"
 
 void test_compare_doubles() {
     int is_equal = equals(5.0, 5.1);

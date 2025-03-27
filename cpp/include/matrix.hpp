@@ -1,7 +1,7 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
-#include "tuples.h"
+#include "tuples.hpp"
 
 // The matrix is the backbone of our computations
 // It consists of a dim where the amount of rows and columns

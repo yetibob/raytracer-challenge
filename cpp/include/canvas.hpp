@@ -1,7 +1,7 @@
 #ifndef CANVAS_H
 #define CANVAS_H
 
-#include "tuples.h"
+#include "tuples.hpp"
 
 // The canvas is where we write our pixel data to. It has a height, a width, and an array of pixels
 // The pixel array is of length height * width and is the flat equivalent to pixels[x][y]

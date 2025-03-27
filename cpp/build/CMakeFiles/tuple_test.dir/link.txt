@@ -1,1 +1,0 @@
-/usr/lib64/ccache/c++  -Wall -Werror -g CMakeFiles/tuple_test.dir/tests/tuples.cpp.o -o tuple_test  -Wl,-rpath,/home/wickie/dev/raytracer-challenge/cpp/build libraylib.so 
